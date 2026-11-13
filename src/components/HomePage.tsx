@@ -269,7 +269,7 @@ export default function MerkadoHome({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={logo || DEFAULT_LOGO} alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
           </div>
-            <div className="md:hidden absolute top-0 inset-x-0 h-1/2 flex flex-col items-center justify-center text-center">
+            <div className="md:hidden absolute -top-[10%] inset-x-0 h-1/2 flex flex-col items-center justify-center text-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={logo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-[216px] w-[216px] object-contain drop-shadow-lg" />
             <p className="-mt-8 text-5xl font-semibold tracking-wide">FRESCO</p>

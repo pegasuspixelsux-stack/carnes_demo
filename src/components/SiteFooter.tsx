@@ -6,7 +6,6 @@ import { useBusiness } from '@/src/context/BusinessContext';
 import { useCategories } from '@/src/hooks/useCategories';
 import { socialLinks } from '@/src/components/SocialIcons';
 import { whatsappUrl } from '@/src/utils/format';
-import { DEFAULT_LOGO } from '@/src/components/BrandName';
 
 const linkClass = 'hover:text-black hover:underline underline-offset-2 transition-colors';
 
@@ -25,14 +24,14 @@ export default function SiteFooter({ onGreen = true }: { onGreen?: boolean } = {
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-12 mb-[75px]">
         {/* Column 1: Brand (tablets, portrait and landscape: its own full-width row) */}
         <div className="space-y-4 md:col-span-2 xl:col-span-1">
-          {/* Same logo, title and slogan as the homepage hero (set in Ajustes) */}
-          <div className="flex items-center gap-4">
+          {/* Fresco logo (already includes the name and "Desde 1998"): colored on white, white on the green mobile footer */}
+          <div className="flex items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={business.heroLogo || business.logo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-16 w-16 shrink-0 object-contain" />
-            <div>
-              <p className="text-2xl font-semibold tracking-wide text-[#1D1D1F]">{business.heroTitle || 'FRESCO'}</p>
-              <p className="text-sm tracking-widest text-[#515154]">{business.heroSlogan || 'Desde 1998'}</p>
-            </div>
+            <img src="/fresco_clear.png" alt="" aria-hidden="true" className={`h-36 w-36 shrink-0 object-contain ${onGreen ? 'max-md:hidden' : ''}`} />
+            {onGreen && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src="/fresco_logo_clear.png" alt="" aria-hidden="true" className="md:hidden h-36 w-36 shrink-0 object-contain" />
+            )}
           </div>
 
           {hasContact && (

@@ -202,7 +202,7 @@ export default function FavoritesPage() {
         }}
         buyerType={client && level ? 'wholesale' : 'retail'}
       />
-      <SiteFooter />
+      <SiteFooter onGreen={false} />
     </div>
   );
 }

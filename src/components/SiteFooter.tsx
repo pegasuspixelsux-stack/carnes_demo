@@ -11,7 +11,8 @@ import BrandName from '@/src/components/BrandName';
 const linkClass = 'hover:text-black hover:underline underline-offset-2 transition-colors';
 
 /** The four-column site footer, shared by the homepage and the item pages. */
-export default function SiteFooter() {
+/** `onGreen` (default): on phones the footer is drawn straight on the green page background, without a white box. */
+export default function SiteFooter({ onGreen = true }: { onGreen?: boolean } = {}) {
   const business = useBusiness();
   const socials = socialLinks(business);
   const { categories } = useCategories();
@@ -20,7 +21,7 @@ export default function SiteFooter() {
     business.address || business.email || business.whatsapp || business.phone || business.hours || business.rut || business.license,
   );
   return (
-    <footer className="bg-white text-[#1D1D1F] border-t border-black/10 p-6 pt-[75px] max-md:rounded-3xl max-md:mx-3 max-md:my-3 max-md:border-0">
+    <footer className={`bg-white text-[#1D1D1F] border-t border-black/10 p-6 pt-[75px] ${onGreen ? 'on-green max-md:bg-transparent max-md:border-0 max-md:pt-12' : ''}`}>
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-12 mb-[75px]">
         {/* Column 1: Brand (tablets, portrait and landscape: its own full-width row) */}
         <div className="space-y-4 md:col-span-2 xl:col-span-1">

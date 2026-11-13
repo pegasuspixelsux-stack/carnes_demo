@@ -37,3 +37,38 @@ body {
 html {
   scroll-padding-top: 8rem;
 }
+
+/* Phones: sections drawn straight on the green page (no card), so dark text flips to white. */
+@media (max-width: 767px) {
+  .on-green {
+    color: #fff;
+  }
+  .on-green [class*="text-[#1D1D1F]"] {
+    color: #fff;
+  }
+  .on-green [class*="text-[#515154]"] {
+    color: rgb(255 255 255 / 0.85);
+  }
+  .on-green [class*="border-[#000000]/10"],
+  .on-green [class*="border-black/"] {
+    border-color: rgb(255 255 255 / 0.25);
+  }
+  .on-green input,
+  .on-green select,
+  .on-green textarea {
+    color: #1d1d1f;
+  }
+  .on-green li span[class*="bg-[#2E7D32]"] {
+    background: #fff;
+    color: #2e7d32;
+  }
+  .on-green [class*="text-green-700"] {
+    color: #fff;
+  }
+  .on-green [class*="text-red-600"] {
+    color: #ffd6d6;
+  }
+  .on-green [class*="hover:bg-black/5"]:hover {
+    background: rgb(255 255 255 / 0.12);
+  }
+}

@@ -337,7 +337,7 @@ export default function MerkadoHome({
       </div>
 
       {/* --- BODY: PROPERTY BENTO GRID --- */}
-      <section id="properties" className="pt-5 md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3">
+      <section id="properties" className="pt-5 md:pt-8 pb-8 md:pb-44 px-0 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3">
         <form
             role="search"
             onSubmit={(e) => {

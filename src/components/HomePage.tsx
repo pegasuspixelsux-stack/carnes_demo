@@ -284,7 +284,7 @@ export default function MerkadoHome({
           <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile-2.webp)' }} />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-white from-[30%] to-[var(--brand-bg,#2E7D32)] to-[60%] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
+            className="absolute inset-0 bg-gradient-to-b from-white from-[45%] to-[var(--brand-bg,#2E7D32)] to-[95%] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
           />
           {/* Desktop only: the logo on the right column, over the overlay */}
           <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-10 w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
@@ -308,7 +308,7 @@ export default function MerkadoHome({
                 </>
               )}
             </h1>
-            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-base md:text-base text-white/95 font-normal leading-relaxed">
+            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-base md:text-base text-white/95 max-md:text-black font-normal leading-relaxed">
               {business.heroText ||
                 'Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.'}
             </p>
@@ -359,7 +359,7 @@ export default function MerkadoHome({
               </a>
               )}
             </div>
-            <Link href="/cover" className="mt-6 md:mt-4 block text-center md:text-left text-sm md:text-xs text-white/70 hover:text-white transition-colors">
+            <Link href="/cover" className="mt-6 md:mt-4 block text-center md:text-left text-sm md:text-xs text-white/70 hover:text-white max-md:text-white transition-colors">
               MerkadoB2B v3.0
             </Link>
           </div>

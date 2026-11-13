@@ -283,7 +283,7 @@ export default function InfoSections() {
           </div>
 
           {/* Right Column: wholesale enrollment form */}
-          <div className={`${openContact ? '' : 'hidden'} md:block form-card bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-[#000000]/5 max-md:p-5 max-md:mt-6`}>
+          <div className={`${openContact ? '' : 'hidden'} md:block form-card bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-[#000000]/5 max-md:p-5 max-md:mt-6 max-md:-mx-6 max-md:rounded-3xl max-md:border-0 max-md:shadow-none`}>
             <form onSubmit={submitWholesale} className="space-y-5">
               <div>
                 <label htmlFor="w-business" className="block text-xs uppercase tracking-wider font-semibold text-[#515154] mb-2">Nombre del negocio</label>

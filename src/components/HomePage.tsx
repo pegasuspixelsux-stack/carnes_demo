@@ -271,7 +271,7 @@ export default function MerkadoHome({
       </header>
 
       <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
-        <section data-home-hero className="relative w-full max-md:min-h-[120svh] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
+        <section data-home-hero className="relative w-full max-md:min-h-[110svh] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
           {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
           <div
             aria-hidden="true"
@@ -312,7 +312,7 @@ export default function MerkadoHome({
               {business.heroText ||
                 'Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.'}
             </p>
-            <div className="mt-[clamp(16px,4svh,32px)] md:mt-6 flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full max-md:max-w-sm">
+            <div className="mt-[clamp(16px,4svh,32px)] max-md:mt-[calc(clamp(16px,4svh,32px)+10svh)] md:mt-6 flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full max-md:max-w-sm">
               {client && level ? (
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full">
                   <Link

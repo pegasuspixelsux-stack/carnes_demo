@@ -271,11 +271,11 @@ export default function MerkadoHome({
           </div>
             <div className="md:hidden absolute top-0 inset-x-0 h-1/2 flex flex-col items-center justify-center text-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-72 w-72 object-contain drop-shadow-lg" />
+            <img src={logo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-[216px] w-[216px] object-contain drop-shadow-lg" />
             <p className="-mt-8 text-5xl font-semibold tracking-wide">FRESCO</p>
             <p className="text-sm tracking-widest text-white/80">Desde 1998</p>
           </div>
-            <div className="relative w-full px-6 md:px-10 pt-5 pb-12 md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
+            <div className="relative w-full px-6 md:px-10 pt-5 pb-24 md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
             <span className="block w-fit max-md:mx-auto md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
               Distribución hortifrutícola B2B
             </span>

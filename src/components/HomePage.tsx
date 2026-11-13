@@ -25,6 +25,7 @@ import {
   Square,
   Plus,
   LogOut,
+  Heart,
   LayoutGrid,
   List,
 } from 'lucide-react';
@@ -165,7 +166,7 @@ export default function MerkadoHome({
       : fallbackProperties.map((p) => ({ ...p, href: `/items/sample-${p.id}` })),
   );
   // A customer who logged in with Acceso mayoristas sees their price level; everyone else sees list prices.
-  const { client, level, signOutClient } = useClient();
+  const { client, level, signOutClient, favorites } = useClient();
   const business = useBusiness();
   const { logo } = business;
   const heroLogo = business.heroLogo || logo;
@@ -270,7 +271,7 @@ export default function MerkadoHome({
       </header>
 
       <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
-        <section className="relative w-full max-md:min-h-svh max-md:flex max-md:flex-col max-md:justify-center max-md:rounded-none overflow-hidden rounded-3xl border border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
+        <section className="relative w-full max-md:min-h-svh max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
           {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
           <div
             aria-hidden="true"
@@ -280,10 +281,10 @@ export default function MerkadoHome({
                 'url(https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=2000&auto=format&fit=crop)',
             }}
           />
-          <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile.webp)' }} />
+          <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile-2.webp)' }} />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-[var(--brand-bg,#2E7D32)] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
+            className="absolute inset-0 bg-gradient-to-b from-white from-[30%] to-[var(--brand-bg,#2E7D32)] to-[60%] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
           />
           {/* Desktop only: the logo on the right column, over the overlay */}
           <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-10 w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
@@ -291,17 +292,15 @@ export default function MerkadoHome({
             <img src={heroLogo || DEFAULT_LOGO} alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
           </div>
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
-            <div className="md:hidden relative flex flex-col items-center text-center pt-[max(2rem,env(safe-area-inset-top))]">
+            <div className="md:hidden relative flex flex-col items-center text-center pt-[max(2rem,env(safe-area-inset-top))] pb-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={heroLogo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-[clamp(96px,19svh,168px)] w-[clamp(96px,19svh,168px)] object-contain drop-shadow-lg" />
-            <p className="mt-2 text-[clamp(28px,5svh,40px)] leading-tight font-semibold tracking-wide">{business.heroTitle || 'FRESCO'}</p>
-            <p className="mt-1 text-sm tracking-widest text-white/80">{business.heroSlogan || 'Desde 1998'}</p>
+            <img src="/fresco_clear.png" alt="" aria-hidden="true" className="h-[min(100vw,clamp(288px,57svh,504px))] w-[min(100vw,clamp(288px,57svh,504px))] object-contain drop-shadow-lg" />
           </div>
             <div className="relative w-full px-6 md:px-10 pt-[clamp(16px,4svh,32px)] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
-            <span className="block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
+            <span className="max-md:hidden block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
               {business.heroEyebrow || 'Distribución hortifrutícola B2B'}
             </span>
-            <h1 className="mt-4 max-w-6xl max-md:text-balance max-md:text-[clamp(22px,6.6vw,28px)] max-md:leading-[1.2] sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]">
+            <h1 className="max-md:sr-only mt-4 max-w-6xl max-md:text-balance max-md:text-[clamp(22px,6.6vw,28px)] max-md:leading-[1.2] sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]">
               {business.heroHeading || (
                 <>
                   El distribuidor hortifrutícola para
@@ -309,7 +308,7 @@ export default function MerkadoHome({
                 </>
               )}
             </h1>
-            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-xs sm:text-sm md:text-base text-white/95 font-normal leading-relaxed">
+            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-base md:text-base text-white/95 font-normal leading-relaxed">
               {business.heroText ||
                 'Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.'}
             </p>
@@ -360,7 +359,7 @@ export default function MerkadoHome({
               </a>
               )}
             </div>
-            <Link href="/cover" className="mt-6 md:mt-4 block text-center md:text-left text-xs text-white/70 hover:text-white transition-colors">
+            <Link href="/cover" className="mt-6 md:mt-4 block text-center md:text-left text-sm md:text-xs text-white/70 hover:text-white transition-colors">
               MerkadoB2B v3.0
             </Link>
           </div>
@@ -370,27 +369,41 @@ export default function MerkadoHome({
       {/* --- BODY: PROPERTY BENTO GRID --- */}
       <section id="properties" className="scroll-mt-4 pt-5 md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mt-3">
         {/* Phones: the catalog is this page. Signed in: a greeting with a log-out arrow; signed out: the login link */}
-        <div className="md:hidden flex items-center justify-between gap-3 mb-4">
+        <div className="md:hidden flex flex-col items-center gap-3 mb-4 text-center">
           {client && level ? (
             <>
-              <p className="min-w-0 flex-1 text-left text-3xl font-semibold tracking-tight leading-tight text-[#1D1D1F] truncate">
+              <p className="text-3xl font-semibold tracking-tight leading-tight text-[#1D1D1F] text-balance">
                 {greeting()}, {(client.contactName || client.businessName).split(' ')[0]}
               </p>
-              <button
-                type="button"
-                onClick={signOutClient}
-                aria-label="Cerrar sesión"
-                title="Cerrar sesión"
-                className="w-9 h-9 shrink-0 rounded-full bg-[#F5F5F7] text-[#1D1D1F] flex items-center justify-center hover:bg-[#E8E8ED] active:scale-95 transition"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/favoritos"
+                  className="h-9 px-4 rounded-full bg-[#F5F5F7] text-[#1D1D1F] text-sm font-medium inline-flex items-center gap-2 hover:bg-[#E8E8ED] active:scale-95 transition"
+                >
+                  <Heart className="w-4 h-4" />
+                  Favoritos
+                  {favorites.length > 0 && (
+                    <span className="min-w-4 h-4 px-1 rounded-full bg-[#2E7D32] text-white text-[10px] font-semibold flex items-center justify-center">
+                      {favorites.length}
+                    </span>
+                  )}
+                </Link>
+                <button
+                  type="button"
+                  onClick={signOutClient}
+                  aria-label="Cerrar sesión"
+                  title="Cerrar sesión"
+                  className="w-9 h-9 shrink-0 rounded-full bg-[#F5F5F7] text-[#1D1D1F] flex items-center justify-center hover:bg-[#E8E8ED] active:scale-95 transition"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
             </>
           ) : (
             <button
               type="button"
               onClick={() => window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN))}
-              className="text-sm font-medium text-[#1D1D1F] underline underline-offset-4 ml-auto"
+              className="text-sm font-medium text-[#1D1D1F] underline underline-offset-4"
             >
               Acceso mayoristas
             </button>

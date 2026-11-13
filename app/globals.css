@@ -29,7 +29,7 @@ body {
 @media (max-width: 767px) {
   html,
   body {
-    background: #2e7d32;
+    background: var(--brand-bg, #2e7d32);
   }
 }
 

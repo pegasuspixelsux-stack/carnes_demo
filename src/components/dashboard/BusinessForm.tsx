@@ -29,6 +29,9 @@ export default function BusinessForm() {
     if (form.email.trim() && !/^\S+@\S+\.\S+$/.test(form.email.trim())) {
       return setMessage({ ok: false, text: 'El correo no parece válido.' });
     }
+    if (form.backgroundColor.trim() && !/^#[0-9a-fA-F]{6}$/.test(form.backgroundColor.trim())) {
+      return setMessage({ ok: false, text: 'El color debe ser un código como #2E7D32.' });
+    }
     setSaving(true);
     setMessage(null);
     try {
@@ -79,6 +82,61 @@ export default function BusinessForm() {
           </div>
         </div>
         <p className="text-xs text-[#86868B] mt-1.5">Sale al lado del nombre, arriba y en el pie del sitio. Mejor una imagen cuadrada con fondo transparente (PNG).</p>
+      </div>
+      <div className="rounded-2xl border border-[#000000]/10 p-4 space-y-4">
+        <div>
+          <p className="text-sm font-semibold tracking-tight">Portada (hero del inicio)</p>
+          <p className="text-xs text-[#86868B] mt-1">Logo, título y lema que se ven arriba en la portada del celular.</p>
+        </div>
+        <div>
+          <span className={labelClass}>Logo de la portada</span>
+          <div className="flex items-center gap-4">
+            <span className="shrink-0 rounded-xl border border-[#000000]/10 bg-white p-1.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={form.heroLogo || form.logo || DEFAULT_LOGO} alt="Logo de la portada" className="h-14 w-14 object-contain" />
+            </span>
+            <div className="min-w-0 flex-1 space-y-2">
+              {canEdit && <ImageUpload folder="/Merkado-v2/branding" onUploaded={({ url }) => set('heroLogo', url)} onError={(text) => setMessage({ ok: false, text })} />}
+              {canEdit && form.heroLogo && (
+                <button type="button" onClick={() => set('heroLogo', '')} className="text-xs underline underline-offset-2 text-[#515154] hover:text-[#1D1D1F]">
+                  Quitar y usar el logo general
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+        <div>
+          <label htmlFor="b-hero-eyebrow" className={labelClass}>Etiqueta superior (eyebrow)</label>
+          <input id="b-hero-eyebrow" className={inputClass} value={form.heroEyebrow} disabled={!canEdit} maxLength={80} onChange={(e) => set('heroEyebrow', e.target.value)} placeholder="Distribución hortifrutícola B2B" />
+        </div>
+        <div>
+          <label htmlFor="b-hero-heading" className={labelClass}>Título principal</label>
+          <textarea id="b-hero-heading" rows={2} className={`${inputClass} resize-none`} value={form.heroHeading} disabled={!canEdit} maxLength={160} onChange={(e) => set('heroHeading', e.target.value)} placeholder="El distribuidor hortifrutícola para la gastronomía de Punta del Este." />
+        </div>
+        <div>
+          <label htmlFor="b-hero-text" className={labelClass}>Texto de la portada</label>
+          <textarea id="b-hero-text" rows={4} className={`${inputClass} resize-none`} value={form.heroText} disabled={!canEdit} maxLength={500} onChange={(e) => set('heroText', e.target.value)} placeholder="Abastecemos a restaurantes, hoteles y comercios…" />
+          <p className="text-xs text-[#86868B] mt-1">Lo que dejes vacío usa el texto por defecto.</p>
+        </div>
+        <div>
+          <label htmlFor="b-bg" className={labelClass}>Color de fondo (celular)</label>
+          <div className="flex items-center gap-3">
+            <input id="b-bg" type="color" value={form.backgroundColor || '#2E7D32'} disabled={!canEdit} onChange={(e) => set('backgroundColor', e.target.value)} className="h-11 w-14 rounded-lg border border-[#000000]/10 bg-white p-1 cursor-pointer" />
+            <input aria-label="Color en hexadecimal" className={`${inputClass} max-w-32 uppercase`} value={form.backgroundColor} disabled={!canEdit} maxLength={7} onChange={(e) => set('backgroundColor', e.target.value)} placeholder="#2E7D32" />
+            {canEdit && form.backgroundColor && (
+              <button type="button" onClick={() => set('backgroundColor', '')} className="text-xs underline underline-offset-2 text-[#515154] hover:text-[#1D1D1F]">Usar el verde por defecto</button>
+            )}
+          </div>
+          <p className="text-xs text-[#86868B] mt-1">Fondo de la página en el celular, la portada y la barra superior del navegador.</p>
+        </div>
+        <div>
+          <label htmlFor="b-hero-title" className={labelClass}>Título de la portada</label>
+          <input id="b-hero-title" className={inputClass} value={form.heroTitle} disabled={!canEdit} maxLength={60} onChange={(e) => set('heroTitle', e.target.value)} placeholder="FRESCO" />
+        </div>
+        <div>
+          <label htmlFor="b-hero-slogan" className={labelClass}>Lema</label>
+          <input id="b-hero-slogan" className={inputClass} value={form.heroSlogan} disabled={!canEdit} maxLength={100} onChange={(e) => set('heroSlogan', e.target.value)} placeholder="Desde 1998" />
+        </div>
       </div>
       <div>
         <label htmlFor="b-address" className={labelClass}>Dirección</label>

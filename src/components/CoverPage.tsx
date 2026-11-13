@@ -9,7 +9,8 @@ import { useBusiness } from '@/src/context/BusinessContext';
 /** Cover: a full-screen hero with the headline and the two entry buttons (working name, to be renamed). */
 export default function CoverPage() {
   const router = useRouter();
-  const { logo } = useBusiness();
+  const business = useBusiness();
+  const logo = business.heroLogo || business.logo;
   // The homepage sections (Quiénes somos, FAQ, Contacto) live in the catalog for phones: send those links there.
   useEffect(() => {
     const go = () => {
@@ -21,14 +22,14 @@ export default function CoverPage() {
     return () => window.removeEventListener('hashchange', go);
   }, [router]);
   return (
-    <div className="min-h-svh md:min-h-0 bg-[#2E7D32] text-white font-sans antialiased flex flex-col">
+    <div className="min-h-svh md:min-h-0 bg-[var(--brand-bg,#2E7D32)] text-white font-sans antialiased flex flex-col">
       <main className="flex-1 md:flex-none md:h-[50vh] flex">
         <section className="relative flex-1 w-full max-w-[1440px] mx-auto flex items-end">
           <div className="absolute top-0 inset-x-0 h-1/2 flex flex-col items-center justify-center text-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={logo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-72 w-72 md:h-60 md:w-60 object-contain drop-shadow-lg" />
-            <p className="mt-2 text-5xl md:text-4xl font-semibold tracking-wide">FRESCO</p>
-            <p className="text-sm md:text-xs tracking-widest text-white/80">Desde 1998</p>
+            <p className="mt-2 text-5xl md:text-4xl font-semibold tracking-wide">{business.heroTitle || 'FRESCO'}</p>
+            <p className="text-sm md:text-xs tracking-widest text-white/80">{business.heroSlogan || 'Desde 1998'}</p>
           </div>
           <div className="relative w-full px-6 md:px-14 pt-12 pb-12 md:pt-8 md:pb-10">
             <span className="block w-fit mx-auto rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">

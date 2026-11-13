@@ -23,7 +23,7 @@ const errors: Record<Exclude<TokenResult, 'ok'>, string> = {
  * Header control for wholesale customers (accounts are created by the admin; there is no sign-up).
  * Logged out: "Acceso mayoristas" opens a phone + access-code login. Logged in: shows the price level and "Cerrar sesión".
  */
-export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
+export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; noModal?: boolean } = {}) {
   const { client, level, login, signOutClient, favorites } = useClient();
   const [open, setOpen] = useState(false);
   const [phone, setPhone] = useState('');
@@ -36,6 +36,7 @@ export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
   const [redirectTo, setRedirectTo] = useState<string | null>(null);
 
   useEffect(() => {
+    if (noModal) return; // another copy on the page owns the login dialog
     const show = (e: Event) => {
       setRedirectTo((e as CustomEvent<{ redirect?: string }>).detail?.redirect ?? null);
       setError(null);
@@ -43,7 +44,7 @@ export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
     };
     window.addEventListener(OPEN_CLIENT_LOGIN, show);
     return () => window.removeEventListener(OPEN_CLIENT_LOGIN, show);
-  }, []);
+  }, [noModal]);
 
   // Prefill the remembered phone each time the modal opens.
   useEffect(() => {
@@ -122,6 +123,10 @@ export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
       <button
         type="button"
         onClick={() => {
+          if (noModal) {
+            window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN));
+            return;
+          }
           setRedirectTo(null);
           setError(null);
           setOpen(true);
@@ -134,7 +139,7 @@ export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
         <span className="hidden min-[400px]:inline sm:hidden">Mayoristas</span>
       </button>
 
-      {open && createPortal(
+      {open && !noModal && createPortal(
         <div className="fixed inset-0 z-[70] flex items-center justify-center px-4">
           <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} aria-hidden="true" />
           <div role="dialog" aria-modal="true" aria-label="Acceso mayoristas" className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 md:p-8">

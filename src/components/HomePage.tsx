@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { Fragment, useState, useEffect, useMemo } from 'react';
+import { groupByCategory } from '@/src/utils/group';
 import Link from 'next/link';
 import type { HomeProperty } from '@/src/lib/homeData';
 import type { PropertyType } from '@/src/types/firestore';
@@ -16,21 +17,27 @@ import FavoriteButton from '@/src/components/FavoriteButton';
 import SiteNavLinks from '@/src/components/SiteNavLinks';
 import MobileNavMenu from '@/src/components/MobileNavMenu';
 import { useClient } from '@/src/context/ClientContext';
-import { applyBoxFirst, applyLevel } from '@/src/utils/pricing';
+import { applyBoxFirst, applyLevel, saleOptions } from '@/src/utils/pricing';
 import {
   ArrowUpRight,
   KeyRound,
   Search,
-  ChevronLeft,
-  ChevronRight,
   Square,
+  Plus,
+  LogOut,
   LayoutGrid,
   List,
 } from 'lucide-react';
 import BrandName, { DEFAULT_LOGO } from '@/src/components/BrandName';
 import { useBusiness } from '@/src/context/BusinessContext';
 
-const PAGE_SIZE = 12;
+/** Greeting for the hour of the day on the visitor's device. */
+const greeting = () => {
+  const h = new Date().getHours();
+  return h >= 6 && h < 12 ? 'Buenos días' : h >= 12 && h < 20 ? 'Buenas tardes' : 'Buenas noches';
+};
+
+const PAGE_SIZE = 24; // products added each time "Ver 24 más" is pressed: 24, 48, 72, 96…
 
 
 const fallbackProperties: HomeProperty[] = [
@@ -159,9 +166,35 @@ export default function MerkadoHome({
   );
   // A customer who logged in with Acceso mayoristas sees their price level; everyone else sees list prices.
   const { client, level, signOutClient } = useClient();
-  const { logo } = useBusiness();
+  const business = useBusiness();
+  const { logo } = business;
+  const heroLogo = business.heroLogo || logo;
   const allowLoose = client?.allowLoose ?? false;
   const properties = useMemo(() => applyBoxFirst(applyLevel(baseProperties, level), level, allowLoose), [baseProperties, level, allowLoose]);
+  // Items with more than one way to buy (box / unit / kilo) need a choice, so their "+" opens the item page.
+  const variableIds = useMemo(() => {
+    const set = new Set<string>();
+    for (const p of baseProperties) {
+      if (p.listPrice === undefined || !p.sale) continue;
+      const options = saleOptions(
+        {
+          price: p.listPrice,
+          salePrice: p.sale.salePrice,
+          pricingMode: p.pricingMode,
+          boxWeight: p.sale.boxWeight,
+          unitWeight: p.sale.unitWeight,
+          boxPrice: p.sale.boxPrice,
+          unitPrice: p.sale.manualUnitPrice,
+          boxUnits: p.sale.boxUnits,
+          looseAllowed: p.sale.looseAllowed,
+        },
+        level ? 'wholesale' : 'retail',
+        { allowLoose },
+      );
+      if (options.length > 1) set.add(String(p.id));
+    }
+    return set;
+  }, [baseProperties, level, allowLoose]);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<PropertyType | 'all'>('all');
   const [page, setPage] = useState(1);
@@ -211,24 +244,12 @@ export default function MerkadoHome({
     return matchesQuery && matchesCategory;
   });
 
-  // 12 items per page; a filter change returns to page 1, and the page never exceeds the last one.
-  const totalPages = Math.max(1, Math.ceil(filteredProperties.length / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
-  const pageStart = (currentPage - 1) * PAGE_SIZE;
-  const visibleProperties = filteredProperties.slice(pageStart, pageStart + PAGE_SIZE);
-  const goToPage = (n: number) => {
-    setPage(n);
-    document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' });
-  };
-  // Page numbers to show: first, last, and the neighbours of the current page (… between gaps).
-  const pageItems = Array.from({ length: totalPages }, (_, i) => i + 1)
-    .filter((n) => n === 1 || n === totalPages || Math.abs(n - currentPage) <= 1)
-    .flatMap((n, i, arr) => (i > 0 && n - arr[i - 1] > 1 ? ['gap' as const, n] : [n]));
-
-
+  // 24 products at first, then 24 more each time "Ver más" is pressed (24, 48, 72, 96…). A new search or filter starts again at 24.
+  const shownCount = page * PAGE_SIZE;
+  const visibleProperties = groupByCategory(filteredProperties).slice(0, shownCount);
 
   return (
-    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[#2E7D32] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
+    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
 
       {/* --- NAVIGATION --- */}
       <header className="hidden md:block sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
@@ -249,7 +270,7 @@ export default function MerkadoHome({
       </header>
 
       <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
-        <section className="relative w-full max-md:min-h-svh max-md:flex max-md:flex-col max-md:justify-center max-md:rounded-none overflow-hidden rounded-3xl border border-[#2E7D32] bg-[#2E7D32] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
+        <section className="relative w-full max-md:min-h-svh max-md:flex max-md:flex-col max-md:justify-center max-md:rounded-none overflow-hidden rounded-3xl border border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
           {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
           <div
             aria-hidden="true"
@@ -262,37 +283,47 @@ export default function MerkadoHome({
           <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile.webp)' }} />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-[#2E7D32] md:bg-transparent md:bg-gradient-to-r md:from-[#2E7D32] md:from-[55%] md:via-[#2E7D32]/55 md:via-[80%] md:to-transparent"
+            className="absolute inset-0 bg-[var(--brand-bg,#2E7D32)] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
           />
           {/* Desktop only: the logo on the right column, over the overlay */}
           <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-10 w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logo || DEFAULT_LOGO} alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
+            <img src={heroLogo || DEFAULT_LOGO} alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
           </div>
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
             <div className="md:hidden relative flex flex-col items-center text-center pt-[max(2rem,env(safe-area-inset-top))]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-[clamp(96px,19svh,168px)] w-[clamp(96px,19svh,168px)] object-contain drop-shadow-lg" />
-            <p className="mt-2 text-[clamp(28px,5svh,40px)] leading-tight font-semibold tracking-wide">FRESCO</p>
-            <p className="mt-1 text-sm tracking-widest text-white/80">Desde 1998</p>
+            <img src={heroLogo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-[clamp(96px,19svh,168px)] w-[clamp(96px,19svh,168px)] object-contain drop-shadow-lg" />
+            <p className="mt-2 text-[clamp(28px,5svh,40px)] leading-tight font-semibold tracking-wide">{business.heroTitle || 'FRESCO'}</p>
+            <p className="mt-1 text-sm tracking-widest text-white/80">{business.heroSlogan || 'Desde 1998'}</p>
           </div>
             <div className="relative w-full px-6 md:px-10 pt-[clamp(16px,4svh,32px)] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
             <span className="block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
-              Distribución hortifrutícola B2B
+              {business.heroEyebrow || 'Distribución hortifrutícola B2B'}
             </span>
             <h1 className="mt-4 max-w-6xl max-md:text-balance max-md:text-[clamp(22px,6.6vw,28px)] max-md:leading-[1.2] sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]">
-              El distribuidor hortifrutícola para
-              <br className="hidden md:block" /> la gastronomía de Punta del Este.
+              {business.heroHeading || (
+                <>
+                  El distribuidor hortifrutícola para
+                  <br className="hidden md:block" /> la gastronomía de Punta del Este.
+                </>
+              )}
             </h1>
             <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-xs sm:text-sm md:text-base text-white/95 font-normal leading-relaxed">
-              Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el
-              mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.
+              {business.heroText ||
+                'Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.'}
             </p>
             <div className="mt-[clamp(16px,4svh,32px)] md:mt-6 flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full max-md:max-w-sm">
               {client && level ? (
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full">
                   <Link
                     href="/items"
+                    onClick={(e) => {
+                      if (window.matchMedia('(max-width: 767px)').matches) {
+                        e.preventDefault();
+                        document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] px-6 py-2.5 max-md:min-h-12 text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all"
                   >
                     <span className="truncate max-w-56">Catálogo · {client.businessName}</span>
@@ -311,7 +342,7 @@ export default function MerkadoHome({
                 href="/items"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: '/items' } }));
+                  window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: window.matchMedia('(max-width: 767px)').matches ? '/#properties' : '/items' } }));
                 }}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] px-6 py-2.5 max-md:min-h-12 text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all"
               >
@@ -337,7 +368,34 @@ export default function MerkadoHome({
       </div>
 
       {/* --- BODY: PROPERTY BENTO GRID --- */}
-      <section id="properties" className="pt-5 md:pt-8 pb-8 md:pb-44 px-0 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3">
+      <section id="properties" className="scroll-mt-4 pt-5 md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mt-3">
+        {/* Phones: the catalog is this page. Signed in: a greeting with a log-out arrow; signed out: the login link */}
+        <div className="md:hidden flex items-center justify-between gap-3 mb-4">
+          {client && level ? (
+            <>
+              <p className="min-w-0 flex-1 text-left text-3xl font-semibold tracking-tight leading-tight text-[#1D1D1F] truncate">
+                {greeting()}, {(client.contactName || client.businessName).split(' ')[0]}
+              </p>
+              <button
+                type="button"
+                onClick={signOutClient}
+                aria-label="Cerrar sesión"
+                title="Cerrar sesión"
+                className="w-9 h-9 shrink-0 rounded-full bg-[#F5F5F7] text-[#1D1D1F] flex items-center justify-center hover:bg-[#E8E8ED] active:scale-95 transition"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN))}
+              className="text-sm font-medium text-[#1D1D1F] underline underline-offset-4 ml-auto"
+            >
+              Acceso mayoristas
+            </button>
+          )}
+        </div>
         <form
             role="search"
             onSubmit={(e) => {
@@ -421,14 +479,20 @@ export default function MerkadoHome({
             ))}
           </div>
         </div>
-        <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6`}>
+        <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-0.5 md:gap-6`}>
           {filteredProperties.length === 0 && (
             <p className="col-span-full text-center text-[#515154] text-sm">
               No hay artículos que coincidan con tu búsqueda.
             </p>
           )}
-          {visibleProperties.map((prop) => {
-            const cardClass =
+          {visibleProperties.map((prop, idx) => {
+            const sectionLabel = (p: { type?: string | null; typeLabel?: string | null }) =>
+              p.typeLabel ?? typeLabels[p.type as string] ?? p.type ?? 'Otros';
+            const sectionHeading =
+              idx === 0 || visibleProperties[idx - 1].type !== prop.type ? (
+                <h3 className="col-span-full mt-4 first:mt-0 md:mt-6 text-xl md:text-2xl font-semibold tracking-tight">{sectionLabel(prop)}</h3>
+              ) : null;
+                        const cardClass =
               `group relative ${layout === 'one' ? 'aspect-[4/3] md:aspect-square' : 'aspect-square'} rounded-2xl overflow-hidden bg-[#E5E5EA] flex flex-col justify-end p-3 md:p-5 transition-transform duration-500 hover:-translate-y-1`;
             const content = (
               <>
@@ -458,18 +522,28 @@ export default function MerkadoHome({
               {/* Quick order: adds the item and opens the cart to send it */}
               <div className="absolute top-3 right-3 md:top-5 md:right-5 z-10 flex items-center gap-1.5">
                 {typeof prop.id === 'string' && <FavoriteButton productId={prop.id} title={prop.title} className="w-8 h-8" />}
-                <button
-                  type="button"
-                  onClick={() => {
-                    addToCart(prop);
-                    setCartOpen(true);
-                  }}
-                  disabled={prop.inStock === false}
-                  aria-label={prop.inStock === false ? `${prop.title} está sin stock` : `Pedido rápido: ${prop.title}`}
-                  className={`${layout === 'one' ? 'h-10 px-4 text-sm' : 'h-8 px-3 text-[10px]'} md:h-8 md:px-3 md:text-xs rounded-full bg-[#2E7D32] text-white font-semibold whitespace-nowrap flex items-center justify-center shadow-sm hover:bg-[#256628] active:scale-95 transition disabled:opacity-40 disabled:cursor-not-allowed`}
-                >
-                  Pedido rápido
-                </button>
+                {variableIds.has(String(prop.id)) && prop.href ? (
+                  <a
+                    href={prop.href}
+                    aria-label={`Elegir opciones de ${prop.title}`}
+                    className={`${layout === 'one' ? 'h-10 w-10' : 'h-8 w-8'} md:h-8 md:w-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center shadow-sm hover:bg-[#256628] active:scale-95 transition`}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      addToCart(prop);
+                      setCartOpen(true);
+                    }}
+                    disabled={prop.inStock === false}
+                    aria-label={prop.inStock === false ? `${prop.title} está sin stock` : `Agregar ${prop.title} al pedido`}
+                    className={`${layout === 'one' ? 'h-10 w-10' : 'h-8 w-8'} md:h-8 md:w-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center shadow-sm hover:bg-[#256628] active:scale-95 transition disabled:opacity-40 disabled:cursor-not-allowed`}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                )}
               </div>
 
               {/* Bottom Details: row 1 title, row 2 quantity + price */}
@@ -494,6 +568,8 @@ export default function MerkadoHome({
             const soldOut = prop.inStock === false;
             const Thumb = prop.href ? 'a' : 'div';
             return (
+            <Fragment key={String(prop.id)}>
+            {sectionHeading}
               <div key={prop.id}>
                 {/* Grid card: hidden on phones in list mode */}
                 <div className={layout === 'list' ? 'hidden md:block' : ''}>
@@ -501,12 +577,13 @@ export default function MerkadoHome({
                 </div>
                 {/* Compact list row: phones only */}
                 {layout === 'list' && (
-                  <div className="md:hidden flex items-center gap-3 rounded-2xl bg-white border border-[#000000]/5 p-2.5">
+                  <div className="md:hidden relative flex items-center gap-3 overflow-hidden rounded-2xl bg-white border border-[#000000]/5 pr-2.5">
+                    {prop.href && <a href={prop.href} aria-label={`Ver ${prop.title}`} className="absolute inset-0 z-[5]" />}
                     <Thumb
                       {...(prop.href ? { href: prop.href, 'aria-label': `Ver ${prop.title}` } : {})}
-                      className={`relative w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-[#E5E5EA] ${soldOut ? 'opacity-50 grayscale' : ''}`}
+                      className={`relative w-28 h-28 shrink-0 overflow-hidden bg-[#E5E5EA] ${soldOut ? 'opacity-50 grayscale' : ''}`}
                     >
-                      <PropertyImage src={prop.image} alt={prop.title} variant="thumb" sizes="96px" />
+                      <PropertyImage src={prop.image} alt={prop.title} variant="thumb" sizes="112px" />
                     </Thumb>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold leading-tight line-clamp-2">{prop.href ? <a href={prop.href}>{prop.title}</a> : prop.title}</p>
@@ -524,29 +601,52 @@ export default function MerkadoHome({
                         )}
                       </p>
                     </div>
-                    <div className="flex flex-col items-end gap-1.5 shrink-0">
+                    <div className="relative z-10 flex flex-col items-end gap-1.5 shrink-0">
                       {typeof prop.id === 'string' && (
                         <FavoriteButton productId={prop.id} title={prop.title} className="w-8 h-8 border border-[#000000]/5" />
                       )}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          addToCart(prop);
-                          setCartOpen(true);
-                        }}
-                        disabled={soldOut}
-                        aria-label={soldOut ? `${prop.title} está sin stock` : `Pedido rápido: ${prop.title}`}
-                        className="h-8 px-3 rounded-full bg-[#2E7D32] text-white text-[10px] font-semibold whitespace-nowrap hover:bg-[#256628] active:scale-95 transition disabled:opacity-40"
-                      >
-                        Pedido rápido
-                      </button>
+                      {variableIds.has(String(prop.id)) && prop.href ? (
+                        <a
+                          href={prop.href}
+                          aria-label={`Elegir opciones de ${prop.title}`}
+                          className="h-8 w-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center hover:bg-[#256628] active:scale-95 transition"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            addToCart(prop);
+                            setCartOpen(true);
+                          }}
+                          disabled={soldOut}
+                          aria-label={soldOut ? `${prop.title} está sin stock` : `Agregar ${prop.title} al pedido`}
+                          className="h-8 w-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center hover:bg-[#256628] active:scale-95 transition disabled:opacity-40"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}
               </div>
+            </Fragment>
             );
           })}
         </div>
+
+        {filteredProperties.length > shownCount && (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setPage((p) => p + 1)}
+              className="inline-flex items-center justify-center rounded-full bg-[#2E7D32] text-white px-8 py-3 text-sm font-semibold hover:bg-[#2E7D32]/85 active:scale-95 transition-all"
+            >
+              Ver {PAGE_SIZE} más
+            </button>
+          </div>
+        )}
 
         {/* Grid footer: see all / advanced search / count */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-sm">
@@ -557,48 +657,10 @@ export default function MerkadoHome({
             <span>Ver todos los artículos</span>
             <ArrowUpRight className="w-4 h-4" />
           </Link>
-          <nav aria-label="Paginación" className={`justify-self-center flex items-center gap-1 ${totalPages < 2 ? 'invisible' : ''}`}>
-            <button
-              type="button"
-              onClick={() => goToPage(currentPage - 1)}
-              disabled={currentPage === 1}
-              aria-label="Página anterior"
-              className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#F5F5F7] disabled:opacity-30 disabled:hover:bg-transparent"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            {pageItems.map((n, i) =>
-              n === 'gap' ? (
-                <span key={`gap-${i}`} aria-hidden="true" className="px-1 text-[#86868B]">…</span>
-              ) : (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => goToPage(n)}
-                  aria-label={`Página ${n}`}
-                  aria-current={n === currentPage ? 'page' : undefined}
-                  className={`w-9 h-9 rounded-full text-xs font-medium transition-colors ${
-                    n === currentPage ? 'bg-[#2E7D32] text-white' : 'hover:bg-[#F5F5F7]'
-                  }`}
-                >
-                  {n}
-                </button>
-              ),
-            )}
-            <button
-              type="button"
-              onClick={() => goToPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              aria-label="Página siguiente"
-              className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#F5F5F7] disabled:opacity-30 disabled:hover:bg-transparent"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </nav>
           <p className="justify-self-center md:justify-self-end text-xs text-[#515154]">
             {filteredProperties.length === 0
               ? 'Sin artículos'
-              : `Mostrando ${pageStart + 1}–${pageStart + visibleProperties.length} de ${filteredProperties.length} artículos`}
+              : `Mostrando ${visibleProperties.length} de ${filteredProperties.length} artículos`}
           </p>
         </div>
       </section>

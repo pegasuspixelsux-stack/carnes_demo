@@ -20,6 +20,13 @@ export function toBusiness(d: Record<string, unknown> | undefined): BusinessSett
     facebook: clip(d?.facebook, 200),
     youtube: clip(d?.youtube, 200),
     logo: clip(d?.logo, 500),
+    heroLogo: clip(d?.heroLogo, 500),
+    heroTitle: clip(d?.heroTitle, 60),
+    heroSlogan: clip(d?.heroSlogan, 100),
+    heroEyebrow: clip(d?.heroEyebrow, 80),
+    heroHeading: clip(d?.heroHeading, 160),
+    heroText: clip(d?.heroText, 500),
+    backgroundColor: /^#[0-9a-fA-F]{6}$/.test(clip(d?.backgroundColor, 7)) ? clip(d?.backgroundColor, 7) : '',
   };
 }
 

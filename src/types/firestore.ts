@@ -280,6 +280,20 @@ export interface BusinessSettings {
   youtube: string;
   /** Logo shown next to the name in the header and footer (image URL); empty = the default Merkado logo. */
   logo: string;
+  /** Image for the homepage hero (empty = same as `logo`). */
+  heroLogo: string;
+  /** Title under the hero logo (empty = "FRESCO"). */
+  heroTitle: string;
+  /** Slogan under the hero title (empty = "Desde 1998"). */
+  heroSlogan: string;
+  /** Small pill above the hero heading (empty = default). */
+  heroEyebrow: string;
+  /** Hero heading (empty = default). */
+  heroHeading: string;
+  /** Paragraph under the hero heading (empty = default). */
+  heroText: string;
+  /** Brand / background color on phones, hex like #2E7D32 (empty = default green). */
+  backgroundColor: string;
 }
 
 export const emptyBusiness: BusinessSettings = {
@@ -295,4 +309,11 @@ export const emptyBusiness: BusinessSettings = {
   facebook: '',
   youtube: '',
   logo: '',
+  heroLogo: '',
+  heroTitle: '',
+  heroSlogan: '',
+  heroEyebrow: '',
+  heroHeading: '',
+  heroText: '',
+  backgroundColor: '',
 };

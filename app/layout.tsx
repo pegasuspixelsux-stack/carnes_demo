@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -17,9 +18,10 @@ const geistMono = Geist_Mono({
 });
 
 // Colors the browser toolbar / status bar (Safari, Chrome on phones).
-export const viewport: Viewport = {
-  themeColor: "#2E7D32",
-};
+export async function generateViewport(): Promise<Viewport> {
+  const { backgroundColor } = await getBusinessSettings();
+  return { themeColor: backgroundColor || "#2E7D32" };
+}
 
 const DEFAULT_TITLE = "Merkado para Mayoristas";
 
@@ -38,6 +40,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es-UY"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      style={{ "--brand-bg": business.backgroundColor || "#2E7D32" } as CSSProperties}
     >
       <body className="min-h-full flex flex-col">
         <BusinessProvider initial={business}>

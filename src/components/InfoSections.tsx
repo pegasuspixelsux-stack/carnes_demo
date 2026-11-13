@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { ArrowUpRight, Check, ChevronDown, Send } from 'lucide-react';
+import { ArrowUpRight, Check, ChevronDown, Minus, Plus, Send } from 'lucide-react';
 
 const ORDER_BENEFITS: { title: string; who: string; text: string }[] = [
   {
@@ -223,7 +223,7 @@ export default function InfoSections() {
                     className="w-full flex items-center justify-between gap-4 py-3 text-left text-base md:text-lg font-semibold tracking-tight md:pointer-events-none md:cursor-default"
                   >
                     <span>{item.q}</span>
-                    <ChevronDown className={`w-5 h-5 shrink-0 md:hidden transition-transform ${open ? 'rotate-180' : ''}`} />
+                    {open ? <Minus className="w-5 h-5 shrink-0 md:hidden" aria-hidden="true" /> : <Plus className="w-5 h-5 shrink-0 md:hidden" aria-hidden="true" />}
                   </button>
                   <p id={`faq-a-${i}`} className={`${open ? 'block' : 'hidden'} md:block pb-3 md:pb-0 text-[#515154] font-light leading-relaxed`}>
                     {item.a}

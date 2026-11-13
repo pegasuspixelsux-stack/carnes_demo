@@ -1,8 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
+import { groupByCategory } from '@/src/utils/group';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, LayoutGrid, List, Plus, Search, SlidersHorizontal, Square, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { LayoutGrid, List, Plus, Search, SlidersHorizontal, Square, X } from 'lucide-react';
 import type { HomeProperty } from '@/src/lib/homeData';
 import { typeLabels } from '@/src/utils/format';
 import PropertyImage from '@/src/components/PropertyImage';
@@ -20,7 +22,7 @@ import InfoSections from '@/src/components/InfoSections';
 import SimilarItems, { type SimilarItem } from '@/src/components/SimilarItems';
 import BrandName from '@/src/components/BrandName';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 24; // products added each time "Ver 24 más" is pressed: 24, 48, 72, 96…
 
 type Sort = 'relevance' | 'price-asc' | 'price-desc' | 'name';
 type Availability = 'all' | 'in-stock' | 'on-sale';
@@ -60,6 +62,11 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
   const [maxPrice, setMaxPrice] = useState('');
   const [sort, setSort] = useState<Sort>('relevance');
   const [page, setPage] = useState(1);
+  const router = useRouter();
+  // On phones the homepage is the catalog: send anyone who lands here (links, bookmarks) to its grid.
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) router.replace(window.location.hash ? `/${window.location.hash}` : '/#properties');
+  }, [router]);
   const [filtersOpen, setFiltersOpen] = useState(false); // mobile only
 
   // Cart: shared with every page (see CartContext).
@@ -164,20 +171,12 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
       setPage(1);
     };
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
-  const pageStart = (currentPage - 1) * PAGE_SIZE;
-  const visible = filtered.slice(pageStart, pageStart + PAGE_SIZE);
-  const goToPage = (n: number) => {
-    setPage(n);
-    document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
-  };
-  const pageItems = Array.from({ length: totalPages }, (_, i) => i + 1)
-    .filter((n) => n === 1 || n === totalPages || Math.abs(n - currentPage) <= 1)
-    .flatMap((n, i, arr) => (i > 0 && n - arr[i - 1] > 1 ? ['gap' as const, n] : [n]));
+  // 24 products at first, then 24 more each time "Ver más" is pressed (24, 48, 72, 96…).
+  const shownCount = page * PAGE_SIZE;
+  const visible = groupByCategory(filtered).slice(0, shownCount);
 
   return (
-    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[#2E7D32] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
+    <div className="max-md:hidden min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
       {/* --- NAVIGATION --- */}
       <header className="sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
         <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
@@ -203,7 +202,8 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
           aria-label="Búsqueda avanzada"
           onSubmit={(e) => {
             e.preventDefault();
-            goToPage(1);
+            setPage(1);
+            document.getElementById("catalog")?.scrollIntoView({ behavior: "smooth" });
           }}
           className="w-full bg-white text-[#1D1D1F] rounded-2xl shadow-lg border border-[#000000]/5 p-3 md:p-4"
         >
@@ -380,7 +380,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
       </div>
 
       {/* --- ALL PRODUCTS: 4-column grid --- */}
-      <section id="catalog" className={`pt-4 md:pt-6 ${activeFilters === 0 && bestSellers.length > 0 ? 'pb-8 md:pb-12' : 'pb-32'} px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3`}>
+      <section id="catalog" className={`pt-4 md:pt-6 ${activeFilters === 0 && bestSellers.length > 0 ? 'pb-8 md:pb-12' : 'pb-32'} px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 max-md:bg-white max-md:rounded-3xl max-md:mt-3`}>
         <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6`}>
           {filtered.length === 0 && (
             <div className="col-span-full text-center text-[#515154] text-sm py-16">
@@ -390,9 +390,17 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
               </button>
             </div>
           )}
-          {visible.map((prop) => {
-            const soldOut = prop.inStock === false;
+          {visible.map((prop, idx) => {
+            const sectionLabel = (p: { type?: string | null; typeLabel?: string | null }) =>
+              p.typeLabel ?? typeLabels[p.type as string] ?? p.type ?? 'Otros';
+            const sectionHeading =
+              idx === 0 || visible[idx - 1].type !== prop.type ? (
+                <h3 className="col-span-full mt-4 first:mt-0 md:mt-6 text-xl md:text-2xl font-semibold tracking-tight">{sectionLabel(prop)}</h3>
+              ) : null;
+                        const soldOut = prop.inStock === false;
             return (
+            <Fragment key={String(prop.id)}>
+            {sectionHeading}
             <div key={prop.id}>
             <div className={layout === 'list' ? 'hidden md:block' : ''}>
             <div
@@ -496,55 +504,30 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
               </div>
             )}
             </div>
+            </Fragment>
             );
           })}
         </div>
+
+        {filtered.length > shownCount && (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setPage((p) => p + 1)}
+              className="inline-flex items-center justify-center rounded-full bg-[#2E7D32] text-white px-8 py-3 text-sm font-semibold hover:bg-[#2E7D32]/85 active:scale-95 transition-all"
+            >
+              Ver {PAGE_SIZE} más
+            </button>
+          </div>
+        )}
 
         {filtered.length > 0 && (
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-sm">
             <Link href="/" className="justify-self-center md:justify-self-start font-medium text-[#1D1D1F] hover:text-[#515154] transition-colors">
               ← Volver al inicio
             </Link>
-            <nav aria-label="Paginación" className={`justify-self-center flex items-center gap-1 ${totalPages < 2 ? 'invisible' : ''}`}>
-              <button
-                type="button"
-                onClick={() => goToPage(currentPage - 1)}
-                disabled={currentPage === 1}
-                aria-label="Página anterior"
-                className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#F5F5F7] disabled:opacity-30 disabled:hover:bg-transparent"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              {pageItems.map((n, i) =>
-                n === 'gap' ? (
-                  <span key={`gap-${i}`} aria-hidden="true" className="px-1 text-[#86868B]">…</span>
-                ) : (
-                  <button
-                    key={n}
-                    type="button"
-                    onClick={() => goToPage(n)}
-                    aria-label={`Página ${n}`}
-                    aria-current={n === currentPage ? 'page' : undefined}
-                    className={`w-9 h-9 rounded-full text-xs font-medium transition-colors ${
-                      n === currentPage ? 'bg-[#2E7D32] text-white' : 'hover:bg-[#F5F5F7]'
-                    }`}
-                  >
-                    {n}
-                  </button>
-                ),
-              )}
-              <button
-                type="button"
-                onClick={() => goToPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                aria-label="Página siguiente"
-                className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#F5F5F7] disabled:opacity-30 disabled:hover:bg-transparent"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </nav>
             <p className="justify-self-center md:justify-self-end text-xs text-[#515154]">
-              Mostrando {pageStart + 1}–{pageStart + visible.length} de {filtered.length} artículos
+              Mostrando {visible.length} de {filtered.length} artículos
             </p>
           </div>
         )}

@@ -101,7 +101,7 @@ export default async function ItemPage({ params }: Props) {
     <div className="relative min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] font-sans antialiased">
       <header className="absolute inset-x-0 top-0 z-30 text-white md:static md:text-[#1D1D1F] md:border-b md:border-[#000000]/5 md:bg-[#FBFBFD]">
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName /></Link>
+          <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName onDark /></Link>
           <SiteNavLinks />
           <div className="flex items-center gap-3">
             <WholesaleAccess glass />

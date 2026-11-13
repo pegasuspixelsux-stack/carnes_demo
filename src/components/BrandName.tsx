@@ -1,32 +1,22 @@
 'use client';
 
-import { useBusiness } from '@/src/context/BusinessContext';
-
 /** The Merkado logo, the orange (public/Merkado_L.png), used until another one is uploaded in Ajustes. */
 export const DEFAULT_LOGO = '/Merkado_L.png';
 
 /**
- * The logo (from Ajustes, or the default) next to the catalogue title: the name set in Ajustes, or the default
- * "Merkado para Mayoristas" (short "Merkado M" on phones). Inline content: put it inside the heading / link.
+ * The Fresco logo for the top nav (it already includes the name and "Desde 1998", so no title next to it).
+ * `onDark`: the nav sits on a dark photo on phones (item page), so phones get the white logo.
+ * Inline content: put it inside the heading / link.
  */
-export default function BrandName() {
-  const { businessName, logo } = useBusiness();
+export default function BrandName({ onDark = false }: { onDark?: boolean }) {
   return (
-    <span className="inline-flex items-center gap-2 sm:gap-2.5 align-middle whitespace-nowrap">
-      <span className="shrink-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logo || DEFAULT_LOGO} alt="" className="h-8 w-8 sm:h-9 sm:w-9 object-contain" />
-      </span>
-      <span>
-        {businessName ? (
-          <>{businessName}.</>
-        ) : (
-          <>
-            Merkado<span className="sm:hidden"> M</span>
-            <span className="hidden sm:inline"> para Mayoristas</span>.
-          </>
-        )}
-      </span>
+    <span className="inline-flex items-center align-middle">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/fresco_footer.png" alt="Fresco" className={`h-11 w-auto shrink-0 ${onDark ? 'max-md:hidden' : ''}`} />
+      {onDark && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src="/fresco_footer_white.png" alt="Fresco" className="md:hidden h-11 w-auto shrink-0" />
+      )}
     </span>
   );
 }

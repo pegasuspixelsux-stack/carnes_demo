@@ -4,6 +4,7 @@ import { useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
+  BarChart3,
   Building2,
   ClipboardList,
   Inbox,
@@ -29,6 +30,7 @@ const nav: { href: string; label: string; icon: typeof Users; exact?: boolean; a
   { href: '/dashboard', label: 'Resumen', icon: LayoutDashboard, exact: true },
   { href: '/dashboard/leads', label: 'Pedidos', icon: Inbox },
   { href: '/dashboard/daily-order', label: 'Pedido del día', icon: ClipboardList },
+  { href: '/dashboard/reports', label: 'Reportes', icon: BarChart3 },
   { href: '/dashboard/price-levels', label: 'Niveles de precio', icon: Percent },
   { href: '/dashboard/categories', label: 'Categorías', icon: Tags },
   { href: '/dashboard/properties', label: 'Artículos', icon: Building2 },

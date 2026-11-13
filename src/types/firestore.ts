@@ -137,7 +137,7 @@ export type PropertyUpdate = Partial<Omit<PropertyInput, 'agentId'>>;
 
 export type LeadChannel = 'WhatsApp' | 'Portal' | 'Direct';
 /** CRM pipeline stage. */
-export type LeadStatus = 'new' | 'contacted' | 'closed';
+export type LeadStatus = 'new' | 'contacted' | 'closed' | 'completed';
 
 export const PAYMENT_METHODS = ['house_account', 'card', 'cash'] as const;
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];

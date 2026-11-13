@@ -13,11 +13,20 @@ import { boxDescription } from '@/src/utils/pricing';
 import { modeOfLine } from '@/src/utils/orders';
 import { inputClass, labelClass } from '@/src/components/dashboard/ui';
 
-/** Order flow: Nuevo -> Aceptado (contacted) -> Confirmado (closed). */
+/** Order flow: Nuevo -> Aceptado (contacted) -> Confirmado (closed) -> Completado (completed). */
 export const orderStatusLabels: Record<LeadStatus, string> = {
   new: 'Nuevo',
   contacted: 'Aceptado',
   closed: 'Confirmado',
+  completed: 'Completado',
+};
+
+/** Status colors: new red, accepted yellow, confirmed green, completed blue. `chip` is the solid pill, `row` the list row. */
+export const orderStatusStyles: Record<LeadStatus, { chip: string; row: string }> = {
+  new: { chip: 'bg-red-600 text-white', row: 'bg-red-100 border-l-4 border-red-600' },
+  contacted: { chip: 'bg-yellow-400 text-yellow-950', row: 'bg-yellow-100 border-l-4 border-yellow-400' },
+  closed: { chip: 'bg-green-600 text-white', row: 'bg-green-100 border-l-4 border-green-600' },
+  completed: { chip: 'bg-blue-600 text-white', row: 'bg-blue-100 border-l-4 border-blue-600' },
 };
 
 const FIRESTORE_ID = /^[A-Za-z0-9]{20}$/;
@@ -333,7 +342,7 @@ export default function OrderModal({
           <div className="flex items-center gap-2 shrink-0">
             <span
               className={`rounded-full px-3 py-1.5 text-xs font-medium ${
-                status === 'new' ? 'bg-[#1D1D1F] text-white' : status === 'contacted' ? 'bg-amber-50 text-amber-700' : 'bg-green-50 text-green-700'
+                orderStatusStyles[status].chip
               }`}
             >
               {orderStatusLabels[status]}
@@ -430,11 +439,14 @@ export default function OrderModal({
           <button type="button" disabled={busy || !dirty} onClick={() => run(save, 'Cambios guardados.')} className="rounded-full bg-[#F5F5F7] px-5 py-2.5 text-sm font-medium hover:bg-[#E5E5EA] disabled:opacity-40 transition-colors">
             Guardar cambios
           </button>
-          <button type="button" disabled={busy || status !== 'new'} onClick={() => setStatus('contacted', 'Pedido aceptado.')} className="inline-flex items-center gap-1.5 rounded-full bg-amber-500 text-white px-5 py-2.5 text-sm font-medium hover:bg-amber-600 disabled:opacity-40 transition-colors">
+          <button type="button" disabled={busy || status !== 'new'} onClick={() => setStatus('contacted', 'Pedido aceptado.')} className="inline-flex items-center gap-1.5 rounded-full bg-yellow-400 text-yellow-950 px-5 py-2.5 text-sm font-medium hover:bg-yellow-500 disabled:opacity-40 transition-colors">
             <Check className="w-4 h-4" /> Aceptar
           </button>
-          <button type="button" disabled={busy || status === 'closed'} onClick={() => setStatus('closed', 'Pedido confirmado.')} className="inline-flex items-center gap-1.5 rounded-full bg-[#1D1D1F] text-white px-5 py-2.5 text-sm font-medium hover:bg-[#333336] disabled:opacity-40 transition-colors">
+          <button type="button" disabled={busy || status === 'closed' || status === 'completed'} onClick={() => setStatus('closed', 'Pedido confirmado.')} className="inline-flex items-center gap-1.5 rounded-full bg-green-600 text-white px-5 py-2.5 text-sm font-medium hover:bg-green-700 disabled:opacity-40 transition-colors">
             <CheckCheck className="w-4 h-4" /> Confirmar
+          </button>
+          <button type="button" disabled={busy || status !== 'closed'} onClick={() => setStatus('completed', 'Pedido completado.')} className="inline-flex items-center gap-1.5 rounded-full bg-blue-600 text-white px-5 py-2.5 text-sm font-medium hover:bg-blue-700 disabled:opacity-40 transition-colors">
+            <CheckCheck className="w-4 h-4" /> Completar
           </button>
           <button type="button" onClick={print} className="inline-flex items-center gap-1.5 rounded-full border border-[#000000]/10 px-5 py-2.5 text-sm font-medium hover:bg-[#F5F5F7] transition-colors sm:ml-auto">
             <Printer className="w-4 h-4" /> Imprimir hoja

@@ -305,6 +305,20 @@ export async function getLeads(maxResults = 100): Promise<Lead[]> {
   return snap.docs.map((d) => toLead(d.id, d.data()));
 }
 
+/** Leads placed in [startMs, endMs), newest first (agents only). Used by the reports page. */
+export async function getLeadsBetween(startMs: number, endMs: number, maxResults = 5000): Promise<Lead[]> {
+  const snap = await getDocs(
+    query(
+      collection(requireDb(), LEADS),
+      where('createdAt', '>=', new Date(startMs)),
+      where('createdAt', '<', new Date(endMs)),
+      orderBy('createdAt', 'desc'),
+      limitTo(maxResults)
+    )
+  );
+  return snap.docs.map((d) => toLead(d.id, d.data()));
+}
+
 export async function updateLeadStatus(leadId: string, status: LeadStatus): Promise<void> {
   await updateDoc(doc(requireDb(), LEADS, leadId), { status });
 }

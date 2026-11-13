@@ -15,7 +15,9 @@ import { orderStatusLabels } from '@/src/components/dashboard/OrderModal';
 
 const LIMIT = 500;
 const FIRESTORE_ID = /^[A-Za-z0-9]{20}$/;
-const ALL_STATUSES: LeadStatus[] = ['new', 'contacted', 'closed'];
+const ALL_STATUSES: LeadStatus[] = ['new', 'contacted', 'closed', 'completed'];
+/** Completed orders are already delivered, so they start unchecked in the buying list. */
+const DEFAULT_STATUSES: LeadStatus[] = ['new', 'contacted', 'closed'];
 
 type SortBy = 'total' | 'name' | 'category';
 
@@ -61,7 +63,7 @@ export default function DailyOrder() {
   const { leads: loaded, loading, error } = useLeads(LIMIT);
   const { labelFor } = useCategories();
   const [date, setDate] = useState(() => dayKey(Date.now()));
-  const [statuses, setStatuses] = useState<Set<LeadStatus>>(new Set(ALL_STATUSES));
+  const [statuses, setStatuses] = useState<Set<LeadStatus>>(new Set(DEFAULT_STATUSES));
   const [sortBy, setSortBy] = useState<SortBy>('total');
   const [buy, setBuy] = useState<Record<string, string>>({});
   const [marketNotes, setMarketNotes] = useState('');

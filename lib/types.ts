@@ -16,7 +16,7 @@ export type Listing = {
 
 export type ListingInput = Omit<Listing, 'id' | 'createdAt'>;
 
-export type LeadStatus = 'new' | 'contacted' | 'closed';
+export type LeadStatus = 'new' | 'contacted' | 'closed' | 'completed';
 
 export type Lead = {
   id: string;

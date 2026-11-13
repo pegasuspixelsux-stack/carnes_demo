@@ -21,7 +21,8 @@ export const orderKey = (l: Lead) =>
 function statusOf(lines: Lead[]): LeadStatus {
   if (lines.some((l) => l.status === 'new')) return 'new';
   if (lines.some((l) => l.status === 'contacted')) return 'contacted';
-  return 'closed';
+  if (lines.some((l) => l.status === 'closed')) return 'closed';
+  return 'completed';
 }
 
 /** Newest order first; keeps the order of `leads` (already newest first). */

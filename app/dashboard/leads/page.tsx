@@ -14,6 +14,7 @@ const filters: { value: LeadStatus | 'all'; label: string }[] = [
   { value: 'new', label: 'Nuevos' },
   { value: 'contacted', label: 'Aceptados' },
   { value: 'closed', label: 'Confirmados' },
+  { value: 'completed', label: 'Completados' },
 ];
 
 const LIMIT = 500;

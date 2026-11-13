@@ -29,7 +29,7 @@ import {
   LayoutGrid,
   List,
 } from 'lucide-react';
-import BrandName, { DEFAULT_LOGO } from '@/src/components/BrandName';
+import BrandName from '@/src/components/BrandName';
 import { useBusiness } from '@/src/context/BusinessContext';
 
 /** Greeting for the hour of the day on the visitor's device. */
@@ -168,8 +168,6 @@ export default function MerkadoHome({
   // A customer who logged in with Acceso mayoristas sees their price level; everyone else sees list prices.
   const { client, level, signOutClient, favorites } = useClient();
   const business = useBusiness();
-  const { logo } = business;
-  const heroLogo = business.heroLogo || logo;
   const allowLoose = client?.allowLoose ?? false;
   const properties = useMemo(() => applyBoxFirst(applyLevel(baseProperties, level), level, allowLoose), [baseProperties, level, allowLoose]);
   // Items with more than one way to buy (box / unit / kilo) need a choice, so their "+" opens the item page.
@@ -287,9 +285,9 @@ export default function MerkadoHome({
             className="absolute inset-0 bg-[var(--brand-bg,#2E7D32)] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
           />
           {/* Desktop only: the logo on the right column, over the overlay */}
-          <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-10 w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
+          <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-[calc(2.5rem+5%)] w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={heroLogo || DEFAULT_LOGO} alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
+            <img src="/fresco_footer_white.png" alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
           </div>
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
             <div className="md:hidden relative flex flex-col items-center text-center pt-[max(clamp(16px,4svh,32px),env(safe-area-inset-top))] pb-[clamp(8px,2svh,16px)]">

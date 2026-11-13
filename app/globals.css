@@ -91,3 +91,57 @@ html {
     background: rgb(255 255 255 / 0.12);
   }
 }
+
+/* Desktop: sections drawn on the brand green (Quiénes somos, Solicite su acceso), so dark text flips to white. */
+@media (min-width: 768px) {
+  .on-green-md {
+    color: #fff;
+  }
+  .on-green-md [class*="text-[#1D1D1F]"] {
+    color: #fff;
+  }
+  .on-green-md [class*="text-[#515154]"] {
+    color: rgb(255 255 255 / 0.85);
+  }
+  .on-green-md [class*="border-[#000000]/10"],
+  .on-green-md [class*="border-black/"] {
+    border-color: rgb(255 255 255 / 0.25);
+  }
+  .on-green-md input,
+  .on-green-md select,
+  .on-green-md textarea {
+    color: #1d1d1f;
+  }
+  .on-green-md li span[class*="bg-[#2E7D32]"] {
+    background: #fff;
+    color: #2e7d32;
+  }
+  /* A white card inside an on-green section keeps the normal dark colors */
+  .on-green-md .form-card {
+    color: #1d1d1f;
+  }
+  .on-green-md .form-card [class*="text-[#1D1D1F]"] {
+    color: #1d1d1f;
+  }
+  .on-green-md .form-card [class*="text-[#515154]"] {
+    color: #515154;
+  }
+  .on-green-md .form-card [class*="border-[#000000]/10"] {
+    border-color: rgb(0 0 0 / 0.1);
+  }
+  .on-green-md .form-card [class*="text-green-700"] {
+    color: #15803d;
+  }
+  .on-green-md .form-card [class*="text-red-600"] {
+    color: #dc2626;
+  }
+  .on-green-md [class*="text-green-700"] {
+    color: #fff;
+  }
+  .on-green-md [class*="text-red-600"] {
+    color: #ffd6d6;
+  }
+  .on-green-md [class*="hover:bg-black/5"]:hover {
+    background: rgb(255 255 255 / 0.12);
+  }
+}

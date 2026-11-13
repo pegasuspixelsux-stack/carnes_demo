@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClientProvider } from "@/src/context/ClientContext";
@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+// Colors the browser toolbar / status bar (Safari, Chrome on phones).
+export const viewport: Viewport = {
+  themeColor: "#2E7D32",
+};
 
 const DEFAULT_TITLE = "Merkado para Mayoristas";
 

@@ -62,8 +62,9 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
   const sidebar = (
     <div className="flex h-full flex-col">
       <div className="px-6 h-16 flex items-center justify-between shrink-0">
-        <Link href="/dashboard" className="font-semibold text-lg tracking-tight">
-          Merkado.
+        <Link href="/dashboard" aria-label="Fresco, inicio del panel" className="inline-flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/fresco_footer_white.png" alt="Fresco" className="h-11 w-auto" />
         </Link>
         <button
           onClick={() => setMenuOpen(false)}
@@ -73,7 +74,7 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
           <X className="w-4 h-4" />
         </button>
       </div>
-      <p className="px-6 pt-4 pb-2 text-xs uppercase tracking-widest text-white/60 font-semibold">Panel</p>
+      <p className="px-6 pt-4 pb-2 text-xs uppercase tracking-widest text-white/80 font-semibold">Panel</p>
       <nav className="px-3 space-y-1" aria-label="Panel">
         {nav.filter((n) => !n.adminOnly || agent?.role === 'admin').map(({ href, label, icon: Icon, exact }) => {
           const active = isActive(href, exact);
@@ -84,15 +85,13 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
               onClick={() => setMenuOpen(false)}
               aria-current={active ? 'page' : undefined}
               className={`flex items-center gap-3 px-4 py-2.5 rounded-full text-sm font-medium transition-colors ${
-                active ? 'bg-white text-black' : 'text-white/70 hover:bg-white/10 hover:text-white'
+                active ? 'bg-white/20 text-white' : 'text-white hover:bg-white/10'
               }`}
             >
-              <Icon className="w-4 h-4" /> {label}
+              <Icon className="w-4 h-4 text-yellow-300" /> {label}
               {href === '/dashboard/leads' && newLeads > 0 && (
                 <span
-                  className={`ml-auto text-xs px-2 py-0.5 rounded-full ${
-                    active ? 'bg-black text-white' : 'bg-white text-black'
-                  }`}
+                  className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-yellow-300 text-black"
                 >
                   {newLeads}
                 </span>
@@ -102,10 +101,10 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
         })}
       </nav>
       <div className="mt-auto p-6">
-        <Link href="/" className="text-xs text-white/70 hover:text-white">
+        <Link href="/" className="text-xs text-white hover:underline">
           ← Ver el sitio
         </Link>
-        <p className="mt-3 text-xs font-medium tracking-wide text-white/50">Merkado v2.0</p>
+        <p className="mt-3 text-xs font-medium tracking-wide text-white/70">MerkadoB2B v3.0</p>
       </div>
     </div>
   );
@@ -113,7 +112,7 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[#FBFBFD] text-[#1D1D1F] font-sans antialiased">
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block fixed inset-y-0 left-0 w-64 bg-black text-white">
+      <aside className="hidden lg:block fixed inset-y-0 left-0 w-64 bg-[var(--brand-bg,#2E7D32)] text-white">
         {sidebar}
       </aside>
 
@@ -126,7 +125,7 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
           }`}
         />
         <aside
-          className={`absolute left-0 top-0 h-full w-72 bg-black text-white shadow-2xl transition-transform duration-300 ${
+          className={`absolute left-0 top-0 h-full w-72 bg-[var(--brand-bg,#2E7D32)] text-white shadow-2xl transition-transform duration-300 ${
             menuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >

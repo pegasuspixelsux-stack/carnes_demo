@@ -33,14 +33,6 @@ body {
   }
 }
 
-/* Phones, homepage: the hero is white at the top, so the Safari top bar / overscroll area is white, green below. */
-@media (max-width: 767px) {
-  html:has([data-home-hero]),
-  html:has([data-home-hero]) body {
-    background: linear-gradient(to bottom, #fff 0, #fff 50vh, var(--brand-bg, #2e7d32) 50vh);
-  }
-}
-
 /* Anchor links land below the fixed header instead of hiding under it. */
 html {
   scroll-padding-top: 8rem;

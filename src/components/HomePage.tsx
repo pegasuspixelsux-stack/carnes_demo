@@ -284,7 +284,7 @@ export default function MerkadoHome({
           <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile-2.webp)' }} />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-white from-[82%] to-[var(--brand-bg,#2E7D32)] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
+            className="absolute inset-0 bg-[var(--brand-bg,#2E7D32)] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
           />
           {/* Desktop only: the logo on the right column, over the overlay */}
           <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-10 w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
@@ -294,7 +294,7 @@ export default function MerkadoHome({
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
             <div className="md:hidden relative flex flex-col items-center text-center pt-[max(2rem,env(safe-area-inset-top))] pb-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fresco_clear.png" alt="" aria-hidden="true" className="h-[min(100vw,clamp(288px,57svh,504px))] w-[min(100vw,clamp(288px,57svh,504px))] object-contain drop-shadow-lg" />
+            <img src="/fresco_logo_clear.png" alt="" aria-hidden="true" className="h-[min(100vw,clamp(288px,57svh,504px))] w-[min(100vw,clamp(288px,57svh,504px))] object-contain drop-shadow-lg" />
           </div>
             <div className="relative w-full px-6 md:px-10 pt-[clamp(16px,4svh,32px)] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
             <span className="max-md:hidden block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
@@ -308,7 +308,7 @@ export default function MerkadoHome({
                 </>
               )}
             </h1>
-            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-base md:text-base text-white/95 max-md:text-black font-normal leading-relaxed">
+            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-base md:text-base text-white/95 font-normal leading-relaxed">
               {business.heroText ||
                 'Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.'}
             </p>
@@ -359,7 +359,7 @@ export default function MerkadoHome({
               </a>
               )}
             </div>
-            <Link href="/cover" className="mt-6 md:mt-4 block text-center md:text-left text-sm md:text-xs text-white/70 hover:text-white max-md:text-black max-md:hover:text-black transition-colors">
+            <Link href="/cover" className="mt-6 md:mt-4 block text-center md:text-left text-sm md:text-xs text-white/70 hover:text-white transition-colors">
               MerkadoB2B v3.0
             </Link>
           </div>

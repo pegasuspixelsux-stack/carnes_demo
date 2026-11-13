@@ -249,7 +249,7 @@ export default function MerkadoHome({
       </header>
 
       <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
-        <section className="relative w-full max-md:min-h-svh max-md:flex max-md:flex-col max-md:justify-end max-md:rounded-none overflow-hidden rounded-3xl border border-[#2E7D32] bg-[#2E7D32] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
+        <section className="relative w-full max-md:min-h-[110svh] max-md:flex max-md:flex-col max-md:justify-end max-md:rounded-none overflow-hidden rounded-3xl border border-[#2E7D32] bg-[#2E7D32] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
           {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
           <div
             aria-hidden="true"
@@ -272,7 +272,7 @@ export default function MerkadoHome({
             <div className="md:hidden absolute top-0 inset-x-0 h-1/2 flex flex-col items-center justify-center text-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={logo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-72 w-72 object-contain drop-shadow-lg" />
-            <p className="mt-2 text-5xl font-semibold tracking-wide">FRESCO</p>
+            <p className="-mt-8 text-5xl font-semibold tracking-wide">FRESCO</p>
             <p className="text-sm tracking-widest text-white/80">Desde 1998</p>
           </div>
             <div className="relative w-full px-6 md:px-10 pt-5 pb-12 md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">

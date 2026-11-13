@@ -360,9 +360,9 @@ export default function MerkadoHome({
               </a>
               )}
             </div>
-            <Link href="/cover" className="mt-6 max-md:mt-auto max-md:pt-[clamp(24px,6svh,48px)] md:mt-4 block max-md:min-h-11 max-md:flex max-md:items-center max-md:justify-center text-center md:text-left text-[13px] md:text-xs text-white/70 hover:text-white transition-colors">
+            <p className="mt-6 max-md:mt-auto max-md:pt-[clamp(24px,6svh,48px)] md:mt-4 block max-md:min-h-11 max-md:flex max-md:items-center max-md:justify-center text-center md:text-left text-[13px] md:text-xs text-white/70">
               MerkadoB2B v3.0
-            </Link>
+            </p>
           </div>
         </section>
       </div>

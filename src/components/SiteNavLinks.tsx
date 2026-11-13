@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 export const navLinks = [
   { href: '/items', label: 'Catálogo' },
-  { href: '/cover', label: 'Cover' },
   { href: '/#vision', label: 'Quiénes somos' },
   { href: '/#faq', label: 'FAQ' },
   { href: '/#contact', label: 'Contacto' },

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { navLinks } from '@/src/components/SiteNavLinks';
+import { useClient } from '@/src/context/ClientContext';
 import { useBusiness } from '@/src/context/BusinessContext';
 import { socialLinks } from '@/src/components/SocialIcons';
 
@@ -12,6 +13,7 @@ export default function MobileNavMenu({ glass }: { glass?: boolean } = {}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const socials = socialLinks(useBusiness());
+  const { client, level, signOutClient } = useClient();
   const linkClass = 'block px-5 py-3 text-sm font-medium text-[#1D1D1F] hover:bg-[#F5F5F7]';
 
   useEffect(() => {
@@ -50,6 +52,21 @@ export default function MobileNavMenu({ glass }: { glass?: boolean } = {}) {
               {l.label}
             </Link>
           ))}
+          {client && level && (
+            <>
+              <hr className="my-2 mx-5 border-0 border-t border-[#000000]/10" />
+              <button
+                type="button"
+                onClick={() => {
+                  signOutClient();
+                  setOpen(false);
+                }}
+                className={`${linkClass} w-full text-left`}
+              >
+                Cerrar sesión
+              </button>
+            </>
+          )}
           {socials.length > 0 && (
             <>
               <hr className="my-2 mx-5 border-0 border-t border-[#000000]/10" />

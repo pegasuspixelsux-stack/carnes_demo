@@ -3,12 +3,15 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Heart, KeyRound, LogOut, X } from 'lucide-react';
 import { OPEN_CLIENT_LOGIN } from '@/src/components/SignInNotice';
 import { useClient, type TokenResult } from '@/src/context/ClientContext';
 
 const fieldClass =
   'w-full bg-[#FBFBFD] border border-[#000000]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1D1D1F] transition-colors';
+
+const PHONE_KEY = 'merkado:remembered-phone';
 
 const errors: Record<Exclude<TokenResult, 'ok'>, string> = {
   invalid: 'El teléfono o la contraseña/PIN no coinciden. Revisalos o pedile tu acceso a Merkado.',
@@ -27,15 +30,30 @@ export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [remember, setRemember] = useState(false);
+  const router = useRouter();
+  // Set when the modal was opened by a button that should continue to a page after signing in.
+  const [redirectTo, setRedirectTo] = useState<string | null>(null);
 
   useEffect(() => {
-    const show = () => {
+    const show = (e: Event) => {
+      setRedirectTo((e as CustomEvent<{ redirect?: string }>).detail?.redirect ?? null);
       setError(null);
       setOpen(true);
     };
     window.addEventListener(OPEN_CLIENT_LOGIN, show);
     return () => window.removeEventListener(OPEN_CLIENT_LOGIN, show);
   }, []);
+
+  // Prefill the remembered phone each time the modal opens.
+  useEffect(() => {
+    if (!open) return;
+    try {
+      const saved = localStorage.getItem(PHONE_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- load the saved phone when the dialog opens
+      if (saved) { setPhone(saved); setRemember(true); }
+    } catch {}
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -86,7 +104,12 @@ export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
     const result = await login(phone, code);
     setBusy(false);
     if (result === 'ok') {
+      try {
+        if (remember) localStorage.setItem(PHONE_KEY, phone.trim());
+        else localStorage.removeItem(PHONE_KEY);
+      } catch {}
       setOpen(false);
+      if (redirectTo) router.push(redirectTo);
       setPhone('');
       setCode('');
     } else {
@@ -99,6 +122,7 @@ export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
       <button
         type="button"
         onClick={() => {
+          setRedirectTo(null);
           setError(null);
           setOpen(true);
         }}
@@ -130,6 +154,10 @@ export default function WholesaleAccess({ glass }: { glass?: boolean } = {}) {
                 <label htmlFor="wa-code" className="block text-xs uppercase tracking-wider font-semibold text-[#515154] mb-2">Contraseña o PIN</label>
                 <input id="wa-code" value={code} onChange={(e) => setCode(e.target.value)} autoCapitalize="characters" autoComplete="off" spellCheck={false} placeholder="Contraseña o PIN" className={`${fieldClass} uppercase tracking-widest`} />
               </div>
+              <label className="flex items-center gap-2 text-sm text-[#515154] cursor-pointer select-none">
+                <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="w-4 h-4 accent-[#2E7D32]" />
+                Recordar mi teléfono
+              </label>
               {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
               <button type="submit" disabled={busy} className="w-full bg-[#1D1D1F] text-white py-3.5 rounded-full text-sm font-medium hover:bg-[#333336] transition-all disabled:opacity-50">
                 {busy ? 'Verificando…' : 'Ingresar'}

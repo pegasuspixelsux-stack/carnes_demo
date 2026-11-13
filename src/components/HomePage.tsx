@@ -10,6 +10,7 @@ import InfoSections from '@/src/components/InfoSections';
 import PropertyImage from '@/src/components/PropertyImage';
 import CartButton from '@/src/components/CartButton';
 import { useCart } from '@/src/context/CartContext';
+import { OPEN_CLIENT_LOGIN } from '@/src/components/SignInNotice';
 import WholesaleAccess from '@/src/components/WholesaleAccess';
 import FavoriteButton from '@/src/components/FavoriteButton';
 import SiteNavLinks from '@/src/components/SiteNavLinks';
@@ -157,7 +158,7 @@ export default function MerkadoHome({
       : fallbackProperties.map((p) => ({ ...p, href: `/items/sample-${p.id}` })),
   );
   // A customer who logged in with Acceso mayoristas sees their price level; everyone else sees list prices.
-  const { client, level } = useClient();
+  const { client, level, signOutClient } = useClient();
   const { logo } = useBusiness();
   const allowLoose = client?.allowLoose ?? false;
   const properties = useMemo(() => applyBoxFirst(applyLevel(baseProperties, level), level, allowLoose), [baseProperties, level, allowLoose]);
@@ -230,7 +231,7 @@ export default function MerkadoHome({
     <div className="min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
 
       {/* --- NAVIGATION --- */}
-      <header className="sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
+      <header className="hidden md:block sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
         <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
           <span className="md:hidden">Precios de mercado válidos por el día</span>
           <span className="hidden md:inline lg:hidden">Precios de mercado válidos por el día. Pueden cambiar en pedidos para el día siguiente.</span>
@@ -247,8 +248,92 @@ export default function MerkadoHome({
         </div>
       </header>
 
-      {/* --- HERO: one fixed unit (no carousel) --- */}
-      <section id="search" className="px-3 md:px-6 pt-0 md:pt-2 max-w-[1440px] mx-auto">
+      <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
+        <section className="relative w-full max-md:min-h-svh max-md:flex max-md:flex-col max-md:justify-end max-md:rounded-none overflow-hidden rounded-3xl border border-[#2E7D32] bg-[#2E7D32] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
+          {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-cover bg-center hidden md:block"
+            style={{
+              backgroundImage:
+                'url(https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=2000&auto=format&fit=crop)',
+            }}
+          />
+          <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile.webp)' }} />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[#2E7D32] md:bg-transparent md:bg-gradient-to-r md:from-[#2E7D32] md:from-[55%] md:via-[#2E7D32]/55 md:via-[80%] md:to-transparent"
+          />
+          {/* Desktop only: the logo on the right column, over the overlay */}
+          <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-10 w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={logo || DEFAULT_LOGO} alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
+          </div>
+            <div className="md:hidden absolute top-0 inset-x-0 h-1/2 flex flex-col items-center justify-center text-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={logo || DEFAULT_LOGO} alt="" aria-hidden="true" className="h-72 w-72 object-contain drop-shadow-lg" />
+            <p className="mt-2 text-5xl font-semibold tracking-wide">FRESCO</p>
+            <p className="text-sm tracking-widest text-white/80">Desde 1998</p>
+          </div>
+            <div className="relative w-full px-6 md:px-10 pt-5 pb-5 md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
+            <span className="block w-fit max-md:mx-auto md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
+              Distribución hortifrutícola B2B
+            </span>
+            <h1 className="mt-4 max-w-6xl text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]">
+              El distribuidor hortifrutícola para
+              <br className="hidden md:block" /> la gastronomía de Punta del Este.
+            </h1>
+            <p className="mt-3 max-w-2xl text-xs sm:text-sm md:text-base text-white/95 font-normal leading-relaxed">
+              Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el
+              mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.
+            </p>
+            <div className="mt-5 md:mt-6 flex flex-col sm:flex-row gap-2.5">
+              {client && level ? (
+                <div className="flex flex-col sm:flex-row gap-2.5">
+                  <Link
+                    href="/items"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] px-6 py-2.5 text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all"
+                  >
+                    <span className="truncate max-w-56">Catálogo · {client.businessName}</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={signOutClient}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                  >
+                    Cerrar sesión
+                  </button>
+                </div>
+              ) : (
+              <Link
+                href="/items"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: '/items' } }));
+                }}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] px-6 py-2.5 text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all"
+              >
+                <span>Acceso al Catálogo Mayorista</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+              )}
+              {!(client && level) && (
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+              >
+                <KeyRound className="w-4 h-4" />
+                <span>Solicitar acceso mayorista</span>
+              </a>
+              )}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* --- SEARCH (below the hero) --- */}
+      <section id="search" className="px-3 md:px-6 pt-3 md:pt-4 max-w-[1440px] mx-auto">
         <form
           role="search"
           onSubmit={(e) => {
@@ -282,60 +367,7 @@ export default function MerkadoHome({
         </form>
       </section>
 
-      <div className="max-w-[1440px] mx-auto px-3 md:px-6 pt-3 md:pt-4">
-        <section className="relative w-full overflow-hidden rounded-3xl border border-[#2E7D32] bg-[#2E7D32] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
-          {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-cover bg-center hidden md:block"
-            style={{
-              backgroundImage:
-                'url(https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=2000&auto=format&fit=crop)',
-            }}
-          />
-          <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile.webp)' }} />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[#2E7D32] md:bg-transparent md:bg-gradient-to-r md:from-[#2E7D32] md:from-[55%] md:via-[#2E7D32]/55 md:via-[80%] md:to-transparent"
-          />
-          {/* Desktop only: the logo on the right column, over the overlay */}
-          <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-10 w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logo || DEFAULT_LOGO} alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
-          </div>
-            <div className="relative w-full px-6 md:px-10 pt-5 pb-5 md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
-            <span className="inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
-              Distribución hortifrutícola B2B
-            </span>
-            <h1 className="mt-4 max-w-6xl text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]">
-              El distribuidor hortifrutícola para
-              <br className="hidden md:block" /> la gastronomía de Punta del Este.
-            </h1>
-            <p className="mt-3 max-w-2xl text-xs sm:text-sm md:text-base text-white/95 font-normal leading-relaxed">
-              Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el
-              mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.
-            </p>
-            <div className="mt-5 md:mt-6 flex flex-col sm:flex-row gap-2.5">
-              <Link
-                href="/items"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] px-6 py-2.5 text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all"
-              >
-                <span>Acceso al Catálogo Mayorista</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
-              >
-                <KeyRound className="w-4 h-4" />
-                <span>Solicitar acceso mayorista</span>
-              </a>
-            </div>
-          </div>
-        </section>
-      </div>
 
-      {/* --- SEARCH BAR --- */}
 
       {/* --- BODY: PROPERTY BENTO GRID --- */}
       <section id="properties" className="pt-5 md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto">

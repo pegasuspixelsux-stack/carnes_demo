@@ -284,7 +284,7 @@ export default function MerkadoHome({
           <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile-2.webp)' }} />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-white from-[45%] to-[var(--brand-bg,#2E7D32)] to-[95%] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
+            className="absolute inset-0 bg-gradient-to-b from-white from-[82%] to-[var(--brand-bg,#2E7D32)] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
           />
           {/* Desktop only: the logo on the right column, over the overlay */}
           <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-10 w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
@@ -323,7 +323,7 @@ export default function MerkadoHome({
                         document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] px-6 py-2.5 max-md:min-h-12 text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
                   >
                     <span className="truncate max-w-56">Catálogo · {client.businessName}</span>
                     <ArrowUpRight className="w-4 h-4" />
@@ -331,7 +331,7 @@ export default function MerkadoHome({
                   <button
                     type="button"
                     onClick={signOutClient}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 px-6 py-2.5 max-md:min-h-12 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[var(--brand-bg,#2E7D32)] max-md:bg-transparent max-md:text-[var(--brand-bg,#2E7D32)] px-6 py-2.5 max-md:min-h-12 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
                   >
                     Cerrar sesión
                   </button>
@@ -343,7 +343,7 @@ export default function MerkadoHome({
                   e.preventDefault();
                   window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: window.matchMedia('(max-width: 767px)').matches ? '/#properties' : '/items' } }));
                 }}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] px-6 py-2.5 max-md:min-h-12 text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
               >
                 <span>Acceso al Catálogo Mayorista</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -352,7 +352,7 @@ export default function MerkadoHome({
               {!(client && level) && (
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 px-6 py-2.5 max-md:min-h-12 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[#1D1D1F]/15 max-md:bg-white max-md:text-[#1D1D1F] max-md:shadow-sm px-6 py-2.5 max-md:min-h-12 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
               >
                 <KeyRound className="w-4 h-4" />
                 <span>Solicitar acceso mayorista</span>

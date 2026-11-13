@@ -333,7 +333,7 @@ export default function MerkadoHome({
       </div>
 
       {/* --- SEARCH (below the hero) --- */}
-      <section id="search" className="px-3 md:px-6 pt-3 md:pt-4 max-w-[1440px] mx-auto">
+      <section id="search" className="px-3 md:px-6 pt-8 md:pt-4 max-w-[1440px] mx-auto">
         <form
           role="search"
           onSubmit={(e) => {

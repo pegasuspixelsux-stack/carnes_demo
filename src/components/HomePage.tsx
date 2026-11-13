@@ -228,7 +228,7 @@ export default function MerkadoHome({
 
 
   return (
-    <div className="min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
+    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[#2E7D32] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
 
       {/* --- NAVIGATION --- */}
       <header className="hidden md:block sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
@@ -370,7 +370,7 @@ export default function MerkadoHome({
 
 
       {/* --- BODY: PROPERTY BENTO GRID --- */}
-      <section id="properties" className="pt-5 md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto">
+      <section id="properties" className="pt-5 md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3">
         <div className="flex items-center gap-2 mb-6">
         {categories.length > 0 ? (
           <div

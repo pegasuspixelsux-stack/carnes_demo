@@ -149,7 +149,7 @@ export default function InfoSections() {
   return (
     <>
       {/* --- WHO WE ARE --- */}
-      <section id="vision" className={`pt-0 ${openVision ? 'pb-14' : 'pb-0'} md:pt-8 md:pb-36 px-6 max-w-[1440px] mx-auto`}>
+      <section id="vision" className={`pt-0 ${openVision ? 'pb-14' : 'pb-0'} md:pt-8 md:pb-36 px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3 max-md:py-2`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
           <div className="md:space-y-6 [container-type:inline-size]">
             <h2 className="hidden md:block text-xs uppercase tracking-widest text-[#515154] font-semibold">Quiénes somos</h2>
@@ -194,7 +194,7 @@ export default function InfoSections() {
       </section>
 
       {/* --- FAQ: 10 questions. Phones: the whole section collapses, and each answer opens on tap --- */}
-      <section id="faq" className={`${openFaqSection ? 'pt-0 pb-12' : 'pb-0'} md:pt-0 md:pb-44 px-6 max-w-[1440px] mx-auto`}>
+      <section id="faq" className={`${openFaqSection ? 'pt-0 pb-12' : 'pb-0'} md:pt-0 md:pb-44 px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3 max-md:py-2`}>
         <button
           type="button"
           onClick={() => setOpenFaqSection((o) => !o)}
@@ -236,7 +236,7 @@ export default function InfoSections() {
       </section>
 
       {/* --- CALL TO ACTION & CONTACT FORM --- */}
-      <section id="contact" className={`${openContact ? 'pt-0 pb-12' : 'py-0'} md:py-44 bg-[#F2F2F7] border-t border-b border-[#000000]/5`}>
+      <section id="contact" className={`${openContact ? 'pt-0 pb-12' : 'py-0'} md:py-44 bg-[#F2F2F7] border-t border-b border-[#000000]/5 max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3 max-md:border-0 max-md:py-2`}>
         <div className="max-w-[1440px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
           {/* Left Column: wholesale pitch + company data */}

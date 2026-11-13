@@ -98,7 +98,7 @@ export default async function ItemPage({ params }: Props) {
     }));
 
   return (
-    <div className="relative min-h-screen bg-[#FBFBFD] text-[#1D1D1F] font-sans antialiased">
+    <div className="relative min-h-screen bg-[#FBFBFD] max-md:bg-[#2E7D32] text-[#1D1D1F] font-sans antialiased">
       <header className="absolute inset-x-0 top-0 z-30 text-white md:static md:text-[#1D1D1F] md:border-b md:border-[#000000]/5 md:bg-[#FBFBFD]">
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName /></Link>
@@ -111,7 +111,7 @@ export default async function ItemPage({ params }: Props) {
         </div>
       </header>
 
-      <main className="max-w-[1440px] mx-auto px-6 pt-10 pb-2 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 items-start">
+      <main className="max-md:bg-[#FBFBFD] max-w-[1440px] mx-auto px-6 pt-10 pb-2 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 items-start">
         {/* Mobile hero: full-bleed image, vertical gradient overlay, product info on top of it */}
         <SwipeSection prevHref={prevHref} nextHref={nextHref} className="md:hidden relative -mx-6 -mt-10 min-h-[100svh] flex flex-col justify-end overflow-hidden bg-[#FBFBFD]">
           {photo && (

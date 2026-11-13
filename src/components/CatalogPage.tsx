@@ -177,7 +177,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
     .flatMap((n, i, arr) => (i > 0 && n - arr[i - 1] > 1 ? ['gap' as const, n] : [n]));
 
   return (
-    <div className="min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
+    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[#2E7D32] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
       {/* --- NAVIGATION --- */}
       <header className="sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
         <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
@@ -331,7 +331,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
       </section>
 
       {/* Category buttons (and, on phones, the layout selector) below the hero, like the homepage */}
-      <div className="max-w-[1440px] mx-auto px-3 md:px-6 mt-3 md:mt-4">
+      <div className="max-w-[1440px] mx-auto px-3 md:px-6 mt-3 md:mt-4 max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:py-3">
         <div className="flex items-center gap-2">
           <div
             role="group"
@@ -380,7 +380,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
       </div>
 
       {/* --- ALL PRODUCTS: 4-column grid --- */}
-      <section id="catalog" className={`pt-4 md:pt-6 ${activeFilters === 0 && bestSellers.length > 0 ? 'pb-8 md:pb-12' : 'pb-32'} px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32`}>
+      <section id="catalog" className={`pt-4 md:pt-6 ${activeFilters === 0 && bestSellers.length > 0 ? 'pb-8 md:pb-12' : 'pb-32'} px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3`}>
         <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6`}>
           {filtered.length === 0 && (
             <div className="col-span-full text-center text-[#515154] text-sm py-16">

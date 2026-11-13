@@ -111,7 +111,7 @@ export default async function ItemPage({ params }: Props) {
         </div>
       </header>
 
-      <main className="max-md:bg-[#FBFBFD] max-w-[1440px] mx-auto px-6 pt-10 pb-2 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 items-start">
+      <main className="max-md:bg-[#FBFBFD] max-w-[1440px] mx-auto px-6 pt-10 pb-0 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 items-start">
         {/* Mobile hero: full-bleed image, vertical gradient overlay, product info on top of it */}
         <SwipeSection prevHref={prevHref} nextHref={nextHref} className="md:hidden relative -mx-6 -mt-10 min-h-[100svh] flex flex-col justify-end overflow-hidden bg-[#FBFBFD]">
           {photo && (

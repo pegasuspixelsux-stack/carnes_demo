@@ -332,45 +332,39 @@ export default function MerkadoHome({
         </section>
       </div>
 
-      {/* --- SEARCH (below the hero) --- */}
-      <section id="search" className="px-3 md:px-6 pt-8 md:pt-4 max-w-[1440px] mx-auto">
-        <form
-          role="search"
-          onSubmit={(e) => {
-            e.preventDefault();
-            document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' });
-          }}
-          className="w-full md:w-3/4 mx-auto bg-white rounded-2xl shadow-lg border border-[#000000]/5 p-3 flex flex-col gap-3"
-        >
-          <div className="flex items-center gap-2 pl-3">
-            <Search className="hidden md:block w-5 h-5 text-[#515154] shrink-0" />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setPage(1);
-              }}
-              placeholder="Buscá por nombre, categoría o precio…"
-              aria-label="Buscar artículos por nombre, categoría o precio"
-              className="min-w-0 flex-1 bg-transparent px-2 md:px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-[#86868B] outline-none"
-            />
-            <button
-              type="submit"
-              aria-label="Buscar"
-              className="shrink-0 bg-[#2E7D32] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#2E7D32]/85 transition-all flex items-center justify-center"
-            >
-              <Search className="w-4 h-4 md:hidden" />
-              <span className="hidden md:inline">Buscar</span>
-            </button>
-          </div>
-        </form>
-      </section>
-
-
-
       {/* --- BODY: PROPERTY BENTO GRID --- */}
       <section id="properties" className="pt-5 md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:mt-3">
+        <form
+            role="search"
+            onSubmit={(e) => {
+              e.preventDefault();
+              document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="w-full md:w-3/4 mx-auto mb-5 md:mb-8 bg-white rounded-2xl shadow-lg border border-[#000000]/5 p-3 flex flex-col gap-3"
+          >
+            <div className="flex items-center gap-2 pl-3">
+              <Search className="hidden md:block w-5 h-5 text-[#515154] shrink-0" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setPage(1);
+                }}
+                placeholder="Buscá por nombre, categoría o precio…"
+                aria-label="Buscar artículos por nombre, categoría o precio"
+                className="min-w-0 flex-1 bg-transparent px-2 md:px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-[#86868B] outline-none"
+              />
+              <button
+                type="submit"
+                aria-label="Buscar"
+                className="shrink-0 bg-[#2E7D32] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#2E7D32]/85 transition-all flex items-center justify-center"
+              >
+                <Search className="w-4 h-4 md:hidden" />
+                <span className="hidden md:inline">Buscar</span>
+              </button>
+            </div>
+          </form>
         <div className="flex items-center gap-2 mb-6">
         {categories.length > 0 ? (
           <div

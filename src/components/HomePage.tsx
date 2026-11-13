@@ -328,6 +328,9 @@ export default function MerkadoHome({
               </a>
               )}
             </div>
+            <Link href="/cover" className="mt-4 inline-block text-xs text-white/70 hover:text-white transition-colors">
+              MerkadoB2B v3.0
+            </Link>
           </div>
         </section>
       </div>

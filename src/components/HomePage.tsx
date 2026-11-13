@@ -292,11 +292,11 @@ export default function MerkadoHome({
             <img src={heroLogo || DEFAULT_LOGO} alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
           </div>
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
-            <div className="md:hidden relative flex flex-col items-center text-center pt-[max(2rem,env(safe-area-inset-top))] pb-4">
+            <div className="md:hidden relative flex flex-col items-center text-center pt-[max(clamp(16px,4svh,32px),env(safe-area-inset-top))] pb-[clamp(8px,2svh,16px)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/fresco_logo_clear.png" alt="" aria-hidden="true" className="h-[min(100vw,clamp(288px,57svh,504px))] w-[min(100vw,clamp(288px,57svh,504px))] object-contain drop-shadow-lg" />
           </div>
-            <div className="relative w-full px-6 md:px-10 pt-[clamp(16px,4svh,32px)] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
+            <div className="relative w-full max-md:flex-1 px-5 md:px-10 pt-[clamp(16px,4svh,32px)] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
             <span className="max-md:hidden block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
               {business.heroEyebrow || 'Distribución hortifrutícola B2B'}
             </span>
@@ -308,7 +308,7 @@ export default function MerkadoHome({
                 </>
               )}
             </h1>
-            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-base md:text-base text-white/95 font-normal leading-relaxed">
+            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-[17px] max-md:leading-[1.4] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed">
               {business.heroText ||
                 'Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.'}
             </p>
@@ -323,7 +323,7 @@ export default function MerkadoHome({
                         document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
                   >
                     <span className="truncate max-w-56">Catálogo · {client.businessName}</span>
                     <ArrowUpRight className="w-4 h-4" />
@@ -331,7 +331,7 @@ export default function MerkadoHome({
                   <button
                     type="button"
                     onClick={signOutClient}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[var(--brand-bg,#2E7D32)] max-md:bg-transparent max-md:text-[var(--brand-bg,#2E7D32)] px-6 py-2.5 max-md:min-h-12 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[var(--brand-bg,#2E7D32)] max-md:bg-transparent max-md:text-[var(--brand-bg,#2E7D32)] px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
                   >
                     Cerrar sesión
                   </button>
@@ -343,7 +343,7 @@ export default function MerkadoHome({
                   e.preventDefault();
                   window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: window.matchMedia('(max-width: 767px)').matches ? '/#properties' : '/items' } }));
                 }}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
               >
                 <span>Acceso al Catálogo Mayorista</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -352,14 +352,14 @@ export default function MerkadoHome({
               {!(client && level) && (
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[#1D1D1F]/15 max-md:bg-white max-md:text-[#1D1D1F] max-md:shadow-sm px-6 py-2.5 max-md:min-h-12 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[#1D1D1F]/15 max-md:bg-white max-md:text-[#1D1D1F] max-md:shadow-sm px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
               >
                 <KeyRound className="w-4 h-4" />
                 <span>Solicitar acceso mayorista</span>
               </a>
               )}
             </div>
-            <Link href="/cover" className="mt-6 md:mt-4 block text-center md:text-left text-sm md:text-xs text-white/70 hover:text-white transition-colors">
+            <Link href="/cover" className="mt-6 max-md:mt-auto max-md:pt-[clamp(24px,6svh,48px)] md:mt-4 block max-md:min-h-11 max-md:flex max-md:items-center max-md:justify-center text-center md:text-left text-[13px] md:text-xs text-white/70 hover:text-white transition-colors">
               MerkadoB2B v3.0
             </Link>
           </div>
@@ -367,12 +367,12 @@ export default function MerkadoHome({
       </div>
 
       {/* --- BODY: PROPERTY BENTO GRID --- */}
-      <section id="properties" className="scroll-mt-4 pt-5 md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mt-3">
+      <section id="properties" className="scroll-mt-4 pt-[clamp(16px,3svh,24px)] md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mt-[clamp(8px,1.5svh,16px)]">
         {/* Phones: the catalog is this page. Signed in: a greeting with a log-out arrow; signed out: the login link */}
-        <div className="md:hidden flex flex-col items-center gap-3 mb-4 text-center">
+        <div className="md:hidden flex flex-col items-center gap-2 mb-[clamp(16px,2.5svh,24px)] text-center">
           {client && level ? (
             <>
-              <p className="text-3xl font-semibold tracking-tight leading-tight text-[#1D1D1F] text-balance">
+              <p className="text-[clamp(24px,7.5vw,28px)] font-semibold tracking-[-0.02em] leading-[1.15] text-[#1D1D1F] text-balance">
                 {greeting()}, {(client.contactName || client.businessName).split(' ')[0]}
               </p>
               <div className="flex items-center gap-2">
@@ -428,7 +428,7 @@ export default function MerkadoHome({
                 }}
                 placeholder="Buscá por nombre, categoría o precio…"
                 aria-label="Buscar artículos por nombre, categoría o precio"
-                className="min-w-0 flex-1 bg-transparent px-2 md:px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-[#86868B] outline-none"
+                className="min-w-0 flex-1 bg-transparent px-2 md:px-4 py-3 text-base md:text-sm text-[#1D1D1F] placeholder:text-[#86868B] outline-none"
               />
               <button
                 type="submit"
@@ -458,7 +458,7 @@ export default function MerkadoHome({
                     setPage(1);
                   }}
                   aria-pressed={active}
-                  className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-medium transition-colors ${
+                  className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 max-md:min-h-10 text-xs max-md:text-[15px] font-medium transition-colors ${
                     active ? 'bg-[#2E7D32] text-white' : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
                   }`}
                 >
@@ -483,7 +483,7 @@ export default function MerkadoHome({
                 aria-pressed={layout === value}
                 aria-label={label}
                 title={label}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                className={`w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-colors ${
                   layout === value ? 'bg-[#2E7D32] text-white' : 'text-[#515154] hover:bg-[#E8E8ED]'
                 }`}
               >
@@ -503,7 +503,7 @@ export default function MerkadoHome({
               p.typeLabel ?? typeLabels[p.type as string] ?? p.type ?? 'Otros';
             const sectionHeading =
               idx === 0 || visibleProperties[idx - 1].type !== prop.type ? (
-                <h3 className="col-span-full mt-4 first:mt-0 md:mt-6 text-xl md:text-2xl font-semibold tracking-tight">{sectionLabel(prop)}</h3>
+                <h3 className="col-span-full mt-6 first:mt-0 md:mt-6 text-[22px] md:text-2xl font-semibold tracking-[-0.02em] leading-tight">{sectionLabel(prop)}</h3>
               ) : null;
                         const cardClass =
               `group relative ${layout === 'one' ? 'aspect-[4/3] md:aspect-square' : 'aspect-square'} rounded-2xl overflow-hidden bg-[#E5E5EA] flex flex-col justify-end p-3 md:p-5 transition-transform duration-500 hover:-translate-y-1`;
@@ -654,7 +654,7 @@ export default function MerkadoHome({
             <button
               type="button"
               onClick={() => setPage((p) => p + 1)}
-              className="inline-flex items-center justify-center rounded-full bg-[#2E7D32] text-white px-8 py-3 text-sm font-semibold hover:bg-[#2E7D32]/85 active:scale-95 transition-all"
+              className="inline-flex items-center justify-center rounded-full bg-[#2E7D32] text-white px-8 py-3 max-md:min-h-12 text-sm max-md:text-[17px] font-semibold hover:bg-[#2E7D32]/85 active:scale-95 transition-all"
             >
               Ver {PAGE_SIZE} más
             </button>

@@ -62,6 +62,25 @@ html {
     background: #fff;
     color: #2e7d32;
   }
+  /* A white card inside an on-green section keeps the normal dark colors */
+  .on-green .form-card {
+    color: #1d1d1f;
+  }
+  .on-green .form-card [class*="text-[#1D1D1F]"] {
+    color: #1d1d1f;
+  }
+  .on-green .form-card [class*="text-[#515154]"] {
+    color: #515154;
+  }
+  .on-green .form-card [class*="border-[#000000]/10"] {
+    border-color: rgb(0 0 0 / 0.1);
+  }
+  .on-green .form-card [class*="text-green-700"] {
+    color: #15803d;
+  }
+  .on-green .form-card [class*="text-red-600"] {
+    color: #dc2626;
+  }
   .on-green [class*="text-green-700"] {
     color: #fff;
   }

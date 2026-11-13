@@ -153,6 +153,9 @@ const fallbackProperties: HomeProperty[] = [
 ];
 
 
+/** Favorites are stored by id; the built-in samples (numeric ids) are saved as "sample-N", like their item page. */
+const favoriteIdOf = (id: number | string) => (typeof id === 'string' ? id : `sample-${id}`);
+
 export default function MerkadoHome({
   initialProperties = [],
 }: {
@@ -532,7 +535,7 @@ export default function MerkadoHome({
 
               {/* Quick order: adds the item and opens the cart to send it */}
               <div className="absolute top-3 right-3 md:top-5 md:right-5 z-10 flex items-center gap-1.5">
-                {typeof prop.id === 'string' && <FavoriteButton productId={prop.id} title={prop.title} className="w-8 h-8" />}
+                <FavoriteButton productId={favoriteIdOf(prop.id)} title={prop.title} className="w-8 h-8" />
                 {variableIds.has(String(prop.id)) && prop.href ? (
                   <a
                     href={prop.href}
@@ -613,9 +616,7 @@ export default function MerkadoHome({
                       </p>
                     </div>
                     <div className="relative z-10 flex flex-col items-end gap-1.5 shrink-0">
-                      {typeof prop.id === 'string' && (
-                        <FavoriteButton productId={prop.id} title={prop.title} className="w-8 h-8 border border-[#000000]/5" />
-                      )}
+                      <FavoriteButton productId={favoriteIdOf(prop.id)} title={prop.title} className="w-8 h-8 border border-[#000000]/5" />
                       {variableIds.has(String(prop.id)) && prop.href ? (
                         <a
                           href={prop.href}

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Heart, Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react';
+import { ArrowLeft, Heart, Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react';
 import { useClient } from '@/src/context/ClientContext';
 import { getCategories } from '@/src/services/dbService';
 import { getFavorites } from '@/src/services/favoritesService';
@@ -91,7 +91,7 @@ export default function FavoritesPage() {
   const change = (id: string, delta: number) => setQty((q) => ({ ...q, [id]: Math.max(1, (q[id] ?? 1) + delta) }));
 
   return (
-    <div className="min-h-screen bg-[#FBFBFD] text-[#1D1D1F] font-sans antialiased flex flex-col">
+    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] font-sans antialiased flex flex-col">
       <header className="border-b border-[#000000]/5 bg-[#FBFBFD]">
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName /></Link>
@@ -103,7 +103,11 @@ export default function FavoritesPage() {
         </div>
       </header>
 
-      <main className="flex-1 w-full max-w-3xl mx-auto px-6 py-10 md:py-14">
+      <main className="flex-1 w-full max-w-3xl mx-auto px-6 max-md:px-0 py-10 max-md:py-3 md:py-14">
+        <div className="max-md:bg-white max-md:rounded-3xl max-md:p-5">
+        <Link href="/" className="inline-flex max-md:flex max-md:justify-center items-center gap-1.5 min-h-11 -mt-2 mb-2 text-sm font-medium text-[#515154] hover:text-[#1D1D1F] transition-colors">
+          <ArrowLeft className="w-4 h-4" /> Volver al sitio
+        </Link>
         <h1 className="text-3xl md:text-4xl font-semibold tracking-tight inline-flex items-center gap-3">
           <Heart className="w-7 h-7 fill-red-500 text-red-500" /> Mis favoritos
         </h1>
@@ -168,7 +172,7 @@ export default function FavoritesPage() {
               ))}
             </ul>
 
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+            <div className="mt-6 flex flex-col items-center text-center gap-4">
               <p className="text-sm text-[#515154]">
                 {available.length} {available.length === 1 ? 'producto' : 'productos'} · Total de hoy{' '}
                 <span className="text-lg font-semibold text-[#1D1D1F]">{formatMoney(total)}</span>
@@ -187,6 +191,7 @@ export default function FavoritesPage() {
             </div>
           </>
         )}
+        </div>
       </main>
 
       <CartDrawer
@@ -202,7 +207,7 @@ export default function FavoritesPage() {
         }}
         buyerType={client && level ? 'wholesale' : 'retail'}
       />
-      <SiteFooter onGreen={false} />
+      <SiteFooter />
     </div>
   );
 }

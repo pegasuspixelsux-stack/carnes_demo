@@ -1,6 +1,7 @@
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getActiveProperties, getProperty } from './dbService';
+import { sampleProperties } from '../data/sampleProperties';
 import type { Property } from '../types/firestore';
 
 const CLIENT_ACCESS = 'client_access';
@@ -69,6 +70,16 @@ export async function toggleFavorite(token: string, productId: string, makeFavor
  * products collection. Products that were deleted or are no longer active are left out.
  */
 export async function getFavorites(productIds: string[]): Promise<Property[]> {
-  const found = await Promise.all(productIds.map((id) => getProperty(id).catch(() => null)));
+  const found = await Promise.all(
+    productIds.map((id) => {
+      // The built-in samples (shown before any real item exists) are saved as "sample-N".
+      const n = /^sample-(\d+)$/.exec(id)?.[1];
+      if (n) {
+        const s = sampleProperties[Number(n) - 1];
+        return Promise.resolve(s ? ({ ...s, id, agentId: '', createdAt: 0, updatedAt: 0 } as Property) : null);
+      }
+      return getProperty(id).catch(() => null);
+    }),
+  );
   return found.filter((p): p is Property => p !== null && p.status === 'active');
 }

@@ -132,7 +132,7 @@ export default async function ItemPage({ params }: Props) {
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" /> Catálogo
           </Link>
-          {!isSample && <FavoriteButton productId={String(item.id)} title={item.title} className="absolute top-20 right-4 w-10 h-10 z-10" />}
+          <FavoriteButton productId={String(item.id)} title={item.title} className="absolute top-20 right-4 w-10 h-10 z-10" />
           {!inStock && (
             <span className="absolute top-32 left-4 z-10 bg-black/80 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
               Sin stock
@@ -185,7 +185,7 @@ export default async function ItemPage({ params }: Props) {
               className={`object-cover ${inStock ? '' : 'opacity-50 grayscale'}`}
             />
           )}
-          {!isSample && <FavoriteButton productId={String(item.id)} title={item.title} className="absolute top-4 right-4 w-10 h-10 z-10" />}
+          <FavoriteButton productId={String(item.id)} title={item.title} className="absolute top-4 right-4 w-10 h-10 z-10" />
           {!inStock && (
             <span className="absolute top-4 left-4 bg-black/80 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
               Sin stock

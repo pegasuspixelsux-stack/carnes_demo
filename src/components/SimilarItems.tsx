@@ -59,9 +59,7 @@ export default function SimilarItems({ title, items }: { title: string; items: S
               {!item.inStock && (
                 <span className="absolute top-3 left-3 bg-black/80 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full">Sin stock</span>
               )}
-              {!item.id.startsWith('sample-') && (
-                <FavoriteButton productId={item.id} title={item.title} className="absolute top-3 right-3 z-10 w-8 h-8" />
-              )}
+              <FavoriteButton productId={item.id} title={item.title} className="absolute top-3 right-3 z-10 w-8 h-8" />
               {/* Text inside the card, over the photo */}
               <div className="absolute inset-x-0 bottom-0 p-3 md:p-4 text-white">
                 <h3 className="text-sm md:text-base font-semibold tracking-tight leading-tight line-clamp-2">{item.title}</h3>

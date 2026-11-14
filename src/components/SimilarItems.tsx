@@ -20,7 +20,7 @@ export interface SimilarItem {
 }
 
 /** Horizontal slider of other items; swipe on touch screens, arrows on desktop. */
-export default function SimilarItems({ title, items }: { title: string; items: SimilarItem[] }) {
+export default function SimilarItems({ title, items, embedded = false }: { title: string; items: SimilarItem[]; embedded?: boolean }) {
   const track = useRef<HTMLUListElement>(null);
   if (items.length === 0) return null;
 
@@ -28,7 +28,10 @@ export default function SimilarItems({ title, items }: { title: string; items: S
     track.current?.scrollBy({ left: dir * track.current.clientWidth * 0.8, behavior: 'smooth' });
 
   return (
-    <section aria-label={title} className="max-w-[1440px] mx-auto px-6 pt-4 md:pt-0 md:-mt-14 pb-8 md:pb-10 max-md:bg-white max-md:mt-0 max-md:w-full">
+    <section
+      aria-label={title}
+      className={embedded ? 'w-full pt-1 pb-2' : 'max-w-[1440px] mx-auto px-6 pt-4 md:pt-0 md:-mt-14 pb-8 md:pb-10 max-md:bg-white max-md:mt-0 max-md:w-full'}
+    >
       <div className="flex items-end justify-between mb-6">
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">{title}</h2>
         <div className="hidden md:flex gap-2">
@@ -43,7 +46,7 @@ export default function SimilarItems({ title, items }: { title: string; items: S
 
       <ul
         ref={track}
-        className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth -mx-6 px-6 scroll-pl-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className={`flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth ${embedded ? '-mx-3 px-3 md:mx-0 md:px-0 scroll-pl-3 md:scroll-pl-0' : '-mx-6 px-6 scroll-pl-6'} pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
       >
         {items.map((item) => (
           <li key={item.id} className="snap-start shrink-0 w-[60%] sm:w-[40%] md:w-[28%] lg:w-[22%]">

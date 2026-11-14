@@ -3,7 +3,6 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { groupByCategory } from '@/src/utils/group';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { LayoutGrid, List, Plus, Search, SlidersHorizontal, Square, X } from 'lucide-react';
 import type { HomeProperty } from '@/src/lib/homeData';
 import { typeLabels } from '@/src/utils/format';
@@ -19,10 +18,9 @@ import MobileNavMenu from '@/src/components/MobileNavMenu';
 import { useClient } from '@/src/context/ClientContext';
 import { applyBoxFirst, applyLevel } from '@/src/utils/pricing';
 import InfoSections from '@/src/components/InfoSections';
-import SimilarItems, { type SimilarItem } from '@/src/components/SimilarItems';
 import BrandName from '@/src/components/BrandName';
 
-const PAGE_SIZE = 24; // products added each time "Ver 24 más" is pressed: 24, 48, 72, 96…
+const PAGE_SIZE = 12; // products per page
 
 type Sort = 'relevance' | 'price-asc' | 'price-desc' | 'name';
 type Availability = 'all' | 'in-stock' | 'on-sale';
@@ -44,6 +42,19 @@ const fieldClass =
   'w-full bg-[#FBFBFD] border border-[#000000]/10 rounded-xl px-3 py-2.5 text-sm text-[#1D1D1F] focus:outline-none focus:border-[#1D1D1F] transition-colors';
 const labelClass = 'block text-[10px] uppercase tracking-wider font-semibold text-[#515154] mb-1.5';
 
+/** Page buttons: 1 … 4 5 6 … 9 (null = gap). */
+function pageNumbers(current: number, total: number): (number | null)[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages = new Set([1, total, current - 1, current, current + 1]);
+  const sorted = [...pages].filter((n) => n >= 1 && n <= total).sort((a, b) => a - b);
+  const out: (number | null)[] = [];
+  sorted.forEach((n, i) => {
+    if (i > 0 && n - sorted[i - 1] > 1) out.push(null);
+    out.push(n);
+  });
+  return out;
+}
+
 export default function CatalogPage({ items: baseItems }: { items: HomeProperty[] }) {
   // A customer who opened their access link sees their price level; everyone else sees list prices.
   const { client, level } = useClient();
@@ -51,23 +62,22 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
   const items = useMemo(() => applyBoxFirst(applyLevel(baseItems, level), level, allowLoose), [baseItems, level, allowLoose]);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
-  // Footer links open the catalog already filtered: /productos?category=<id>.
+  // Links from the homepage and footer open the catalog already filtered: /productos?category=<id>&q=<search>.
   useEffect(() => {
-    const c = new URLSearchParams(window.location.search).get('category');
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- initial filter from the URL
+    const params = new URLSearchParams(window.location.search);
+    const c = params.get('category');
+    const q = params.get('q');
+    /* eslint-disable react-hooks/set-state-in-effect -- initial filters from the URL */
     if (c) setCategory(c);
+    if (q) setQuery(q);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
   const [availability, setAvailability] = useState<Availability>('all');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [sort, setSort] = useState<Sort>('relevance');
   const [page, setPage] = useState(1);
-  const router = useRouter();
-  // On phones the homepage is the catalog: send anyone who lands here (links, bookmarks) to its grid.
-  useEffect(() => {
-    if (window.matchMedia('(max-width: 767px)').matches) router.replace(window.location.hash ? `/${window.location.hash}` : '/#properties');
-  }, [router]);
-  const [filtersOpen, setFiltersOpen] = useState(false); // mobile only
+const [filtersOpen, setFiltersOpen] = useState(false); // mobile only
 
   // Cart: shared with every page (see CartContext).
   const { add: addToCart } = useCart();
@@ -111,22 +121,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
     return list;
   }, [items, query, category, availability, minPrice, maxPrice, sort]);
 
-  // Orders are private, so sales can't be counted here: the slider shows the "destacado" items
-  // (or the first ones if none is marked).
-  const bestSellers: SimilarItem[] = useMemo(() => {
-    const featured = items.filter((p) => p.featured);
-    return (featured.length ? featured : items).slice(0, 10).map((p) => ({
-      id: String(p.id),
-      title: p.title,
-      image: p.image,
-      price: p.price,
-      salePrice: p.salePrice,
-      quantity: p.area,
-      inStock: p.inStock !== false,
-    }));
-  }, [items]);
-
-  const activeFilters =
+const activeFilters =
     (query.trim() ? 1 : 0) +
     (category !== 'all' ? 1 : 0) +
     (availability !== 'all' ? 1 : 0) +
@@ -151,6 +146,8 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
       const saved = localStorage.getItem('merkado-grid-layout');
       // eslint-disable-next-line react-hooks/set-state-in-effect -- restore the visitor's choice
       if (saved === 'one' || saved === 'two' || saved === 'list') setLayout(saved);
+      // First visit on a phone: the catalog opens as a list.
+      else if (window.matchMedia('(max-width: 767px)').matches) setLayout('list');
     } catch {
       /* private mode: the choice just is not remembered */
     }
@@ -171,12 +168,18 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
       setPage(1);
     };
 
-  // 24 products at first, then 24 more each time "Ver más" is pressed (24, 48, 72, 96…).
-  const shownCount = page * PAGE_SIZE;
-  const visible = groupByCategory(filtered).slice(0, shownCount);
+  // 12 products per page; a filter change goes back to page 1.
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const grouped = groupByCategory(filtered);
+  const visible = grouped.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const goToPage = (n: number) => {
+    setPage(n);
+    document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <div className="max-md:hidden min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
+    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
       {/* --- NAVIGATION --- */}
       <header className="sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
         <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
@@ -380,7 +383,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
       </div>
 
       {/* --- ALL PRODUCTS: 4-column grid --- */}
-      <section id="catalog" className={`pt-4 md:pt-6 ${activeFilters === 0 && bestSellers.length > 0 ? 'pb-8 md:pb-12' : 'pb-32'} px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 max-md:bg-white max-md:rounded-3xl max-md:mt-3`}>
+      <section id="catalog" className={`pt-4 md:pt-6 pb-12 px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 max-md:bg-white max-md:rounded-3xl max-md:mt-3`}>
         <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6`}>
           {filtered.length === 0 && (
             <div className="col-span-full text-center text-[#515154] text-sm py-16">
@@ -509,16 +512,43 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
           })}
         </div>
 
-        {filtered.length > shownCount && (
-          <div className="mt-8 flex justify-center">
+        {totalPages > 1 && (
+          <nav aria-label="Páginas del catálogo" className="mt-8 flex flex-wrap items-center justify-center gap-2">
             <button
               type="button"
-              onClick={() => setPage((p) => p + 1)}
-              className="inline-flex items-center justify-center rounded-full bg-[#2E7D32] text-white px-8 py-3 text-sm font-semibold hover:bg-[#2E7D32]/85 active:scale-95 transition-all"
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="h-11 px-4 rounded-full bg-[#F5F5F7] text-sm font-medium hover:bg-[#E8E8ED] disabled:opacity-40 transition-colors"
             >
-              Ver {PAGE_SIZE} más
+              ← Anterior
             </button>
-          </div>
+            {pageNumbers(currentPage, totalPages).map((n, i) =>
+              n === null ? (
+                <span key={`gap-${i}`} aria-hidden="true" className="px-1 text-[#86868B]">…</span>
+              ) : (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => goToPage(n)}
+                  aria-label={`Página ${n}`}
+                  aria-current={n === currentPage ? 'page' : undefined}
+                  className={`h-11 min-w-11 px-3 rounded-full text-sm font-medium transition-colors ${
+                    n === currentPage ? 'bg-[#2E7D32] text-white' : 'bg-[#F5F5F7] hover:bg-[#E8E8ED]'
+                  }`}
+                >
+                  {n}
+                </button>
+              ),
+            )}
+            <button
+              type="button"
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="h-11 px-4 rounded-full bg-[#F5F5F7] text-sm font-medium hover:bg-[#E8E8ED] disabled:opacity-40 transition-colors"
+            >
+              Siguiente →
+            </button>
+          </nav>
         )}
 
         {filtered.length > 0 && (
@@ -527,18 +557,11 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
               ← Volver al inicio
             </Link>
             <p className="justify-self-center md:justify-self-end text-xs text-[#515154]">
-              Mostrando {visible.length} de {filtered.length} productos
+              Página {currentPage} de {totalPages} · {filtered.length} productos
             </p>
           </div>
         )}
       </section>
-
-      {/* --- MÁS VENDIDOS: just above the footer (hidden while filtering) --- */}
-      {activeFilters === 0 && bestSellers.length > 0 && (
-        <div className="pt-12 md:pt-20 pb-6 md:pb-8 [&>section]:pb-0 [&>section]:px-3 md:[&>section]:px-6 [&>section>ul]:-mx-3 [&>section>ul]:px-3 md:[&>section>ul]:mx-0 md:[&>section>ul]:px-0">
-          <SimilarItems title="Más vendidos" items={bestSellers} />
-        </div>
-      )}
 
       <InfoSections />
 

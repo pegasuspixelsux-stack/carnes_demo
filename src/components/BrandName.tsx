@@ -1,22 +1,23 @@
 'use client';
 
-/** The Fresco logo (public/fresco_footer.png), used until another one is uploaded in Ajustes. */
+/** Kept for the logo upload in Ajustes (BusinessForm); the nav now shows the name as text. */
 export const DEFAULT_LOGO = '/fresco_footer.png';
 
 /**
- * The Fresco logo for the top nav (it already includes the name and "Desde 1998", so no title next to it).
- * `onDark`: the nav sits on a dark photo on phones (item page), so phones get the white logo.
+ * "Mercado de Carnes" for the top nav, in the hero heading style: two rows, extra bold, tight tracking and leading.
+ * `onDark`: the nav sits on a dark photo on phones (item page), so phones get white text.
  * Inline content: put it inside the heading / link.
  */
 export default function BrandName({ onDark = false }: { onDark?: boolean }) {
   return (
-    <span className="inline-flex items-center align-middle">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/fresco_footer.png" alt="Fresco" className={`h-11 w-auto shrink-0 ${onDark ? 'max-md:hidden' : ''}`} />
-      {onDark && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src="/fresco_footer_white.png" alt="Fresco" className="md:hidden h-11 w-auto shrink-0" />
-      )}
+    <span
+      aria-label="Mercado de Carnes"
+      className={`inline-flex flex-col align-middle text-left text-xl font-extrabold leading-[0.8] tracking-[-0.04em] ${
+        onDark ? 'max-md:text-white md:text-[#1D1D1F]' : 'text-[#1D1D1F]'
+      }`}
+    >
+      <span aria-hidden="true">Mercado</span>
+      <span aria-hidden="true" className="mt-[0.1em]">de Carnes</span>
     </span>
   );
 }

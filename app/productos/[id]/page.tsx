@@ -98,7 +98,7 @@ export default async function ItemPage({ params }: Props) {
     }));
 
   return (
-    <div className="relative min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] font-sans antialiased">
+    <div className="relative min-h-screen bg-[#FBFBFD] max-md:bg-[#450a0a] text-[#1D1D1F] font-sans antialiased">
       <header className="absolute inset-x-0 top-0 z-30 text-white md:static md:text-[#1D1D1F] md:border-b md:border-[#000000]/5 md:bg-[#FBFBFD]">
         <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug pt-[calc(0.375rem+env(safe-area-inset-top))] md:pt-1.5">
           <span>Entregas diarias en Maldonado y Punta del Este</span>
@@ -127,7 +127,7 @@ export default async function ItemPage({ params }: Props) {
               className={`object-cover ${inStock ? '' : 'opacity-50 grayscale'}`}
             />
           )}
-          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_92%,transparent)] from-25% via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_50%,transparent)] via-55% to-transparent" aria-hidden="true" />
+          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[color-mix(in_srgb,#450a0a_92%,transparent)] from-25% via-[color-mix(in_srgb,#450a0a_50%,transparent)] via-55% to-transparent" aria-hidden="true" />
           <div className="absolute inset-x-0 top-0 -bottom-0.5 bg-gradient-to-t from-[#FBFBFD] from-22% via-[#FBFBFD]/95 via-36% to-transparent to-58%" aria-hidden="true" />
           <Link
             href="/productos"

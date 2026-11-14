@@ -8,40 +8,51 @@ import { useCart } from '@/src/context/CartContext';
 /**
  * Bottom navigation for phones: Inicio, Catálogo, Favoritos and Carrito, on every page (the CSS in globals.css shows it
  * below 768px only: `.app-bottom-nav`). It also covers the installed app (home-screen icon), which has no browser toolbar.
+ * A floating rounded bar of icons; the current page is shown by a green icon, with no filled background.
  */
 export default function BottomNav() {
   const pathname = usePathname();
   const { count, setOpen } = useCart();
 
-  const item = (active: boolean) =>
-    `relative flex flex-1 flex-col items-center justify-center gap-0.5 min-h-14 text-[11px] font-medium transition-colors active:scale-95 ${
-      active ? 'text-[#2E7D32]' : 'text-[#515154]'
+  const tab = (active: boolean) =>
+    `relative flex flex-1 items-center justify-center min-h-11 rounded-full transition-colors duration-200 active:scale-90 ${
+      active ? 'text-[#2E7D32]' : 'text-[#6E6E73] hover:text-[#1D1D1F]'
     }`;
+  const icon = (active: boolean) => `w-6 h-6 transition-transform duration-200 ${active ? 'scale-110 [stroke-width:2.4]' : ''}`;
+
+  const home = pathname === '/';
+  const catalog = pathname.startsWith('/productos');
+  const favorites = pathname.startsWith('/favoritos');
 
   return (
-    <nav aria-label="Navegación de la app" className="app-bottom-nav fixed inset-x-0 bottom-0 z-40 border-t border-[#000000]/10 bg-white/85 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
-      <Link href="/" className={item(pathname === '/')} aria-current={pathname === '/' ? 'page' : undefined}>
-        <House className="w-6 h-6" aria-hidden="true" />
-        Inicio
+    <nav
+      aria-label="Navegación de la app"
+      className="app-bottom-nav fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 gap-1 rounded-full border border-[#000000]/10 bg-white/85 backdrop-blur-xl p-1.5 shadow-xl shadow-black/15"
+    >
+      <Link href="/" aria-label="Inicio" title="Inicio" className={tab(home)} aria-current={home ? 'page' : undefined}>
+        <House className={icon(home)} aria-hidden="true" />
       </Link>
-      <Link href="/productos" className={item(pathname.startsWith('/productos'))} aria-current={pathname.startsWith('/productos') ? 'page' : undefined}>
-        <LayoutGrid className="w-6 h-6" aria-hidden="true" />
-        Catálogo
+      <Link href="/productos" aria-label="Catálogo" title="Catálogo" className={tab(catalog)} aria-current={catalog ? 'page' : undefined}>
+        <LayoutGrid className={icon(catalog)} aria-hidden="true" />
       </Link>
-      <Link href="/favoritos" className={item(pathname.startsWith('/favoritos'))} aria-current={pathname.startsWith('/favoritos') ? 'page' : undefined}>
-        <Heart className="w-6 h-6" aria-hidden="true" />
-        Favoritos
+      <Link href="/favoritos" aria-label="Favoritos" title="Favoritos" className={tab(favorites)} aria-current={favorites ? 'page' : undefined}>
+        <Heart className={icon(favorites)} aria-hidden="true" />
       </Link>
-      <button type="button" onClick={() => setOpen(true)} className={item(false)} aria-label={`Abrir carrito, ${count} ${count === 1 ? 'producto' : 'productos'}`}>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label={`Abrir carrito, ${count} ${count === 1 ? 'producto' : 'productos'}`}
+        title="Carrito"
+        className={tab(false)}
+      >
         <span className="relative">
-          <ShoppingCart className="w-6 h-6" aria-hidden="true" />
+          <ShoppingCart className={icon(false)} aria-hidden="true" />
           {count > 0 && (
-            <span className="absolute -top-1.5 -right-2.5 min-w-4 h-4 px-1 rounded-full bg-[#2E7D32] text-white text-[10px] font-semibold flex items-center justify-center">
+            <span className="absolute -top-2 -right-2.5 min-w-4 h-4 px-1 rounded-full bg-[#2E7D32] text-white text-[10px] font-semibold flex items-center justify-center">
               {count}
             </span>
           )}
         </span>
-        Carrito
       </button>
     </nav>
   );

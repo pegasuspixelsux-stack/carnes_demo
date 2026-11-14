@@ -207,9 +207,7 @@ const activeFilters =
       {/* --- NAVIGATION --- */}
       <header className={`sticky top-0 z-50 transition-[background-color,backdrop-filter] duration-300 ${scrolled ? 'max-md:bg-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_80%,transparent)] md:bg-[#FBFBFD]/80 backdrop-blur-md' : 'bg-transparent'}`}>
         <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
-          <span className="md:hidden">Precios de mercado válidos por el día</span>
-          <span className="hidden md:inline lg:hidden">Precios de mercado válidos por el día. Pueden cambiar en pedidos para el día siguiente.</span>
-          <span className="hidden lg:inline">Precios de mercado válidos por el día. Si el pedido es para otro día, pueden cambiar: te lo confirmamos con precios ajustados antes del envío.</span>
+          <span>Entregas diarias en Maldonado y Punta del Este</span>
         </div>
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName onDark /></Link>

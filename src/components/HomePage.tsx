@@ -202,10 +202,13 @@ export default function FrescoHome({
 
       {/* --- PHONE TOP NAV: burger on the left; search and "add to home screen" on the right --- */}
       <header
-        className={`md:hidden fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] backdrop-blur-md transition-[background-color] duration-300 ${
+        className={`md:hidden fixed inset-x-0 top-0 z-50 backdrop-blur-md transition-[background-color] duration-300 ${
           scrolled ? 'bg-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_72%,transparent)]' : 'bg-transparent'
         }`}
       >
+        <div className="bg-[#2E7D32] text-white text-center text-[11px] font-medium tracking-wide py-1.5 px-4 leading-snug pt-[calc(0.375rem+env(safe-area-inset-top))]">
+          <span>Entregas diarias en Maldonado y Punta del Este</span>
+        </div>
         <div className="h-14 px-3 flex items-center justify-between">
           <MobileNavMenu bare align="left" />
           <div className="flex items-center gap-2">
@@ -228,9 +231,7 @@ export default function FrescoHome({
       {/* --- NAVIGATION --- */}
       <header className="hidden md:block sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
         <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
-          <span className="md:hidden">Precios de mercado válidos por el día</span>
-          <span className="hidden md:inline lg:hidden">Precios de mercado válidos por el día. Pueden cambiar en pedidos para el día siguiente.</span>
-          <span className="hidden lg:inline">Precios de mercado válidos por el día. Si el pedido es para otro día, pueden cambiar: te lo confirmamos con precios ajustados antes del envío.</span>
+          <span>Entregas diarias en Maldonado y Punta del Este</span>
         </div>
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
           <span className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName /></span>
@@ -244,7 +245,7 @@ export default function FrescoHome({
       </header>
 
       <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
-        <section data-home-hero className="relative w-full max-md:h-[calc(50svh-clamp(8px,1.5svh,16px)+3.5rem+env(safe-area-inset-top))] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
+        <section data-home-hero className="relative w-full max-md:h-[calc(50svh-clamp(8px,1.5svh,16px)+5.25rem+env(safe-area-inset-top))] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
           {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
           <div
             aria-hidden="true"
@@ -265,7 +266,7 @@ export default function FrescoHome({
             <img src="/fresco_footer_white.png" alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
           </div>
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
-            <div className="md:hidden relative flex flex-1 min-h-0 items-center justify-center px-5 pt-[calc(3.5rem+env(safe-area-inset-top))]">
+            <div className="md:hidden relative flex flex-1 min-h-0 items-center justify-center px-5 pt-[calc(5.25rem+env(safe-area-inset-top))]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="h-[48%] w-auto max-w-full object-contain drop-shadow-lg" />
           </div>

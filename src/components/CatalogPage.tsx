@@ -78,6 +78,14 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
   const [sort, setSort] = useState<Sort>('relevance');
   const [page, setPage] = useState(1);
 const [filtersOpen, setFiltersOpen] = useState(false); // mobile only
+// The top nav is transparent at the top of the page and gets a blurred background once you scroll.
+const [scrolled, setScrolled] = useState(false);
+useEffect(() => {
+  const onScroll = () => setScrolled(window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  return () => window.removeEventListener('scroll', onScroll);
+}, []);
 
   // Cart: shared with every page (see CartContext).
   const { add: addToCart } = useCart();
@@ -181,209 +189,209 @@ const activeFilters =
   return (
     <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
       {/* --- NAVIGATION --- */}
-      <header className="sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
+      <header className={`sticky top-0 z-50 transition-[background-color,backdrop-filter] duration-300 ${scrolled ? 'max-md:bg-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_80%,transparent)] md:bg-[#FBFBFD]/80 backdrop-blur-md' : 'bg-transparent'}`}>
         <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
           <span className="md:hidden">Precios de mercado válidos por el día</span>
           <span className="hidden md:inline lg:hidden">Precios de mercado válidos por el día. Pueden cambiar en pedidos para el día siguiente.</span>
           <span className="hidden lg:inline">Precios de mercado válidos por el día. Si el pedido es para otro día, pueden cambiar: te lo confirmamos con precios ajustados antes del envío.</span>
         </div>
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName /></Link>
+          <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName onDark /></Link>
           <SiteNavLinks />
           <div className="flex items-center gap-1">
-          <WholesaleAccess />
-          <CartButton />
-          <MobileNavMenu />
+          <WholesaleAccess glass />
+          <CartButton glass />
+          <MobileNavMenu glass />
           </div>
         </div>
       </header>
 
-      {/* Search bar (with the filters) above the hero, like the homepage */}
-      <section id="search" className="px-3 md:px-6 pt-0 md:pt-2 max-w-[1440px] mx-auto">
-        <form
-          role="search"
-          aria-label="Búsqueda avanzada"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setPage(1);
-            document.getElementById("catalog")?.scrollIntoView({ behavior: "smooth" });
-          }}
-          className="w-full bg-white text-[#1D1D1F] rounded-2xl shadow-lg border border-[#000000]/5 p-3 md:p-4"
-        >
-          <div className="flex items-center gap-2">
-            <Search className="hidden md:block ml-2 w-5 h-5 text-[#515154] shrink-0" />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => change(setQuery)(e.target.value)}
-              placeholder="Buscá por nombre, categoría o precio…"
-              aria-label="Buscar productos por nombre, categoría o precio"
-              className="min-w-0 flex-1 bg-transparent px-3 md:px-2 py-3 text-sm placeholder:text-[#86868B] outline-none"
-            />
-            <button
-              type="button"
-              onClick={() => setFiltersOpen((o) => !o)}
-              aria-expanded={filtersOpen}
-              aria-controls="advanced-filters"
-              className="md:hidden shrink-0 relative w-11 h-11 rounded-full bg-[#F5F5F7] flex items-center justify-center"
-              aria-label="Mostrar filtros"
-            >
-              <SlidersHorizontal className="w-4 h-4" />
-              {activeFilters > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-5 h-5 px-1 rounded-full bg-[#1D1D1F] text-white text-[10px] font-semibold flex items-center justify-center">
-                  {activeFilters}
-                </span>
-              )}
-            </button>
-            <button
-              type="submit"
-              aria-label="Buscar"
-              className="shrink-0 bg-[#2E7D32] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#2E7D32]/85 transition-all flex items-center justify-center"
-            >
-              <Search className="w-4 h-4 md:hidden" />
-              <span className="hidden md:inline">Buscar</span>
-            </button>
-          </div>
-
-          <div
-            id="advanced-filters"
-            className={`${filtersOpen ? 'grid' : 'hidden'} md:grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mt-3 pt-3 md:mt-4 md:pt-4 border-t border-[#000000]/5`}
-          >
-            <div>
-              <label htmlFor="f-category" className={labelClass}>Categoría</label>
-              <select
-                id="f-category"
-                value={category}
-                onChange={(e) => change(setCategory)(e.target.value)}
-                className={fieldClass}
-              >
-                <option value="all">Todas</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.id}>{c.label}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="f-availability" className={labelClass}>Disponibilidad</label>
-              <select
-                id="f-availability"
-                value={availability}
-                onChange={(e) => change(setAvailability)(e.target.value as Availability)}
-                className={fieldClass}
-              >
-                {(Object.keys(availabilityLabels) as Availability[]).map((a) => (
-                  <option key={a} value={a}>{availabilityLabels[a]}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="f-min" className={labelClass}>Precio mínimo (US$)</label>
-              <input
-                id="f-min"
-                type="number"
-                min={0}
-                step="0.01"
-                inputMode="decimal"
-                value={minPrice}
-                onChange={(e) => change(setMinPrice)(e.target.value)}
-                placeholder="0"
-                className={fieldClass}
-              />
-            </div>
-            <div>
-              <label htmlFor="f-max" className={labelClass}>Precio máximo (US$)</label>
-              <input
-                id="f-max"
-                type="number"
-                min={0}
-                step="0.01"
-                inputMode="decimal"
-                value={maxPrice}
-                onChange={(e) => change(setMaxPrice)(e.target.value)}
-                placeholder="Sin límite"
-                className={fieldClass}
-              />
-            </div>
-            <div className="col-span-2 md:col-span-1">
-              <label htmlFor="f-sort" className={labelClass}>Ordenar por</label>
-              <select
-                id="f-sort"
-                value={sort}
-                onChange={(e) => change(setSort)(e.target.value as Sort)}
-                className={fieldClass}
-              >
-                {(Object.keys(sortLabels) as Sort[]).map((s) => (
-                  <option key={s} value={s}>{sortLabels[s]}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {(activeFilters > 0 || sort !== 'relevance') && (
-            <div className="flex justify-end mt-3 md:mt-4 px-1 text-xs">
-              <button
-                type="button"
-                onClick={reset}
-                className="inline-flex items-center gap-1 font-medium text-[#1D1D1F] hover:text-[#515154]"
-              >
-                <X className="w-3.5 h-3.5" /> Borrar filtros
-              </button>
-            </div>
-          )}
-        </form>
-      </section>
-
-      {/* Category buttons (and, on phones, the layout selector) below the hero, like the homepage */}
-      <div className="max-w-[1440px] mx-auto px-3 md:px-6 mt-3 md:mt-4 max-md:bg-white max-md:rounded-3xl max-md:mx-3 max-md:py-3">
-        <div className="flex items-center gap-2">
-          <div
-            role="group"
-            aria-label="Categorías"
-            className="flex flex-1 min-w-0 flex-nowrap items-center gap-2 overflow-x-auto -ml-3 pl-3 md:mx-0 md:pl-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {[{ id: 'all', label: 'Todas' }, ...categories].map((c) => {
-              const active = category === c.id;
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => change(setCategory)(c.id)}
-                  aria-pressed={active}
-                  className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-medium transition-colors ${
-                    active ? 'bg-[#2E7D32] text-white' : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
-                  }`}
-                >
-                  {c.label}
-                </button>
-              );
-            })}
-          </div>
-          <div role="group" aria-label="Diseño de la lista" className="md:hidden shrink-0 inline-flex rounded-full bg-[#F5F5F7] p-0.5">
-            {([
-              ['one', Square, '1 columna'],
-              ['two', LayoutGrid, '2 columnas'],
-              ['list', List, 'Lista'],
-            ] as const).map(([value, Icon, label]) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => chooseLayout(value)}
-                aria-pressed={layout === value}
-                aria-label={label}
-                title={label}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                  layout === value ? 'bg-[#2E7D32] text-white' : 'text-[#515154] hover:bg-[#E8E8ED]'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* --- ALL PRODUCTS: 4-column grid --- */}
       <section id="catalog" className={`pt-4 md:pt-6 pb-12 px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 max-md:bg-white max-md:rounded-3xl max-md:mt-3`}>
+        {/* Search bar (with the filters) */}
+        <div id="search" className="mb-4">
+          <form
+            role="search"
+            aria-label="Búsqueda avanzada"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setPage(1);
+              document.getElementById("catalog")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="w-full bg-white text-[#1D1D1F] rounded-2xl shadow-lg border border-[#000000]/5 p-3 md:p-4"
+          >
+            <div className="flex items-center gap-2">
+              <Search className="hidden md:block ml-2 w-5 h-5 text-[#515154] shrink-0" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => change(setQuery)(e.target.value)}
+                placeholder="Buscá por nombre, categoría o precio…"
+                aria-label="Buscar productos por nombre, categoría o precio"
+                className="min-w-0 flex-1 bg-transparent px-3 md:px-2 py-3 text-sm placeholder:text-[#86868B] outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setFiltersOpen((o) => !o)}
+                aria-expanded={filtersOpen}
+                aria-controls="advanced-filters"
+                className="md:hidden shrink-0 relative w-11 h-11 rounded-full bg-[#F5F5F7] flex items-center justify-center"
+                aria-label="Mostrar filtros"
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                {activeFilters > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-5 h-5 px-1 rounded-full bg-[#1D1D1F] text-white text-[10px] font-semibold flex items-center justify-center">
+                    {activeFilters}
+                  </span>
+                )}
+              </button>
+              <button
+                type="submit"
+                aria-label="Buscar"
+                className="shrink-0 bg-[#2E7D32] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#2E7D32]/85 transition-all flex items-center justify-center"
+              >
+                <Search className="w-4 h-4 md:hidden" />
+                <span className="hidden md:inline">Buscar</span>
+              </button>
+            </div>
+
+            <div
+              id="advanced-filters"
+              className={`${filtersOpen ? 'grid' : 'hidden'} md:grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mt-3 pt-3 md:mt-4 md:pt-4 border-t border-[#000000]/5`}
+            >
+              <div>
+                <label htmlFor="f-category" className={labelClass}>Categoría</label>
+                <select
+                  id="f-category"
+                  value={category}
+                  onChange={(e) => change(setCategory)(e.target.value)}
+                  className={fieldClass}
+                >
+                  <option value="all">Todas</option>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>{c.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="f-availability" className={labelClass}>Disponibilidad</label>
+                <select
+                  id="f-availability"
+                  value={availability}
+                  onChange={(e) => change(setAvailability)(e.target.value as Availability)}
+                  className={fieldClass}
+                >
+                  {(Object.keys(availabilityLabels) as Availability[]).map((a) => (
+                    <option key={a} value={a}>{availabilityLabels[a]}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="f-min" className={labelClass}>Precio mínimo (US$)</label>
+                <input
+                  id="f-min"
+                  type="number"
+                  min={0}
+                  step="0.01"
+                  inputMode="decimal"
+                  value={minPrice}
+                  onChange={(e) => change(setMinPrice)(e.target.value)}
+                  placeholder="0"
+                  className={fieldClass}
+                />
+              </div>
+              <div>
+                <label htmlFor="f-max" className={labelClass}>Precio máximo (US$)</label>
+                <input
+                  id="f-max"
+                  type="number"
+                  min={0}
+                  step="0.01"
+                  inputMode="decimal"
+                  value={maxPrice}
+                  onChange={(e) => change(setMaxPrice)(e.target.value)}
+                  placeholder="Sin límite"
+                  className={fieldClass}
+                />
+              </div>
+              <div className="col-span-2 md:col-span-1">
+                <label htmlFor="f-sort" className={labelClass}>Ordenar por</label>
+                <select
+                  id="f-sort"
+                  value={sort}
+                  onChange={(e) => change(setSort)(e.target.value as Sort)}
+                  className={fieldClass}
+                >
+                  {(Object.keys(sortLabels) as Sort[]).map((s) => (
+                    <option key={s} value={s}>{sortLabels[s]}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {(activeFilters > 0 || sort !== 'relevance') && (
+              <div className="flex justify-end mt-3 md:mt-4 px-1 text-xs">
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="inline-flex items-center gap-1 font-medium text-[#1D1D1F] hover:text-[#515154]"
+                >
+                  <X className="w-3.5 h-3.5" /> Borrar filtros
+                </button>
+              </div>
+            )}
+          </form>
+        </div>
+
+        {/* Category buttons (and, on phones, the layout selector) */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2">
+            <div
+              role="group"
+              aria-label="Categorías"
+              className="flex flex-1 min-w-0 flex-nowrap items-center gap-2 overflow-x-auto -ml-3 pl-3 md:mx-0 md:pl-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {[{ id: 'all', label: 'Todas' }, ...categories].map((c) => {
+                const active = category === c.id;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => change(setCategory)(c.id)}
+                    aria-pressed={active}
+                    className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-medium transition-colors ${
+                      active ? 'bg-[#2E7D32] text-white' : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
+                    }`}
+                  >
+                    {c.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div role="group" aria-label="Diseño de la lista" className="md:hidden shrink-0 inline-flex rounded-full bg-[#F5F5F7] p-0.5">
+              {([
+                ['one', Square, '1 columna'],
+                ['two', LayoutGrid, '2 columnas'],
+                ['list', List, 'Lista'],
+              ] as const).map(([value, Icon, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => chooseLayout(value)}
+                  aria-pressed={layout === value}
+                  aria-label={label}
+                  title={label}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                    layout === value ? 'bg-[#2E7D32] text-white' : 'text-[#515154] hover:bg-[#E8E8ED]'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6`}>
           {filtered.length === 0 && (
             <div className="col-span-full text-center text-[#515154] text-sm py-16">

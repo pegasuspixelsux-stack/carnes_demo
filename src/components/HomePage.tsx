@@ -8,6 +8,7 @@ import { typeLabels } from '@/src/utils/format';
 import SiteFooter from '@/src/components/SiteFooter';
 import InfoSections from '@/src/components/InfoSections';
 import SimilarItems from '@/src/components/SimilarItems';
+import FitText from '@/src/components/FitText';
 import { toBestSellers } from '@/src/utils/bestSellers';
 import CartButton from '@/src/components/CartButton';
 import { OPEN_CLIENT_LOGIN } from '@/src/components/SignInNotice';
@@ -146,6 +147,12 @@ const fallbackProperties: HomeProperty[] = [
 ];
 
 
+/** Hero heading / subheading styles: on phones both are as wide as the buttons (max-w-sm). */
+const HERO_HEADING_CLASS =
+  'mt-4 max-md:mt-0 max-w-6xl max-md:text-center max-md:w-full max-md:max-w-sm max-md:text-[clamp(18px,calc((100vw-40px)/10.5),36px)] max-md:leading-[1.1] sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]';
+const HERO_TEXT_CLASS =
+  'mt-4 max-md:mt-1.5 md:mt-3 max-w-2xl max-md:w-full max-md:max-w-sm max-md:text-center text-[17px] max-md:text-[15px] max-md:leading-[1.35] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed';
+
 export default function FrescoHome({
   initialProperties = [],
 }: {
@@ -229,12 +236,22 @@ export default function FrescoHome({
             <span className="max-md:hidden block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
               {business.heroEyebrow || 'Distribución hortifrutícola B2B'}
             </span>
-            <h1 className="mt-4 max-md:mt-0 max-w-6xl max-md:text-balance max-md:w-full max-md:max-w-sm max-md:text-[clamp(20px,calc(9.8vw-3.9px),37px)] max-md:leading-[1.1] sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]">
-              {business.heroHeading || 'Distribución Mayorista de Frutas y Verduras'}
-            </h1>
-            <p className="mt-4 max-md:mt-1.5 md:mt-3 max-w-2xl max-md:max-w-sm max-md:text-balance text-[17px] max-md:text-[15px] max-md:leading-[1.35] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed">
-              {business.heroText || 'Abastecimiento directo para comercios y gastronomía.'}
-            </p>
+            {business.heroHeading ? (
+              <h1 className={HERO_HEADING_CLASS}>{business.heroHeading}</h1>
+            ) : (
+              // Phones: each line is scaled to be exactly as wide as the buttons below.
+              <FitText as="h1" className={HERO_HEADING_CLASS} min={16} max={40}>
+                <span className="block">Distribución Mayorista</span>
+                <span className="block">de Frutas y Verduras</span>
+              </FitText>
+            )}
+            {business.heroText ? (
+              <p className={HERO_TEXT_CLASS}>{business.heroText}</p>
+            ) : (
+              <FitText as="p" className={HERO_TEXT_CLASS} min={11} max={20}>
+                Abastecimiento directo para comercios y gastronomía.
+              </FitText>
+            )}
             <div className="mt-[clamp(16px,4svh,32px)] max-md:mt-3 md:mt-6 flex flex-col sm:flex-row gap-3 max-md:gap-2 md:gap-2.5 max-md:w-full max-md:max-w-sm">
               {client && level ? (
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full">

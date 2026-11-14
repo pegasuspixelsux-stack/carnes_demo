@@ -230,7 +230,7 @@ export default function FrescoHome({
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
             <div className="md:hidden relative flex flex-1 min-h-0 items-center justify-center px-5 pt-[env(safe-area-inset-top)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="h-[40%] w-auto max-w-full object-contain drop-shadow-lg" />
+            <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="h-[48%] w-auto max-w-full object-contain drop-shadow-lg" />
           </div>
             <div className="relative w-full max-md:shrink-0 px-5 md:px-10 max-md:pt-0 pt-[clamp(16px,4svh,32px)] max-md:pb-[max(12px,env(safe-area-inset-bottom))] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
             <span className="max-md:hidden block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">

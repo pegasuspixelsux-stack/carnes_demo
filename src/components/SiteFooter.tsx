@@ -27,10 +27,10 @@ export default function SiteFooter({ onGreen = true }: { onGreen?: boolean } = {
           {/* Fresco logo (already includes the name and "Desde 1998"): colored on white, white on the green mobile footer */}
           <div className="flex items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fresco_footer.png" alt="" aria-hidden="true" className={`h-auto w-44 shrink-0 ${onGreen ? 'max-md:hidden' : ''}`} />
+            <img src="/fresco_footer.png" alt="" aria-hidden="true" className={`h-auto w-44 max-md:h-11 max-md:w-auto shrink-0 ${onGreen ? 'max-md:hidden' : ''}`} />
             {onGreen && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="md:hidden h-auto w-44 shrink-0" />
+              <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="md:hidden h-11 w-auto shrink-0" />
             )}
           </div>
 

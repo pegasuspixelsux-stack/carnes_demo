@@ -272,7 +272,7 @@ export default function FrescoHome({
       </header>
 
       <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
-        <section data-home-hero className="relative w-full max-md:min-h-[110svh] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
+        <section data-home-hero className="relative w-full max-md:h-[calc(50svh-clamp(8px,1.5svh,16px))] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
           {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
           <div
             aria-hidden="true"
@@ -293,27 +293,21 @@ export default function FrescoHome({
             <img src="/fresco_footer_white.png" alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
           </div>
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
-            <div className="md:hidden relative flex flex-col items-center text-center pt-[max(clamp(16px,4svh,32px),env(safe-area-inset-top))] pb-[clamp(8px,2svh,16px)]">
+            <div className="md:hidden relative flex flex-1 min-h-0 items-center justify-center px-5 pt-[env(safe-area-inset-top)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fresco_logo_clear.png" alt="" aria-hidden="true" className="h-[min(100vw,clamp(288px,57svh,504px))] w-[min(100vw,clamp(288px,57svh,504px))] object-contain drop-shadow-lg" />
+            <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="h-[40%] w-auto max-w-full object-contain drop-shadow-lg" />
           </div>
-            <div className="relative w-full max-md:flex-1 px-5 md:px-10 pt-[clamp(16px,4svh,32px)] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
+            <div className="relative w-full max-md:shrink-0 px-5 md:px-10 max-md:pt-0 pt-[clamp(16px,4svh,32px)] max-md:pb-[max(12px,env(safe-area-inset-bottom))] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
             <span className="max-md:hidden block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
               {business.heroEyebrow || 'Distribución hortifrutícola B2B'}
             </span>
-            <h1 className="max-md:sr-only mt-4 max-w-6xl max-md:text-balance max-md:text-[clamp(22px,6.6vw,28px)] max-md:leading-[1.2] sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]">
-              {business.heroHeading || (
-                <>
-                  El distribuidor hortifrutícola para
-                  <br className="hidden md:block" /> la gastronomía de Punta del Este.
-                </>
-              )}
+            <h1 className="mt-4 max-md:mt-0 max-w-6xl max-md:text-balance max-md:text-[clamp(20px,5.6vw,26px)] max-md:leading-[1.15] sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]">
+              {business.heroHeading || 'Distribución Mayorista de Frutas y Verduras'}
             </h1>
-            <p className="mt-4 md:mt-3 max-w-2xl max-md:max-w-sm max-md:[@media(max-height:760px)]:hidden max-md:text-balance text-[17px] max-md:leading-[1.4] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed">
-              {business.heroText ||
-                'Abastecemos a restaurantes, hoteles y comercios con frutas, verduras y hojas verdes seleccionadas en el mercado central. Logística integrada, precios mayoristas por volumen y entregas diarias en tu establecimiento.'}
+            <p className="mt-4 max-md:mt-1.5 md:mt-3 max-w-2xl max-md:max-w-sm max-md:text-balance text-[17px] max-md:text-[15px] max-md:leading-[1.35] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed">
+              {business.heroText || 'Abastecimiento directo para comercios y gastronomía.'}
             </p>
-            <div className="mt-[clamp(16px,4svh,32px)] max-md:mt-[calc(clamp(16px,4svh,32px)+10svh)] md:mt-6 flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full max-md:max-w-sm">
+            <div className="mt-[clamp(16px,4svh,32px)] max-md:mt-3 md:mt-6 flex flex-col sm:flex-row gap-3 max-md:gap-2 md:gap-2.5 max-md:w-full max-md:max-w-sm">
               {client && level ? (
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full">
                   <Link
@@ -324,7 +318,7 @@ export default function FrescoHome({
                         document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
                   >
                     <span className="truncate max-w-56">Catálogo · {client.businessName}</span>
                     <ArrowUpRight className="w-4 h-4" />
@@ -332,7 +326,7 @@ export default function FrescoHome({
                   <button
                     type="button"
                     onClick={signOutClient}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[var(--brand-bg,#2E7D32)] max-md:bg-transparent max-md:text-[var(--brand-bg,#2E7D32)] px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[var(--brand-bg,#2E7D32)] max-md:bg-transparent max-md:text-[var(--brand-bg,#2E7D32)] px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
                   >
                     Cerrar sesión
                   </button>
@@ -344,7 +338,7 @@ export default function FrescoHome({
                   e.preventDefault();
                   window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: window.matchMedia('(max-width: 767px)').matches ? '/#properties' : '/productos' } }));
                 }}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
               >
                 <span>Acceso al Catálogo Mayorista</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -353,16 +347,13 @@ export default function FrescoHome({
               {!(client && level) && (
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[#1D1D1F]/15 max-md:bg-white max-md:text-[#1D1D1F] max-md:shadow-sm px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[#1D1D1F]/15 max-md:bg-white max-md:text-[#1D1D1F] max-md:shadow-sm px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
               >
                 <KeyRound className="w-4 h-4" />
                 <span>Solicitar acceso mayorista</span>
               </a>
               )}
             </div>
-            <p className="mt-6 max-md:mt-auto max-md:pt-[clamp(24px,6svh,48px)] md:mt-4 block max-md:min-h-11 max-md:flex max-md:items-center max-md:justify-center text-center md:text-left text-[13px] md:text-xs text-white/70">
-              MerkadoB2B v3.0
-            </p>
           </div>
         </section>
       </div>

@@ -7,7 +7,7 @@ import { CartProvider } from "@/src/context/CartContext";
 import { BusinessProvider } from "@/src/context/BusinessContext";
 import { getBusinessSettings } from "@/src/services/businessService";
 import BottomNav from "@/src/components/BottomNav";
-import { SITE_DESCRIPTION, SITE_TITLE } from "@/src/lib/siteMeta";
+import { SHARE_DESCRIPTION, SHARE_IMAGE, SHARE_IMAGE_ALT, SHARE_TITLE, SITE_DESCRIPTION, SITE_TITLE } from "@/src/lib/siteMeta";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,8 +26,6 @@ export async function generateViewport(): Promise<Viewport> {
   return { themeColor: backgroundColor || "#2E7D32", viewportFit: "cover" };
 }
 
-// Link preview image for every page that does not set its own (2400x1260, 1.91:1). WhatsApp caches previews: a new image needs a new file name.
-const SITE_SHARE_IMAGE = "/opengraph-site-v1.jpg";
 const DEFAULT_TITLE = SITE_TITLE;
 const DEFAULT_DESCRIPTION = SITE_DESCRIPTION;
 
@@ -59,19 +57,21 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: "Fresco",
     publisher: "Fresco",
     category: "food",
+    // Link preview (WhatsApp, Facebook, X): the flyer's text and a screenshot of /opengraph. Pages with their own
+    // image (each product) override it.
     openGraph: {
       type: "website",
       siteName: "Fresco",
-      title: name,
-      description: DEFAULT_DESCRIPTION,
+      title: SHARE_TITLE,
+      description: SHARE_DESCRIPTION,
       locale: "es_UY",
-      images: [{ url: SITE_SHARE_IMAGE, width: 2400, height: 1260, alt: "Fresco, distribución mayorista de frutas y verduras", type: "image/jpeg" }],
+      images: [{ url: SHARE_IMAGE, width: 2400, height: 1260, alt: SHARE_IMAGE_ALT, type: "image/jpeg" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: name,
-      description: DEFAULT_DESCRIPTION,
-      images: [SITE_SHARE_IMAGE],
+      title: SHARE_TITLE,
+      description: SHARE_DESCRIPTION,
+      images: [SHARE_IMAGE],
     },
     appleWebApp: { capable: true, title: "Fresco", statusBarStyle: "default" },
     formatDetection: { telephone: false },

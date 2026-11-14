@@ -1,29 +1,23 @@
 import type { Metadata } from 'next';
 import { Check } from 'lucide-react';
 import SiteFooter from '@/src/components/SiteFooter';
+import { SHARE_DESCRIPTION, SHARE_IMAGE, SHARE_IMAGE_ALT, SHARE_TITLE } from '@/src/lib/siteMeta';
 
 // Link preview (WhatsApp, Facebook, LinkedIn): rendered on the server so the crawler, which does not run JavaScript, sees it.
-// The image is 2400x1260 (the 1.91:1 size the previews use, kept well under WhatsApp's 600 KB limit) and its file name carries a
-// version: WhatsApp caches previews hard, so a changed image needs a new file name (opengraph-flyer-v2.jpg ...).
-const APP_TITLE = 'Tus clientes piden solos. Siempre con tu margen.';
-const APP_DESCRIPTION =
-  'Fresco, la app de pedidos para distribuidores de frutas y verduras: pedidos fáciles de procesar, precios por cliente y clientes que repiten en un clic.';
-const APP_IMAGE = '/opengraph-flyer-v1.jpg';
-const APP_IMAGE_ALT = 'Fresco, la app de pedidos para distribuidores de frutas y verduras: el catálogo en un celular';
-
+// The text and the screenshot (2400x1260, ~140 KB, well under WhatsApp's 600 KB limit) live in src/lib/siteMeta.ts.
 export const metadata: Metadata = {
   title: 'Open Graph',
-  description: APP_DESCRIPTION,
+  description: SHARE_DESCRIPTION,
   alternates: { canonical: '/opengraph' },
   openGraph: {
     type: 'website',
     url: '/opengraph',
     siteName: 'Fresco',
-    title: APP_TITLE,
-    description: APP_DESCRIPTION,
-    images: [{ url: APP_IMAGE, width: 2400, height: 1260, alt: APP_IMAGE_ALT, type: 'image/jpeg' }],
+    title: SHARE_TITLE,
+    description: SHARE_DESCRIPTION,
+    images: [{ url: SHARE_IMAGE, width: 2400, height: 1260, alt: SHARE_IMAGE_ALT, type: 'image/jpeg' }],
   },
-  twitter: { card: 'summary_large_image', title: APP_TITLE, description: APP_DESCRIPTION, images: [APP_IMAGE] },
+  twitter: { card: 'summary_large_image', title: SHARE_TITLE, description: SHARE_DESCRIPTION, images: [SHARE_IMAGE] },
 };
 
 // Short on purpose: the page is a flyer that is opened from WhatsApp on a phone and has to fit one screen.

@@ -26,6 +26,8 @@ export async function generateViewport(): Promise<Viewport> {
   return { themeColor: backgroundColor || "#2E7D32", viewportFit: "cover" };
 }
 
+// Link preview image for every page that does not set its own (2400x1260, 1.91:1). WhatsApp caches previews: a new image needs a new file name.
+const SITE_SHARE_IMAGE = "/opengraph-site-v1.jpg";
 const DEFAULT_TITLE = SITE_TITLE;
 const DEFAULT_DESCRIPTION = SITE_DESCRIPTION;
 
@@ -63,13 +65,13 @@ export async function generateMetadata(): Promise<Metadata> {
       title: name,
       description: DEFAULT_DESCRIPTION,
       locale: "es_UY",
-      images: [{ url: "/icon-512.png", width: 512, height: 512, alt: "Fresco" }],
+      images: [{ url: SITE_SHARE_IMAGE, width: 2400, height: 1260, alt: "Fresco, distribución mayorista de frutas y verduras", type: "image/jpeg" }],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: name,
       description: DEFAULT_DESCRIPTION,
-      images: ["/icon-512.png"],
+      images: [SITE_SHARE_IMAGE],
     },
     appleWebApp: { capable: true, title: "Fresco", statusBarStyle: "default" },
     formatDetection: { telephone: false },

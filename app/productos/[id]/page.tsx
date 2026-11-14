@@ -100,6 +100,9 @@ export default async function ItemPage({ params }: Props) {
   return (
     <div className="relative min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] font-sans antialiased">
       <header className="absolute inset-x-0 top-0 z-30 text-white md:static md:text-[#1D1D1F] md:border-b md:border-[#000000]/5 md:bg-[#FBFBFD]">
+        <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug pt-[calc(0.375rem+env(safe-area-inset-top))] md:pt-1.5">
+          <span>Entregas diarias en Maldonado y Punta del Este</span>
+        </div>
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName onDark /></Link>
           <SiteNavLinks />
@@ -124,15 +127,15 @@ export default async function ItemPage({ params }: Props) {
               className={`object-cover ${inStock ? '' : 'opacity-50 grayscale'}`}
             />
           )}
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/70 from-25% via-black/35 via-55% to-transparent" aria-hidden="true" />
+          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_92%,transparent)] from-25% via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_50%,transparent)] via-55% to-transparent" aria-hidden="true" />
           <div className="absolute inset-x-0 top-0 -bottom-0.5 bg-gradient-to-t from-[#FBFBFD] from-22% via-[#FBFBFD]/95 via-36% to-transparent to-58%" aria-hidden="true" />
           <Link
             href="/productos"
-            className="absolute top-20 left-4 z-10 inline-flex items-center gap-2 text-sm font-medium text-white bg-black/40 backdrop-blur px-3 py-1.5 rounded-full"
+            className="absolute top-[6.75rem] left-4 z-10 inline-flex items-center gap-2 text-sm font-medium text-white bg-black/40 backdrop-blur px-3 py-1.5 rounded-full"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" /> Catálogo
           </Link>
-          <FavoriteButton productId={String(item.id)} title={item.title} className="absolute top-20 right-4 w-10 h-10 z-10" />
+          <FavoriteButton productId={String(item.id)} title={item.title} className="absolute top-[6.75rem] right-4 w-10 h-10 z-10" />
           {!inStock && (
             <span className="absolute top-32 left-4 z-10 bg-black/80 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
               Sin stock
@@ -164,7 +167,7 @@ export default async function ItemPage({ params }: Props) {
             />
           </div>
         </SwipeSection>
-        <div className="md:hidden mt-4">
+        <div className="md:hidden relative z-10 -mt-[9svh]">
           <BuyBox signInOnly itemId={isSample ? Number(id.replace('sample-', '')) : item.id} title={item.title} image={photo ?? ''} pricing={pricing} categoryId={item.type} inStock={inStock} />
         </div>
 

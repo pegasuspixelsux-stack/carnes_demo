@@ -30,7 +30,7 @@ export default function SimilarItems({ title, items, embedded = false }: { title
   return (
     <section
       aria-label={title}
-      className={embedded ? 'w-full pt-1 pb-2' : 'max-w-[1440px] mx-auto px-6 pt-4 md:pt-0 md:-mt-14 pb-8 md:pb-10 max-md:bg-white max-md:mt-0 max-md:w-full'}
+      className={embedded ? 'w-full pt-1 pb-2' : 'max-w-[1440px] mx-auto px-6 pt-4 md:pt-0 md:-mt-14 pb-8 md:pb-10 max-md:bg-white max-md:mt-0 max-md:w-full max-md:rounded-b-3xl max-md:pb-10 max-md:mb-3'}
     >
       <div className="flex items-end justify-between mb-6">
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">{title}</h2>

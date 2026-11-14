@@ -17,6 +17,12 @@ export default function ItemPriceView({ pricing, categoryId, glass }: { pricing:
   const options = saleOptions(pricing, wholesale ? 'wholesale' : 'retail', { allowLoose: client?.allowLoose });
   const box = boxDescription(pricing);
   const boxOption = options.find((o) => o.mode === 'por_caja');
+  // Wholesale customers only: what a case holds and costs, in small text under the per-kilo price. It comes from the item's
+  // configuration (box weight / units / box price in the dashboard), at the customer's level price.
+  const caseOption = saleOptions(pricing, 'wholesale', { allowLoose: true }).find((o) => o.mode === 'por_caja');
+  const casePrice = caseOption ? optionPrice(caseOption, categoryId, wholesale ? level : null).unit : undefined;
+  // "Caja de 18 kg · $2.160 por caja": what the case holds (kilos or units) and its price, from the item's configuration.
+  const caseLine = wholesale && casePrice !== undefined ? `${box || 'Caja'} · ${formatMoney(casePrice)} por caja` : null;
   // glass: no box background, light text, for use over the mobile hero photo
   const card = glass ? 'text-[#1D1D1F]' : 'bg-white border border-[#000000]/5';
   const muted = 'text-[#515154]';
@@ -32,6 +38,7 @@ export default function ItemPriceView({ pricing, categoryId, glass }: { pricing:
             </dt>
             <dd className={`mt-1 flex ${glass ? 'flex-col items-end' : 'flex-wrap items-baseline gap-x-2'}`}>
               <span className="text-2xl font-semibold">{withUnitSuffix(formatMoney(unit), o.mode)}</span>
+              {glass && caseLine && <span className={`text-[11px] leading-snug ${muted} text-right`}>{caseLine}</span>}
               {glass ? (
                 <span className="flex items-center justify-end gap-2">
                   {wholesale && level && <span className="bg-[#1D1D1F] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">Precio {level.name}</span>}
@@ -42,10 +49,10 @@ export default function ItemPriceView({ pricing, categoryId, glass }: { pricing:
                 was !== undefined && <s className="text-sm text-[#86868B]">{formatMoney(was)}</s>
               )}
             </dd>
-            {o.mode === 'por_caja' && (
-              <p className={`mt-1 text-xs ${muted}`}>
-                {box || 'Caja'}
-                {pricing.boxUnits && boxOption ? ` · ${formatMoney(Math.round((unit / pricing.boxUnits) * 100) / 100)} por ${pricing.pricingMode === 'por_atado' ? 'atado' : 'unidad'}` : ''}
+            {!glass && caseLine && <p className={`mt-1 text-[11px] leading-snug ${muted}`}>{caseLine}</p>}
+            {o.mode === 'por_caja' && pricing.boxUnits && boxOption && (
+              <p className={`mt-1 text-[11px] ${muted} ${glass ? 'text-right' : ''}`}>
+                {formatMoney(Math.round((unit / pricing.boxUnits) * 100) / 100)} por {pricing.pricingMode === 'por_atado' ? 'atado' : 'unidad'}
               </p>
             )}
             {!glass && !wholesale && o.salePrice !== undefined && (

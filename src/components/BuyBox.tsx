@@ -11,6 +11,9 @@ import { optionPrice, saleOptions, type SaleSource } from '@/src/utils/pricing';
 import type { PricingMode } from '@/src/types/firestore';
 
 const labelClass = 'block text-xs uppercase tracking-wider font-semibold text-[#515154] mb-2';
+/** "Agregar al carrito": same width and height as the homepage hero buttons, with a shadow and hover / press feedback. */
+const addButtonClass =
+  'w-full max-w-sm mx-auto flex items-center justify-center gap-2 rounded-full px-6 py-2.5 min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold bg-[#1D1D1F] text-white shadow-lg shadow-black/25 transition-all duration-300 hover:bg-[#333336] hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none';
 
 /**
  * Unit, quantity and an "Agregar al carrito" button. The item goes into the shared cart; the customer then closes the
@@ -139,9 +142,10 @@ export default function BuyBox({
       )}
 
       {onPhoto ? (
-        // One translucent glass pill: quantity stepper on the left, the add-to-cart button inside it on the right.
-        <div className="flex items-center rounded-full bg-white/50 backdrop-blur-md border border-black/10 p-1 text-[#1D1D1F]">
-          <div className="flex items-center shrink-0">
+        // Quantity stepper in a translucent pill, then the add-to-cart button below at the same size as the homepage buttons.
+        <div className="space-y-3">
+        <div className="flex items-center justify-between w-full max-w-sm mx-auto rounded-full bg-white/50 backdrop-blur-md border border-black/10 p-1 text-[#1D1D1F]">
+          <div className="flex items-center justify-between flex-1">
             <button
               type="button"
               onClick={() => setQty((q) => Math.max(1, q - 1))}
@@ -161,13 +165,10 @@ export default function BuyBox({
               <Plus className="w-4 h-4" />
             </button>
           </div>
-          <button
-            type="submit"
-            disabled={!inStock}
-            className="flex-1 min-w-0 ml-1 bg-[#1D1D1F] text-white py-2.5 px-3 rounded-full text-xs font-medium leading-tight transition-all hover:bg-[#333336] disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            {!inStock ? 'Sin stock' : `Agregar al carrito · ${formatMoney(unitPrice * qty)}`}
-          </button>
+        </div>
+        <button type="submit" disabled={!inStock} className={addButtonClass}>
+          {!inStock ? 'Sin stock' : `Agregar al carrito · ${formatMoney(unitPrice * qty)}`}
+        </button>
         </div>
       ) : (
         <>
@@ -198,7 +199,7 @@ export default function BuyBox({
           <button
             type="submit"
             disabled={!inStock}
-            className="w-full py-4 text-sm rounded-full font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-[#1D1D1F] text-white hover:bg-[#333336]"
+            className={`${addButtonClass} !mx-0`}
           >
             {!inStock ? 'Sin stock' : `Agregar al carrito · ${formatMoney(unitPrice * qty)}`}
           </button>

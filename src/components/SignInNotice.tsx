@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { KeyRound } from 'lucide-react';
 
 /** Event that WholesaleAccess listens to, so any page can open the client sign-in modal. */
@@ -12,7 +13,11 @@ export default function SignInNotice() {
       <div className="space-y-1">
         <p className="font-medium">Para hacer un pedido ingresá como cliente.</p>
         <p className="text-[#515154] font-light">
-          Los pedidos son solo para clientes con perfil. ¿Todavía no sos cliente? Solicitá el servicio desde “Mayoristas” en el inicio: tras la aprobación y la configuración del pago, Fresco te envía tu contraseña.
+          Los pedidos son solo para clientes con perfil. ¿Todavía no sos cliente?{' '}
+          <Link href="/#contact" className="font-medium text-[#1D1D1F] underline underline-offset-2 hover:text-[#2E7D32]">
+            Solicitá tu acceso aquí
+          </Link>
+          . Tras la aprobación y la configuración del pago, Fresco te envía tu contraseña.
         </p>
         <p className="text-[#515154] font-light">
           Al ingresar, el precio se actualiza según el nivel de precios de tu cuenta.

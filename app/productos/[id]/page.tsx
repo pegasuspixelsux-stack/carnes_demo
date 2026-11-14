@@ -115,8 +115,8 @@ export default async function ItemPage({ params }: Props) {
       </header>
 
       <main className="max-md:bg-[#FBFBFD] max-w-[1440px] mx-auto px-6 pt-10 pb-0 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 items-start">
-        {/* Mobile hero: full-bleed image, vertical gradient overlay, product info on top of it */}
-        <SwipeSection prevHref={prevHref} nextHref={nextHref} className="md:hidden relative -mx-6 -mt-10 min-h-[100svh] flex flex-col justify-end overflow-hidden bg-[#FBFBFD]">
+        {/* Mobile hero: full-bleed image, vertical gradient overlay, product info below it */}
+        <SwipeSection prevHref={prevHref} nextHref={nextHref} className="md:hidden relative -mx-6 -mt-10 h-[70svh] overflow-hidden bg-[#FBFBFD]">
           {photo && (
             <PropertyImage
               src={photo}
@@ -128,7 +128,6 @@ export default async function ItemPage({ params }: Props) {
             />
           )}
           <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[color-mix(in_srgb,#450a0a_92%,transparent)] from-25% via-[color-mix(in_srgb,#450a0a_50%,transparent)] via-55% to-transparent" aria-hidden="true" />
-          <div className="absolute inset-x-0 top-0 -bottom-0.5 bg-gradient-to-t from-[#FBFBFD] from-22% via-[#FBFBFD]/95 via-36% to-transparent to-58%" aria-hidden="true" />
           <Link
             href="/productos"
             className="absolute top-[6.75rem] left-4 z-10 inline-flex items-center gap-2 text-sm font-medium text-white bg-black/40 backdrop-blur px-3 py-1.5 rounded-full"
@@ -143,31 +142,31 @@ export default async function ItemPage({ params }: Props) {
           )}
           {prevHref && <HeroArrow dir="prev" href={prevHref} />}
           {nextHref && <HeroArrow dir="next" href={nextHref} />}
-          <div className="relative z-10 px-6 pb-[12.5svh] pt-24 space-y-4 text-[#1D1D1F]">
-            <div className="flex items-start justify-between gap-4">
-              <div className="min-w-0 space-y-1">
-                <p className="text-xs uppercase tracking-widest text-[#515154] font-semibold">{category}</p>
-                <h1 className="text-2xl font-semibold tracking-tight">{item.title}</h1>
-              </div>
-              <div className="shrink-0 text-right">
-                <ItemPriceView glass categoryId={item.type} pricing={pricing} />
-              </div>
-            </div>
-            {item.description && (
-              <p className="text-sm text-[#515154] font-light leading-relaxed whitespace-pre-line">{item.description}</p>
-            )}
-            <BuyBox
-              onPhoto
-              itemId={isSample ? Number(id.replace('sample-', '')) : item.id}
-              title={item.title}
-              image={photo ?? ''}
-              pricing={pricing}
-              categoryId={item.type}
-              inStock={inStock}
-            />
-          </div>
         </SwipeSection>
-        <div className="md:hidden relative z-10 -mt-[9svh]">
+        <div className="md:hidden relative z-10 pt-6 pb-8 space-y-4 text-[#1D1D1F]">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0 space-y-1">
+              <p className="text-xs uppercase tracking-widest text-[#515154] font-semibold">{category}</p>
+              <h1 className="text-2xl font-semibold tracking-tight">{item.title}</h1>
+            </div>
+            <div className="shrink-0 text-right">
+              <ItemPriceView glass categoryId={item.type} pricing={pricing} />
+            </div>
+          </div>
+          {item.description && (
+            <p className="text-sm text-[#515154] font-light leading-relaxed whitespace-pre-line">{item.description}</p>
+          )}
+          <BuyBox
+            onPhoto
+            itemId={isSample ? Number(id.replace('sample-', '')) : item.id}
+            title={item.title}
+            image={photo ?? ''}
+            pricing={pricing}
+            categoryId={item.type}
+            inStock={inStock}
+          />
+        </div>
+        <div className="md:hidden relative z-10">
           <BuyBox signInOnly itemId={isSample ? Number(id.replace('sample-', '')) : item.id} title={item.title} image={photo ?? ''} pricing={pricing} categoryId={item.type} inStock={inStock} />
         </div>
 

@@ -153,6 +153,14 @@ const HERO_HEADING_CLASS =
 const HERO_TEXT_CLASS =
   'mt-4 max-md:mt-1.5 md:mt-3 max-w-2xl max-md:w-full max-md:max-w-sm max-md:text-center text-[17px] max-md:text-[15px] max-md:leading-[1.35] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed';
 
+/** Hero buttons: dark-green-to-yellow gradient (primary) and a white outline (secondary), both with hover and press effects. */
+const HERO_BTN_BASE =
+  'inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold transition-all duration-300 ease-out active:translate-y-0 active:scale-95';
+const HERO_BTN_PRIMARY =
+  `${HERO_BTN_BASE} group text-white bg-gradient-to-r from-[#14532D] via-[#4D7C0F] to-[#A16207] bg-[length:200%_100%] bg-left hover:bg-right shadow-md shadow-black/25 ring-1 ring-yellow-300/50 hover:ring-yellow-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-400/40 active:brightness-90`;
+const HERO_BTN_SECONDARY =
+  `${HERO_BTN_BASE} border-2 border-white bg-transparent text-white hover:bg-white hover:text-[#14532D] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/30 active:bg-white/90`;
+
 export default function FrescoHome({
   initialProperties = [],
 }: {
@@ -257,15 +265,15 @@ export default function FrescoHome({
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full">
                   <Link
                     href="/productos"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
+                    className={HERO_BTN_PRIMARY}
                   >
                     <span className="truncate max-w-56">Catálogo · {client.businessName}</span>
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </Link>
                   <button
                     type="button"
                     onClick={signOutClient}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[var(--brand-bg,#2E7D32)] max-md:bg-transparent max-md:text-[var(--brand-bg,#2E7D32)] px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                    className={HERO_BTN_SECONDARY}
                   >
                     Cerrar sesión
                   </button>
@@ -277,16 +285,16 @@ export default function FrescoHome({
                   e.preventDefault();
                   window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: '/productos' } }));
                 }}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
+                className={HERO_BTN_PRIMARY}
               >
                 <span>Acceso al Catálogo Mayorista</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
               )}
               {!(client && level) && (
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 max-md:border-[#1D1D1F]/15 max-md:bg-white max-md:text-[#1D1D1F] max-md:shadow-sm px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
+                className={HERO_BTN_SECONDARY}
               >
                 <KeyRound className="w-4 h-4" />
                 <span>Solicitar acceso mayorista</span>

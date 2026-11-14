@@ -6,9 +6,8 @@ import { Heart, House, LayoutGrid, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/src/context/CartContext';
 
 /**
- * Bottom navigation for the installed app (home-screen icon). In a browser the browser's own toolbar does this job,
- * but an installed web app has no browser bar, so this one appears only on phones in standalone mode
- * (the CSS in globals.css decides: `.app-bottom-nav`). It is on every page, including the dashboard.
+ * Bottom navigation for phones: Inicio, Catálogo, Favoritos and Carrito, on every page (the CSS in globals.css shows it
+ * below 768px only: `.app-bottom-nav`). It also covers the installed app (home-screen icon), which has no browser toolbar.
  */
 export default function BottomNav() {
   const pathname = usePathname();

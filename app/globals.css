@@ -146,11 +146,11 @@ html {
   }
 }
 
-/* Installed app (home-screen icon) on phones: there is no browser toolbar, so the app shows its own bottom nav. */
+/* Phones: the app's own bottom nav (Inicio, Catálogo, Favoritos, Carrito) on every page, in the browser and when installed. */
 .app-bottom-nav {
   display: none;
 }
-@media (display-mode: standalone) and (max-width: 767px) {
+@media (max-width: 767px) {
   .app-bottom-nav {
     display: flex;
   }

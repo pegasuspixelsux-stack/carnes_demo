@@ -6,6 +6,7 @@ import { ClientProvider } from "@/src/context/ClientContext";
 import { CartProvider } from "@/src/context/CartContext";
 import { BusinessProvider } from "@/src/context/BusinessContext";
 import { getBusinessSettings } from "@/src/services/businessService";
+import BottomNav from "@/src/components/BottomNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +21,8 @@ const geistMono = Geist_Mono({
 // Colors the browser toolbar / status bar (Safari, Chrome on phones).
 export async function generateViewport(): Promise<Viewport> {
   const { backgroundColor } = await getBusinessSettings();
-  return { themeColor: backgroundColor || "#2E7D32" };
+  // viewport-fit=cover lets the installed app use the whole screen; the pages add the safe-area padding themselves.
+  return { themeColor: backgroundColor || "#2E7D32", viewportFit: "cover" };
 }
 
 const DEFAULT_TITLE = "Fresco para Mayoristas";
@@ -87,7 +89,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <BusinessProvider initial={business}>
           <ClientProvider>
-            <CartProvider>{children}</CartProvider>
+            <CartProvider>
+              {children}
+              <BottomNav />
+            </CartProvider>
           </ClientProvider>
         </BusinessProvider>
       </body>

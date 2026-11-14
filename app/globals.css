@@ -145,3 +145,17 @@ html {
     background: rgb(255 255 255 / 0.12);
   }
 }
+
+/* Installed app (home-screen icon) on phones: there is no browser toolbar, so the app shows its own bottom nav. */
+.app-bottom-nav {
+  display: none;
+}
+@media (display-mode: standalone) and (max-width: 767px) {
+  .app-bottom-nav {
+    display: flex;
+  }
+  /* keep the page's last content clear of the bar (about 56px plus the home indicator) */
+  body {
+    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  }
+}

@@ -31,6 +31,9 @@ export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; n
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [remember, setRemember] = useState(false);
+  // After a login that continues to another page the dialog stays up ("Entrando…") until that page replaces this one,
+  // so the page behind it never flashes its signed-in state.
+  const [redirecting, setRedirecting] = useState(false);
   const router = useRouter();
   // Set when the modal was opened by a button that should continue to a page after signing in.
   const [redirectTo, setRedirectTo] = useState<string | null>(null);
@@ -45,6 +48,16 @@ export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; n
     window.addEventListener(OPEN_CLIENT_LOGIN, show);
     return () => window.removeEventListener(OPEN_CLIENT_LOGIN, show);
   }, [noModal]);
+
+  useEffect(() => {
+    if (!redirecting) return;
+    const t = window.setTimeout(() => {
+      setRedirecting(false);
+      setBusy(false);
+      setOpen(false);
+    }, 8000);
+    return () => window.clearTimeout(t);
+  }, [redirecting]);
 
   // Prefill the remembered phone each time the modal opens.
   useEffect(() => {
@@ -63,7 +76,7 @@ export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; n
     return () => window.removeEventListener('keydown', onKey);
   }, [open]);
 
-  if (client && level) {
+  if (client && level && !redirecting) {
     return (
       <div className={`flex items-center gap-1 rounded-full bg-[#F5F5F7] text-[#1D1D1F] border border-[#000000]/5 pl-3 pr-1 py-1 text-xs min-w-0 ${glass ? 'max-md:bg-white/25 max-md:backdrop-blur-md max-md:border-white/30 max-md:text-white' : ''}`}>
         <span className="truncate max-w-32 sm:max-w-60 font-medium" title={`${client.businessName} · ${level.name}`}>
@@ -100,20 +113,27 @@ export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; n
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phone.trim() || !code.trim()) return setError('Ingresá tu teléfono y tu contraseña o PIN.');
+    if (redirectTo) setRedirecting(true); // keep this dialog mounted when the session starts
     setBusy(true);
     setError(null);
     const result = await login(phone, code);
-    setBusy(false);
     if (result === 'ok') {
       try {
         if (remember) localStorage.setItem(PHONE_KEY, phone.trim());
         else localStorage.removeItem(PHONE_KEY);
       } catch {}
+      if (redirectTo) {
+        // Straight to the page: the dialog stays on screen (busy) until the new page takes over.
+        router.push(redirectTo);
+        return;
+      }
+      setBusy(false);
       setOpen(false);
-      if (redirectTo) router.push(redirectTo);
       setPhone('');
       setCode('');
     } else {
+      setBusy(false);
+      setRedirecting(false);
       setError(errors[result]);
     }
   };
@@ -165,7 +185,7 @@ export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; n
               </label>
               {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
               <button type="submit" disabled={busy} className="w-full bg-[#1D1D1F] text-white py-3.5 rounded-full text-sm font-medium hover:bg-[#333336] transition-all disabled:opacity-50">
-                {busy ? 'Verificando…' : 'Ingresar'}
+                {busy ? (redirecting ? 'Entrando al catálogo…' : 'Verificando…') : 'Ingresar'}
               </button>
             </form>
             <p className="text-xs text-[#86868B] mt-4">

@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { groupByCategory } from '@/src/utils/group';
 import Link from 'next/link';
-import { LayoutGrid, List, Plus, Search, SlidersHorizontal, Square, X } from 'lucide-react';
+import { Heart, LayoutGrid, List, LogOut, Plus, Search, SlidersHorizontal, Square, X } from 'lucide-react';
 import type { HomeProperty } from '@/src/lib/homeData';
 import { typeLabels } from '@/src/utils/format';
 import PropertyImage from '@/src/components/PropertyImage';
@@ -42,6 +42,12 @@ const fieldClass =
   'w-full bg-[#FBFBFD] border border-[#000000]/10 rounded-xl px-3 py-2.5 text-sm text-[#1D1D1F] focus:outline-none focus:border-[#1D1D1F] transition-colors';
 const labelClass = 'block text-[10px] uppercase tracking-wider font-semibold text-[#515154] mb-1.5';
 
+/** Greeting for the hour of the day on the visitor's device. */
+const greeting = () => {
+  const h = new Date().getHours();
+  return h >= 6 && h < 12 ? 'Buenos días' : h >= 12 && h < 20 ? 'Buenas tardes' : 'Buenas noches';
+};
+
 /** Page buttons: 1 … 4 5 6 … 9 (null = gap). */
 function pageNumbers(current: number, total: number): (number | null)[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
@@ -57,7 +63,7 @@ function pageNumbers(current: number, total: number): (number | null)[] {
 
 export default function CatalogPage({ items: baseItems }: { items: HomeProperty[] }) {
   // A customer who opened their access link sees their price level; everyone else sees list prices.
-  const { client, level } = useClient();
+  const { client, level, signOutClient, favorites } = useClient();
   const allowLoose = client?.allowLoose ?? false;
   const items = useMemo(() => applyBoxFirst(applyLevel(baseItems, level), level, allowLoose), [baseItems, level, allowLoose]);
   const [query, setQuery] = useState('');
@@ -207,7 +213,39 @@ const activeFilters =
       </header>
 
       {/* --- ALL PRODUCTS: 4-column grid --- */}
-      <section id="catalog" className={`pt-4 md:pt-6 pb-12 px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 max-md:bg-white max-md:rounded-3xl max-md:mt-3`}>
+      <section id="catalog" className={`pt-4 md:pt-6 pb-12 px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 bg-[#ECECF1] rounded-3xl max-md:mt-3 max-md:mb-2 md:mt-4 md:w-[calc(100%-3rem)]`}>
+        {/* Signed-in customer: greeting with their favorites and a log-out button, above the search */}
+        {client && level && (
+          <div className="mb-5 flex flex-col items-center gap-2 text-center md:flex-row md:justify-between md:text-left">
+            <p className="text-[clamp(24px,7.5vw,28px)] md:text-2xl font-semibold tracking-[-0.02em] leading-[1.15] text-[#1D1D1F] text-balance">
+              {greeting()}, {(client.contactName || client.businessName).split(' ')[0]}
+            </p>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/favoritos"
+                className="h-9 px-4 rounded-full bg-white text-[#1D1D1F] text-sm font-medium inline-flex items-center gap-2 hover:bg-[#F5F5F7] active:scale-95 transition"
+              >
+                <Heart className="w-4 h-4" />
+                Favoritos
+                {favorites.length > 0 && (
+                  <span className="min-w-4 h-4 px-1 rounded-full bg-[#2E7D32] text-white text-[10px] font-semibold flex items-center justify-center">
+                    {favorites.length}
+                  </span>
+                )}
+              </Link>
+              <button
+                type="button"
+                onClick={signOutClient}
+                aria-label="Cerrar sesión"
+                title="Cerrar sesión"
+                className="w-9 h-9 shrink-0 rounded-full bg-white text-[#1D1D1F] flex items-center justify-center hover:bg-[#F5F5F7] active:scale-95 transition"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Search bar (with the filters) */}
         <div id="search" className="mb-4">
           <form
@@ -235,7 +273,7 @@ const activeFilters =
                 onClick={() => setFiltersOpen((o) => !o)}
                 aria-expanded={filtersOpen}
                 aria-controls="advanced-filters"
-                className="md:hidden shrink-0 relative w-11 h-11 rounded-full bg-[#F5F5F7] flex items-center justify-center"
+                className="md:hidden shrink-0 relative w-11 h-11 rounded-full bg-white flex items-center justify-center"
                 aria-label="Mostrar filtros"
               >
                 <SlidersHorizontal className="w-4 h-4" />
@@ -360,7 +398,7 @@ const activeFilters =
                     onClick={() => change(setCategory)(c.id)}
                     aria-pressed={active}
                     className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-medium transition-colors ${
-                      active ? 'bg-[#2E7D32] text-white' : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
+                      active ? 'bg-[#2E7D32] text-white' : 'bg-white text-[#1D1D1F] hover:bg-[#F5F5F7]'
                     }`}
                   >
                     {c.label}
@@ -368,7 +406,7 @@ const activeFilters =
                 );
               })}
             </div>
-            <div role="group" aria-label="Diseño de la lista" className="md:hidden shrink-0 inline-flex rounded-full bg-[#F5F5F7] p-0.5">
+            <div role="group" aria-label="Diseño de la lista" className="md:hidden shrink-0 inline-flex rounded-full bg-white p-0.5">
               {([
                 ['one', Square, '1 columna'],
                 ['two', LayoutGrid, '2 columnas'],
@@ -382,7 +420,7 @@ const activeFilters =
                   aria-label={label}
                   title={label}
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                    layout === value ? 'bg-[#2E7D32] text-white' : 'text-[#515154] hover:bg-[#E8E8ED]'
+                    layout === value ? 'bg-[#2E7D32] text-white' : 'text-[#515154] hover:bg-[#F5F5F7]'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -392,7 +430,7 @@ const activeFilters =
           </div>
         </div>
 
-        <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6`}>
+        <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 ${layout === 'list' ? 'gap-2' : 'gap-3'} md:gap-6`}>
           {filtered.length === 0 && (
             <div className="col-span-full text-center text-[#515154] text-sm py-16">
               <p>No hay productos que coincidan con tu búsqueda.</p>
@@ -468,18 +506,18 @@ const activeFilters =
             </div>
             </div>
             {layout === 'list' && (
-              <div className="md:hidden flex items-center gap-3 rounded-2xl bg-white border border-[#000000]/5 p-2.5">
+              <div className="md:hidden flex items-center gap-3 overflow-hidden rounded-2xl bg-white border border-[#000000]/5 pr-2.5">
                 {prop.href ? (
                   <Link
                     href={prop.href}
                     aria-label={`Ver ${prop.title}`}
-                    className={`relative w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-[#E5E5EA] ${soldOut ? 'opacity-50 grayscale' : ''}`}
+                    className={`relative w-32 h-32 shrink-0 overflow-hidden bg-[#E5E5EA] ${soldOut ? 'opacity-50 grayscale' : ''}`}
                   >
-                    <PropertyImage src={prop.image} alt={prop.title} variant="thumb" sizes="96px" />
+                    <PropertyImage src={prop.image} alt={prop.title} variant="thumb" sizes="128px" />
                   </Link>
                 ) : (
-                  <div className={`relative w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-[#E5E5EA] ${soldOut ? 'opacity-50 grayscale' : ''}`}>
-                    <PropertyImage src={prop.image} alt={prop.title} variant="thumb" sizes="96px" />
+                  <div className={`relative w-32 h-32 shrink-0 overflow-hidden bg-[#E5E5EA] ${soldOut ? 'opacity-50 grayscale' : ''}`}>
+                    <PropertyImage src={prop.image} alt={prop.title} variant="thumb" sizes="128px" />
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
@@ -526,7 +564,7 @@ const activeFilters =
               type="button"
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className="h-11 px-4 rounded-full bg-[#F5F5F7] text-sm font-medium hover:bg-[#E8E8ED] disabled:opacity-40 transition-colors"
+              className="h-11 px-4 rounded-full bg-white text-sm font-medium hover:bg-[#F5F5F7] disabled:opacity-40 transition-colors"
             >
               ← Anterior
             </button>
@@ -541,7 +579,7 @@ const activeFilters =
                   aria-label={`Página ${n}`}
                   aria-current={n === currentPage ? 'page' : undefined}
                   className={`h-11 min-w-11 px-3 rounded-full text-sm font-medium transition-colors ${
-                    n === currentPage ? 'bg-[#2E7D32] text-white' : 'bg-[#F5F5F7] hover:bg-[#E8E8ED]'
+                    n === currentPage ? 'bg-[#2E7D32] text-white' : 'bg-white hover:bg-[#F5F5F7]'
                   }`}
                 >
                   {n}
@@ -552,7 +590,7 @@ const activeFilters =
               type="button"
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="h-11 px-4 rounded-full bg-[#F5F5F7] text-sm font-medium hover:bg-[#E8E8ED] disabled:opacity-40 transition-colors"
+              className="h-11 px-4 rounded-full bg-white text-sm font-medium hover:bg-[#F5F5F7] disabled:opacity-40 transition-colors"
             >
               Siguiente →
             </button>

@@ -21,17 +21,9 @@ import {
   ArrowUpRight,
   KeyRound,
   Search,
-  LogOut,
-  Heart,
 } from 'lucide-react';
 import BrandName from '@/src/components/BrandName';
 import { useBusiness } from '@/src/context/BusinessContext';
-
-/** Greeting for the hour of the day on the visitor's device. */
-const greeting = () => {
-  const h = new Date().getHours();
-  return h >= 6 && h < 12 ? 'Buenos días' : h >= 12 && h < 20 ? 'Buenas tardes' : 'Buenas noches';
-};
 
 
 
@@ -159,7 +151,7 @@ const HERO_BTN_BASE =
 const HERO_BTN_PRIMARY =
   `${HERO_BTN_BASE} group text-white bg-gradient-to-r from-[#14532D] via-[#4D7C0F] to-[#A16207] bg-[length:200%_100%] bg-left hover:bg-right shadow-md shadow-black/25 ring-1 ring-yellow-300/50 hover:ring-yellow-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-400/40 active:brightness-90`;
 const HERO_BTN_SECONDARY =
-  `${HERO_BTN_BASE} border-2 border-white bg-transparent text-white hover:bg-white hover:text-[#14532D] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/30 active:bg-white/90`;
+  `${HERO_BTN_BASE} border-2 border-white bg-transparent text-white shadow-md shadow-black/25 hover:bg-white hover:text-[#14532D] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/30 active:bg-white/90`;
 
 export default function FrescoHome({
   initialProperties = [],
@@ -174,7 +166,7 @@ export default function FrescoHome({
       : fallbackProperties.map((p) => ({ ...p, href: `/productos/sample-${p.id}` })),
   );
   // A customer who logged in with Acceso mayoristas sees their price level; everyone else sees list prices.
-  const { client, level, signOutClient, favorites } = useClient();
+  const { client, level, signOutClient } = useClient();
   const business = useBusiness();
   const router = useRouter();
   const allowLoose = client?.allowLoose ?? false;
@@ -306,41 +298,8 @@ export default function FrescoHome({
       </div>
 
       {/* --- BODY: search, category pills and the "Más vendidos" slider. The full catalog (12 per page) lives at /productos --- */}
-      <section id="properties" className="scroll-mt-4 pt-[clamp(16px,3svh,24px)] md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mt-[clamp(8px,1.5svh,16px)]">
+      <section id="properties" className="scroll-mt-4 pt-[clamp(16px,3svh,24px)] md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mt-[clamp(8px,1.5svh,16px)] max-md:mb-2">
 
-        {/* Phones: the catalog is this page. Signed in: a greeting with a log-out arrow; signed out: nothing (login is in the hero buttons) */}
-        <div className={`md:hidden ${client && level ? 'flex' : 'hidden'} flex-col items-center gap-2 mb-[clamp(16px,2.5svh,24px)] text-center`}>
-          {client && level ? (
-            <>
-              <p className="text-[clamp(24px,7.5vw,28px)] font-semibold tracking-[-0.02em] leading-[1.15] text-[#1D1D1F] text-balance">
-                {greeting()}, {(client.contactName || client.businessName).split(' ')[0]}
-              </p>
-              <div className="flex items-center gap-2">
-                <Link
-                  href="/favoritos"
-                  className="h-9 px-4 rounded-full bg-[#F5F5F7] text-[#1D1D1F] text-sm font-medium inline-flex items-center gap-2 hover:bg-[#E8E8ED] active:scale-95 transition"
-                >
-                  <Heart className="w-4 h-4" />
-                  Favoritos
-                  {favorites.length > 0 && (
-                    <span className="min-w-4 h-4 px-1 rounded-full bg-[#2E7D32] text-white text-[10px] font-semibold flex items-center justify-center">
-                      {favorites.length}
-                    </span>
-                  )}
-                </Link>
-                <button
-                  type="button"
-                  onClick={signOutClient}
-                  aria-label="Cerrar sesión"
-                  title="Cerrar sesión"
-                  className="w-9 h-9 shrink-0 rounded-full bg-[#F5F5F7] text-[#1D1D1F] flex items-center justify-center hover:bg-[#E8E8ED] active:scale-95 transition"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              </div>
-            </>
-          ) : null}
-        </div>
         <form
             role="search"
             onSubmit={(e) => {

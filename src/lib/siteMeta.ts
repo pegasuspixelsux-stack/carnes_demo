@@ -7,6 +7,8 @@ export const SITE_DESCRIPTION =
 export const SHARE_TITLE = 'Tus clientes piden solos. Siempre con tu margen.';
 export const SHARE_DESCRIPTION =
   'La app de pedidos para distribuidores de frutas y verduras. Pedidos fáciles de procesar · Precios dinámicos, cambios en segundos · Niveles de precio por cliente · Protegé tu margen en cada venta · Tus clientes repiten su pedido en un clic · Fidelizá con favoritos y app propia';
-/** 2400x1260 (1.91:1), ~150 KB. WhatsApp caches previews hard: a changed image needs a new file name (opengraph-v3.jpg ...). */
-export const SHARE_IMAGE = '/opengraph-v2.jpg';
+/** A 1440 x 1440 px (square) screenshot of the /opengraph hero. WhatsApp caches previews hard: a changed image needs a new file name (opengraph-v4.jpg ...). */
+export const SHARE_IMAGE = '/opengraph-v3.jpg';
+export const SHARE_IMAGE_WIDTH = 1440;
+export const SHARE_IMAGE_HEIGHT = 1440;
 export const SHARE_IMAGE_ALT = 'Fresco, la app de pedidos para distribuidores de frutas y verduras: el catálogo en un celular';

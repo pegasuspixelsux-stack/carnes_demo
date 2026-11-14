@@ -7,7 +7,7 @@ import { CartProvider } from "@/src/context/CartContext";
 import { BusinessProvider } from "@/src/context/BusinessContext";
 import { getBusinessSettings } from "@/src/services/businessService";
 import BottomNav from "@/src/components/BottomNav";
-import { SHARE_DESCRIPTION, SHARE_IMAGE, SHARE_IMAGE_ALT, SHARE_TITLE, SITE_DESCRIPTION, SITE_TITLE } from "@/src/lib/siteMeta";
+import { SHARE_DESCRIPTION, SHARE_IMAGE, SHARE_IMAGE_ALT, SHARE_IMAGE_HEIGHT, SHARE_IMAGE_WIDTH, SHARE_TITLE, SITE_DESCRIPTION, SITE_TITLE } from "@/src/lib/siteMeta";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,7 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: SHARE_TITLE,
       description: SHARE_DESCRIPTION,
       locale: "es_UY",
-      images: [{ url: SHARE_IMAGE, width: 2400, height: 1260, alt: SHARE_IMAGE_ALT, type: "image/jpeg" }],
+      images: [{ url: SHARE_IMAGE, width: SHARE_IMAGE_WIDTH, height: SHARE_IMAGE_HEIGHT, alt: SHARE_IMAGE_ALT, type: "image/jpeg" }],
     },
     twitter: {
       card: "summary_large_image",

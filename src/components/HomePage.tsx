@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { HomeProperty } from '@/src/lib/homeData';
@@ -9,6 +9,8 @@ import SiteFooter from '@/src/components/SiteFooter';
 import InfoSections from '@/src/components/InfoSections';
 import SimilarItems from '@/src/components/SimilarItems';
 import FitText from '@/src/components/FitText';
+import InstallButton from '@/src/components/InstallButton';
+import SearchModal from '@/src/components/SearchModal';
 import { toBestSellers } from '@/src/utils/bestSellers';
 import CartButton from '@/src/components/CartButton';
 import { OPEN_CLIENT_LOGIN } from '@/src/components/SignInNotice';
@@ -145,11 +147,11 @@ const HERO_HEADING_CLASS =
 const HERO_TEXT_CLASS =
   'mt-4 max-md:mt-1.5 md:mt-3 max-w-2xl max-md:w-full max-md:max-w-sm max-md:text-center text-[17px] max-md:text-[15px] max-md:leading-[1.35] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed';
 
-/** Hero buttons: dark-green-to-yellow gradient (primary) and a white outline (secondary), both with hover and press effects. */
+/** Hero buttons: dark-to-light green vertical gradient (primary) and a white outline (secondary), both with hover and press effects. */
 const HERO_BTN_BASE =
   'inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold transition-all duration-300 ease-out active:translate-y-0 active:scale-95';
 const HERO_BTN_PRIMARY =
-  `${HERO_BTN_BASE} group text-white bg-gradient-to-r from-[#14532D] via-[#4D7C0F] to-[#A16207] bg-[length:200%_100%] bg-left hover:bg-right shadow-md shadow-black/25 ring-1 ring-yellow-300/50 hover:ring-yellow-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-400/40 active:brightness-90`;
+  `${HERO_BTN_BASE} group text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.35)] bg-gradient-to-b from-[#14532D] to-[#43A047] shadow-md shadow-black/25 ring-1 ring-white/30 hover:ring-white/70 hover:brightness-110 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-300/40 active:brightness-90`;
 const HERO_BTN_SECONDARY =
   `${HERO_BTN_BASE} border-2 border-white bg-transparent text-white shadow-md shadow-black/25 hover:bg-white hover:text-[#14532D] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/30 active:bg-white/90`;
 
@@ -169,6 +171,16 @@ export default function FrescoHome({
   const { client, level, signOutClient } = useClient();
   const business = useBusiness();
   const router = useRouter();
+  // Phone top nav: transparent over the hero, blurred and tinted once the page scrolls.
+  const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   const allowLoose = client?.allowLoose ?? false;
   const properties = useMemo(() => applyBoxFirst(applyLevel(baseProperties, level), level, allowLoose), [baseProperties, level, allowLoose]);
   const [query, setQuery] = useState('');
@@ -187,6 +199,31 @@ export default function FrescoHome({
 
   return (
     <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
+
+      {/* --- PHONE TOP NAV: burger on the left; search and "add to home screen" on the right --- */}
+      <header
+        className={`md:hidden fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] backdrop-blur-md transition-[background-color] duration-300 ${
+          scrolled ? 'bg-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_72%,transparent)]' : 'bg-transparent'
+        }`}
+      >
+        <div className="h-14 px-3 flex items-center justify-between">
+          <MobileNavMenu bare align="left" />
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              aria-label="Búsqueda avanzada"
+              title="Búsqueda avanzada"
+              className="w-10 h-10 shrink-0 flex items-center justify-center text-white drop-shadow hover:opacity-80 active:scale-90 transition"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+            <InstallButton className="w-10 h-10 shrink-0 flex items-center justify-center text-white drop-shadow hover:opacity-80 active:scale-90 transition" />
+          </div>
+        </div>
+      </header>
+
+      <SearchModal open={searchOpen} onClose={closeSearch} categories={categories} initialQuery={query} />
 
       {/* --- NAVIGATION --- */}
       <header className="hidden md:block sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
@@ -207,7 +244,7 @@ export default function FrescoHome({
       </header>
 
       <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
-        <section data-home-hero className="relative w-full max-md:h-[calc(50svh-clamp(8px,1.5svh,16px))] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
+        <section data-home-hero className="relative w-full max-md:h-[calc(50svh-clamp(8px,1.5svh,16px)+3.5rem+env(safe-area-inset-top))] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
           {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
           <div
             aria-hidden="true"
@@ -228,7 +265,7 @@ export default function FrescoHome({
             <img src="/fresco_footer_white.png" alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
           </div>
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
-            <div className="md:hidden relative flex flex-1 min-h-0 items-center justify-center px-5 pt-[env(safe-area-inset-top)]">
+            <div className="md:hidden relative flex flex-1 min-h-0 items-center justify-center px-5 pt-[calc(3.5rem+env(safe-area-inset-top))]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="h-[48%] w-auto max-w-full object-contain drop-shadow-lg" />
           </div>
@@ -312,6 +349,7 @@ export default function FrescoHome({
             <div className="flex items-center gap-2 pl-3">
               <Search className="hidden md:block w-5 h-5 text-[#515154] shrink-0" />
               <input
+                id="home-search"
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}

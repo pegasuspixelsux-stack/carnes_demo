@@ -9,7 +9,7 @@ import { useBusiness } from '@/src/context/BusinessContext';
 import { socialLinks } from '@/src/components/SocialIcons';
 
 /** Burger button for phones and tablets: opens a dropdown with the top-navigation links. Hidden from lg up. */
-export default function MobileNavMenu({ glass }: { glass?: boolean } = {}) {
+export default function MobileNavMenu({ glass, bare, align = 'right' }: { glass?: boolean; bare?: boolean; align?: 'left' | 'right' } = {}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const socials = socialLinks(useBusiness());
@@ -37,7 +37,7 @@ export default function MobileNavMenu({ glass }: { glass?: boolean } = {}) {
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
         aria-expanded={open}
-        className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center hover:bg-[#F5F5F7] transition-colors ${glass ? 'max-md:bg-white/25 max-md:backdrop-blur-md max-md:border max-md:border-white/30 max-md:text-white max-md:hover:bg-white/35' : ''}`}
+        className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center hover:bg-[#F5F5F7] transition-colors ${bare ? 'max-md:bg-transparent max-md:text-white max-md:hover:bg-transparent max-md:hover:opacity-80 max-md:drop-shadow' : glass ? 'max-md:bg-white/25 max-md:backdrop-blur-md max-md:border max-md:border-white/30 max-md:text-white max-md:hover:bg-white/35' : ''}`}
       >
         {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
@@ -45,7 +45,7 @@ export default function MobileNavMenu({ glass }: { glass?: boolean } = {}) {
       {open && (
         <nav
           aria-label="Menú principal"
-          className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-white border border-[#000000]/5 shadow-lg py-2 z-50"
+          className={`absolute ${align === 'left' ? 'left-0' : 'right-0'} top-full mt-2 w-56 rounded-2xl bg-white border border-[#000000]/5 shadow-lg py-2 z-50`}
         >
           {[{ href: '/', label: 'Inicio' }, ...navLinks, { href: '/dashboard', label: 'Administración' }].map((l) => (
             <Link key={l.label} href={l.href} onClick={() => setOpen(false)} className={linkClass}>

@@ -45,13 +45,20 @@ export function socialUrl(kind: 'instagram' | 'facebook' | 'youtube', value: str
   return `https://youtube.com/${v.startsWith('@') ? v : handle}`;
 }
 
-/** The social links that are set in Ajustes (plus WhatsApp), ready to render as icons. */
+/** Shown until real accounts are set in Ajustes (dashboard > Ajustes > Redes sociales): the networks' own sites. */
+const DEFAULT_SOCIAL = {
+  instagram: 'https://www.instagram.com/',
+  facebook: 'https://www.facebook.com/',
+  youtube: 'https://www.youtube.com/',
+};
+
+/** The social links set in Ajustes (plus WhatsApp when a number is set), ready to render as icons. */
 export function socialLinks(b: BusinessSettings) {
   const wa = b.whatsapp ? whatsappUrl(b.whatsapp, 'Hola, quiero consultar por el catálogo.') : null;
   return [
-    { key: 'instagram', label: 'Instagram', href: socialUrl('instagram', b.instagram), Icon: InstagramIcon },
-    { key: 'facebook', label: 'Facebook', href: socialUrl('facebook', b.facebook), Icon: FacebookIcon },
-    { key: 'youtube', label: 'YouTube', href: socialUrl('youtube', b.youtube), Icon: YoutubeIcon },
+    { key: 'instagram', label: 'Instagram', href: socialUrl('instagram', b.instagram) ?? DEFAULT_SOCIAL.instagram, Icon: InstagramIcon },
+    { key: 'facebook', label: 'Facebook', href: socialUrl('facebook', b.facebook) ?? DEFAULT_SOCIAL.facebook, Icon: FacebookIcon },
+    { key: 'youtube', label: 'YouTube', href: socialUrl('youtube', b.youtube) ?? DEFAULT_SOCIAL.youtube, Icon: YoutubeIcon },
     { key: 'whatsapp', label: 'WhatsApp', href: wa, Icon: MessageCircle },
   ].filter((l): l is typeof l & { href: string } => !!l.href);
 }

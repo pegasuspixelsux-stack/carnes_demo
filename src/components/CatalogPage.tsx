@@ -68,22 +68,32 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
   const items = useMemo(() => applyBoxFirst(applyLevel(baseItems, level), level, allowLoose), [baseItems, level, allowLoose]);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
-  // Links from the homepage and footer open the catalog already filtered: /productos?category=<id>&q=<search>.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const c = params.get('category');
-    const q = params.get('q');
-    /* eslint-disable react-hooks/set-state-in-effect -- initial filters from the URL */
-    if (c) setCategory(c);
-    if (q) setQuery(q);
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
   const [availability, setAvailability] = useState<Availability>('all');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [sort, setSort] = useState<Sort>('relevance');
   const [page, setPage] = useState(1);
 const [filtersOpen, setFiltersOpen] = useState(false); // mobile only
+
+  // Links from the homepage and footer open the catalog already filtered: /productos?category=<id>&q=<search>.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const c = params.get('category');
+    const q = params.get('q');
+    const av = params.get('availability');
+    const mn = params.get('min');
+    const mx = params.get('max');
+    const so = params.get('sort');
+    /* eslint-disable react-hooks/set-state-in-effect -- initial filters from the URL */
+    if (c) setCategory(c);
+    if (q) setQuery(q);
+    if (av === 'in-stock' || av === 'on-sale') setAvailability(av);
+    if (mn && Number.isFinite(Number(mn))) setMinPrice(mn);
+    if (mx && Number.isFinite(Number(mx))) setMaxPrice(mx);
+    if (so === 'price-asc' || so === 'price-desc' || so === 'name') setSort(so);
+    if (av || mn || mx || so) setFiltersOpen(true); // show the advanced filters that were applied
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 // The top nav is transparent at the top of the page and gets a blurred background once you scroll.
 const [scrolled, setScrolled] = useState(false);
 useEffect(() => {

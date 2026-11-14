@@ -7,6 +7,7 @@ import { CartProvider } from "@/src/context/CartContext";
 import { BusinessProvider } from "@/src/context/BusinessContext";
 import { getBusinessSettings } from "@/src/services/businessService";
 import BottomNav from "@/src/components/BottomNav";
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/src/lib/siteMeta";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +26,8 @@ export async function generateViewport(): Promise<Viewport> {
   return { themeColor: backgroundColor || "#2E7D32", viewportFit: "cover" };
 }
 
-const DEFAULT_TITLE = "Fresco para Mayoristas";
-const DEFAULT_DESCRIPTION =
-  "Fresco, distribuidor hortifrutícola para la gastronomía de Punta del Este: frutas, verduras y hojas verdes frescas para restaurantes, hoteles y comercios. Catálogo mayorista y entregas diarias.";
+const DEFAULT_TITLE = SITE_TITLE;
+const DEFAULT_DESCRIPTION = SITE_DESCRIPTION;
 
 // Absolute base for the social-share image and canonical URLs (Vercel sets the production host).
 const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
@@ -57,14 +57,12 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: "Fresco",
     publisher: "Fresco",
     category: "food",
-    alternates: { canonical: "/" },
     openGraph: {
       type: "website",
       siteName: "Fresco",
       title: name,
       description: DEFAULT_DESCRIPTION,
       locale: "es_UY",
-      url: "/",
       images: [{ url: "/icon-512.png", width: 512, height: 512, alt: "Fresco" }],
     },
     twitter: {

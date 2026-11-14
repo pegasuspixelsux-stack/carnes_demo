@@ -13,7 +13,6 @@ import InstallButton from '@/src/components/InstallButton';
 import SearchModal from '@/src/components/SearchModal';
 import { toBestSellers } from '@/src/utils/bestSellers';
 import CartButton from '@/src/components/CartButton';
-import { OPEN_CLIENT_LOGIN } from '@/src/components/SignInNotice';
 import WholesaleAccess from '@/src/components/WholesaleAccess';
 import SiteNavLinks from '@/src/components/SiteNavLinks';
 import MobileNavMenu from '@/src/components/MobileNavMenu';
@@ -21,7 +20,6 @@ import { useClient } from '@/src/context/ClientContext';
 import { applyBoxFirst, applyLevel } from '@/src/utils/pricing';
 import {
   ArrowUpRight,
-  KeyRound,
   Search,
 } from 'lucide-react';
 import BrandName from '@/src/components/BrandName';
@@ -141,19 +139,9 @@ const fallbackProperties: HomeProperty[] = [
 ];
 
 
-/** Hero heading / subheading styles: on phones both are as wide as the buttons (max-w-sm). */
-const HERO_HEADING_CLASS =
-  'mt-4 max-md:mt-0 max-w-6xl max-md:text-center max-md:w-full max-md:max-w-sm max-md:text-[clamp(18px,calc((100vw-40px)/10.5),36px)] max-md:leading-[1.1] sm:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-[1.1]';
+/** Hero subheading style. */
 const HERO_TEXT_CLASS =
-  'mt-4 max-md:mt-1.5 md:mt-3 max-w-2xl max-md:w-full max-md:max-w-sm max-md:text-center text-[17px] max-md:text-[15px] max-md:leading-[1.35] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed';
-
-/** Hero buttons: dark-to-light green vertical gradient (primary) and a white outline (secondary), both with hover and press effects. */
-const HERO_BTN_BASE =
-  'inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 max-md:min-h-11 text-sm max-md:text-base max-md:tracking-[-0.022em] font-semibold transition-all duration-300 ease-out active:translate-y-0 active:scale-95';
-const HERO_BTN_PRIMARY =
-  `${HERO_BTN_BASE} group text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.35)] bg-gradient-to-b from-[#14532D] to-[#43A047] shadow-md shadow-black/25 ring-1 ring-white/30 hover:ring-white/70 hover:brightness-110 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-300/40 active:brightness-90`;
-const HERO_BTN_SECONDARY =
-  `${HERO_BTN_BASE} border-2 border-white bg-transparent text-white shadow-md shadow-black/25 hover:bg-white hover:text-[#14532D] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/30 active:bg-white/90`;
+  'text-left mt-2 max-md:mt-1 md:mt-1.5 max-w-2xl max-md:w-full max-md:max-w-sm text-[17px] max-md:text-[15px] max-md:leading-[1.35] max-md:tracking-[-0.022em] md:text-base text-white/95 font-normal leading-relaxed';
 
 export default function FrescoHome({
   initialProperties = [],
@@ -168,7 +156,7 @@ export default function FrescoHome({
       : fallbackProperties.map((p) => ({ ...p, href: `/productos/sample-${p.id}` })),
   );
   // A customer who logged in with Acceso mayoristas sees their price level; everyone else sees list prices.
-  const { client, level, signOutClient } = useClient();
+  const { client, level } = useClient();
   const business = useBusiness();
   const router = useRouter();
   // Phone top nav: transparent over the hero, blurred and tinted once the page scrolls.
@@ -198,15 +186,15 @@ export default function FrescoHome({
   const bestSellers = useMemo(() => toBestSellers(properties), [properties]);
 
   return (
-    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[var(--brand-bg,#2E7D32)] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
+    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[#450a0a] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
 
       {/* --- PHONE TOP NAV: burger on the left; search and "add to home screen" on the right --- */}
       <header
         className={`md:hidden fixed inset-x-0 top-0 z-50 backdrop-blur-md transition-[background-color] duration-300 ${
-          scrolled ? 'bg-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_72%,transparent)]' : 'bg-transparent'
+          scrolled ? 'bg-[color-mix(in_srgb,#b91c1c_72%,transparent)]' : 'bg-transparent'
         }`}
       >
-        <div className="bg-[#2E7D32] text-white text-center text-[11px] font-medium tracking-wide py-1.5 px-4 leading-snug pt-[calc(0.375rem+env(safe-area-inset-top))]">
+        <div className="bg-[#b91c1c] text-white text-center text-[11px] font-medium tracking-wide py-1.5 px-4 leading-snug pt-[calc(0.375rem+env(safe-area-inset-top))]">
           <span>Entregas diarias en Maldonado y Punta del Este</span>
         </div>
         <div className="h-14 px-3 flex items-center justify-between">
@@ -230,7 +218,7 @@ export default function FrescoHome({
 
       {/* --- NAVIGATION --- */}
       <header className="hidden md:block sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
-        <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
+        <div className="bg-[#b91c1c] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
           <span>Entregas diarias en Maldonado y Punta del Este</span>
         </div>
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
@@ -245,44 +233,19 @@ export default function FrescoHome({
       </header>
 
       <div className="max-w-[1440px] mx-auto px-0 md:px-6 pt-0 md:pt-4">
-        <section data-home-hero className="relative w-full max-md:h-[calc(50svh-clamp(8px,1.5svh,16px)+5.25rem+env(safe-area-inset-top))] max-md:flex max-md:flex-col max-md:justify-start max-md:rounded-none overflow-hidden rounded-3xl border max-md:border-0 border-[var(--brand-bg,#2E7D32)] bg-[var(--brand-bg,#2E7D32)] text-white md:flex md:items-center md:portrait:h-[38.5svh] md:portrait:min-h-[360px] lg:landscape:block">
-          {/* Background photo + green overlay: phones get one flat, fully opaque green layer; wider screens get a gradient, solid on the left (behind the text) and more transparent to the right */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-cover bg-center hidden md:block"
-            style={{
-              backgroundImage:
-                'url(https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=2000&auto=format&fit=crop)',
-            }}
-          />
-          <div aria-hidden="true" className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: 'url(/hero-mobile-2.webp)' }} />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[var(--brand-bg,#2E7D32)] md:bg-transparent md:bg-gradient-to-r md:from-[var(--brand-bg,#2E7D32)] md:from-[55%] md:via-[color-mix(in_srgb,var(--brand-bg,#2E7D32)_55%,transparent)] md:via-[80%] md:to-transparent"
-          />
+        <section data-home-hero className="relative w-full h-screen h-[100svh] flex flex-col items-center justify-start max-md:rounded-none overflow-hidden rounded-3xl border-0 bg-[radial-gradient(circle_at_50%_40%,#ef4444_0%,#b91c1c_45%,#7f1d1d_100%)] text-white">
+          {/* Bottom shade: deeper red toward the bottom edge */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#450a0a] to-transparent" />
           {/* Desktop only: the logo on the right column, over the overlay */}
-          <div aria-hidden="true" className="hidden xl:flex absolute inset-y-0 right-[calc(2.5rem+5%)] w-[16%] min-[1400px]:w-[20.8%] items-center justify-center pointer-events-none">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fresco_footer_white.png" alt="" className="w-full max-h-[100%] object-contain drop-shadow-lg" />
-          </div>
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
-            <div className="md:hidden relative flex flex-1 min-h-0 items-center justify-center px-5 pt-[calc(5.25rem+env(safe-area-inset-top))]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="h-[48%] w-auto max-w-full object-contain drop-shadow-lg" />
-          </div>
-            <div className="relative w-full max-md:shrink-0 px-5 md:px-10 max-md:pt-0 pt-[clamp(16px,4svh,32px)] max-md:pb-[max(12px,env(safe-area-inset-bottom))] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
+            <div className="relative w-full h-1/2 justify-center px-5 md:px-10 max-md:pt-0 pt-[clamp(16px,4svh,32px)] max-md:pb-[max(12px,env(safe-area-inset-bottom))] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] flex flex-col items-start text-left md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">
             <span className="max-md:hidden block w-fit max-md:mt-0 md:inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase">
               {business.heroEyebrow || 'Distribución hortifrutícola B2B'}
             </span>
-            {business.heroHeading ? (
-              <h1 className={HERO_HEADING_CLASS}>{business.heroHeading}</h1>
-            ) : (
-              // Phones: each line is scaled to be exactly as wide as the buttons below.
-              <FitText as="h1" className={HERO_HEADING_CLASS} min={16} max={40}>
-                <span className="block">Distribución Mayorista</span>
-                <span className="block">de Frutas y Verduras</span>
-              </FitText>
-            )}
+            <h1 className="mt-4 max-md:mt-0 text-left self-start font-semibold tracking-tight leading-[0.85]">
+              <span className="block text-[clamp(52px,18vw,260px)] font-extrabold leading-[0.8] tracking-[-0.04em]">Mercado</span>
+              <span className="block text-[clamp(52px,18vw,260px)] font-extrabold leading-[0.8] tracking-[-0.04em] mt-[0.1em]">de Carnes</span>
+            </h1>
             {business.heroText ? (
               <p className={HERO_TEXT_CLASS}>{business.heroText}</p>
             ) : (
@@ -290,47 +253,6 @@ export default function FrescoHome({
                 Abastecimiento directo para comercios y gastronomía.
               </FitText>
             )}
-            <div className="mt-[clamp(16px,4svh,32px)] max-md:mt-3 md:mt-6 flex flex-col sm:flex-row gap-3 max-md:gap-2 md:gap-2.5 max-md:w-full max-md:max-w-sm">
-              {client && level ? (
-                <div className="flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full">
-                  <Link
-                    href="/productos"
-                    className={HERO_BTN_PRIMARY}
-                  >
-                    <span className="truncate max-w-56">Catálogo · {client.businessName}</span>
-                    <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={signOutClient}
-                    className={HERO_BTN_SECONDARY}
-                  >
-                    Cerrar sesión
-                  </button>
-                </div>
-              ) : (
-              <Link
-                href="/productos"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: '/productos' } }));
-                }}
-                className={HERO_BTN_PRIMARY}
-              >
-                <span>Acceso al Catálogo Mayorista</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
-              )}
-              {!(client && level) && (
-              <a
-                href="#contact"
-                className={HERO_BTN_SECONDARY}
-              >
-                <KeyRound className="w-4 h-4" />
-                <span>Solicitar acceso mayorista</span>
-              </a>
-              )}
-            </div>
           </div>
         </section>
       </div>

@@ -94,14 +94,6 @@ service cloud.firestore {
       allow delete: if isAgent();
     }
 
-    // ------------------------------------------------------------- listings
-    // Used by the current admin dashboard and the homepage grid.
-
-    match /listings/{id} {
-      allow read: if resource.data.published == true || isAgent();
-      allow create, update, delete: if isAgent();
-    }
-
     // ---------------------------------------------------------------- leads
     // The public website can create a lead (and nothing else). Agents manage them,
     // but the only fields they can change are status, notes and assignment.

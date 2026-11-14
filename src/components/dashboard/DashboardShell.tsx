@@ -28,13 +28,13 @@ import LeadInbox from '../LeadInbox';
 
 const nav: { href: string; label: string; icon: typeof Users; exact?: boolean; adminOnly?: boolean }[] = [
   { href: '/dashboard', label: 'Resumen', icon: LayoutDashboard, exact: true },
-  { href: '/dashboard/leads', label: 'Pedidos', icon: Inbox },
+  { href: '/dashboard/pedidos', label: 'Pedidos', icon: Inbox },
   { href: '/dashboard/daily-order', label: 'Pedido del día', icon: ClipboardList },
   { href: '/dashboard/reports', label: 'Reportes', icon: BarChart3 },
   { href: '/dashboard/price-levels', label: 'Niveles de precio', icon: Percent },
   { href: '/dashboard/categories', label: 'Categorías', icon: Tags },
-  { href: '/dashboard/properties', label: 'Artículos', icon: Building2 },
-  { href: '/dashboard/properties/new', label: 'Agregar artículo', icon: PlusSquare },
+  { href: '/dashboard/productos', label: 'Productos', icon: Building2 },
+  { href: '/dashboard/productos/new', label: 'Agregar producto', icon: PlusSquare },
   { href: '/dashboard/customers', label: 'Clientes', icon: Users },
   // Staff / operators: add agents, change roles, deactivate accounts.
   { href: '/admin', label: 'Usuarios', icon: UserCog, adminOnly: true },
@@ -53,8 +53,8 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
   const isActive = (href: string, exact?: boolean) => {
     if (exact) return pathname === href;
     // "Properties" should not light up on the Add Listing page.
-    if (href === '/dashboard/properties') {
-      return pathname.startsWith(href) && !pathname.startsWith('/dashboard/properties/new');
+    if (href === '/dashboard/productos') {
+      return pathname.startsWith(href) && !pathname.startsWith('/dashboard/productos/new');
     }
     return pathname.startsWith(href);
   };
@@ -89,7 +89,7 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
               }`}
             >
               <Icon className="w-4 h-4 text-yellow-300" /> {label}
-              {href === '/dashboard/leads' && newLeads > 0 && (
+              {href === '/dashboard/pedidos' && newLeads > 0 && (
                 <span
                   className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-yellow-300 text-black"
                 >
@@ -151,11 +151,11 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
 
             <div className="flex items-center gap-2 sm:gap-3 ml-auto">
               <Link
-                href="/dashboard/properties/new"
+                href="/dashboard/productos/new"
                 className="inline-flex items-center gap-2 bg-[#1D1D1F] text-white text-xs font-medium px-4 py-2.5 rounded-full hover:bg-[#333336] transition-all"
               >
                 <Plus className="w-4 h-4" />
-                <span className="hidden sm:inline">Nuevo artículo</span>
+                <span className="hidden sm:inline">Nuevo producto</span>
               </Link>
 
               <button

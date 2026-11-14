@@ -46,7 +46,7 @@ export default function ImportItems({ onImported }: { onImported: () => void }) 
     setMessage(null);
     try {
       const count = await importItems(parsed.items, parsed.newCategories, agent);
-      setMessage({ ok: true, text: `Se importaron ${count} ${count === 1 ? 'artículo' : 'artículos'}.` });
+      setMessage({ ok: true, text: `Se importaron ${count} ${count === 1 ? 'producto' : 'productos'}.` });
       setParsed(null);
       setFileName('');
       onImported();
@@ -79,13 +79,13 @@ export default function ImportItems({ onImported }: { onImported: () => void }) 
         <div className={`${cardClass} p-6 mt-3 space-y-4`}>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="font-semibold tracking-tight">Importar artículos desde Excel</h2>
+              <h2 className="font-semibold tracking-tight">Importar productos desde Excel</h2>
               <p className="text-xs text-[#515154] mt-1">
                 Columnas: Título, Descripción, Peso, Unidad, Precio minorista, Categoría, En stock, Precio de oferta, Precio mayorista, URL de imagen, Modalidad de precio (por kilo, por caja, por atado, por unidad o por bolsón; vacío = por kilo). Opcionales para las cajas: Unidades por caja, Peso por caja (kg), Peso por unidad (kg) y Suelto (sí = se puede pedir suelto, una excepción a pedir cajas).
               </p>
             </div>
             <a
-              href="/merkado-items-sample.xlsx"
+              href="/fresco-items-sample.xlsx"
               download
               className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED]"
             >
@@ -112,7 +112,7 @@ export default function ImportItems({ onImported }: { onImported: () => void }) 
           {parsed && (
             <div className="space-y-3 text-sm">
               <p>
-                <span className="font-semibold">{parsed.items.length}</span> {parsed.items.length === 1 ? 'artículo listo' : 'artículos listos'} para importar
+                <span className="font-semibold">{parsed.items.length}</span> {parsed.items.length === 1 ? 'producto listo' : 'productos listos'} para importar
                 {parsed.errors.length > 0 && (
                   <>
                     , <span className="font-semibold text-red-600">{parsed.errors.length}</span> {parsed.errors.length === 1 ? 'fila con problemas (omitida)' : 'filas con problemas (omitidas)'}
@@ -135,7 +135,7 @@ export default function ImportItems({ onImported }: { onImported: () => void }) 
               )}
               {parsed.items.some((i) => i.photos.length === 0) && (
                 <p className="text-xs text-[#515154]">
-                  Los artículos sin URL de imagen se importan sin foto. Editalos después para subir una.
+                  Los productos sin URL de imagen se importan sin foto. Editalos después para subir una.
                 </p>
               )}
               <button
@@ -144,7 +144,7 @@ export default function ImportItems({ onImported }: { onImported: () => void }) 
                 disabled={importing || parsed.items.length === 0}
                 className="bg-[#1D1D1F] text-white text-xs font-medium px-6 py-3 rounded-full hover:bg-[#333336] transition-all disabled:opacity-50"
               >
-                {importing ? 'Importando…' : `Importar ${parsed.items.length} ${parsed.items.length === 1 ? 'artículo' : 'artículos'}`}
+                {importing ? 'Importando…' : `Importar ${parsed.items.length} ${parsed.items.length === 1 ? 'producto' : 'productos'}`}
               </button>
             </div>
           )}

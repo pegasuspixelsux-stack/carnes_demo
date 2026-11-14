@@ -134,7 +134,7 @@ export default function PriceLevelsPage() {
       <PageHeader
         eyebrow="Precios"
         title="Niveles de precio"
-        description="Cada cliente mayorista tiene un nivel. Su precio es el precio de lista del artículo más o menos un porcentaje según la categoría."
+        description="Cada cliente mayorista tiene un nivel. Su precio es el precio de lista del producto más o menos un porcentaje según la categoría."
       />
 
       {error && <p role="alert" className="text-sm text-red-600 mb-4">{error}</p>}
@@ -242,7 +242,7 @@ export default function PriceLevelsPage() {
               </table>
             </div>
             <p className="text-xs text-[#86868B] mt-3">
-              Sin porcentaje = precio de lista. Si un artículo está en oferta por menos que el precio del nivel, el cliente paga el precio de oferta.
+              Sin porcentaje = precio de lista. Si un producto está en oferta por menos que el precio del nivel, el cliente paga el precio de oferta.
             </p>
           </div>
 

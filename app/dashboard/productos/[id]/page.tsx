@@ -20,10 +20,10 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
       .then((p) => {
         if (cancelled) return;
         if (p) setProperty(p);
-        else setError('Este artículo ya no existe.');
+        else setError('Este producto ya no existe.');
       })
       .catch(() => {
-        if (!cancelled) setError('No se pudo cargar este artículo.');
+        if (!cancelled) setError('No se pudo cargar este producto.');
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -33,18 +33,18 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
     };
   }, [id]);
 
-  if (loading) return <p className="text-sm text-[#515154]">Cargando artículo…</p>;
+  if (loading) return <p className="text-sm text-[#515154]">Cargando producto…</p>;
   if (error || !property) {
     return (
       <p role="alert" className="text-sm text-red-600">
-        {error ?? 'Artículo no encontrado.'}
+        {error ?? 'Producto no encontrado.'}
       </p>
     );
   }
 
   return (
     <>
-      <PageHeader eyebrow="Inventario" title="Editar artículo" description={property.title} />
+      <PageHeader eyebrow="Inventario" title="Editar producto" description={property.title} />
       <PropertyForm
         initial={property}
         submitLabel="Guardar cambios"
@@ -53,7 +53,7 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
           const { agentId, ...changes } = data;
           void agentId;
           await updateProperty(id, changes);
-          router.push('/dashboard/properties');
+          router.push('/dashboard/productos');
         }}
       />
     </>

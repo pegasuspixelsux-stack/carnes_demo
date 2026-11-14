@@ -49,7 +49,7 @@ export default function OverviewPage() {
   const money = (n: number) => formatMoney(n);
   const orderKpis = ['Pedidos totales', 'Pedidos nuevos', 'Ventas'];
   const stats = [
-    { label: 'Artículos', value: `${items.length}${hasMore ? '+' : ''}`, icon: Building2 },
+    { label: 'Productos', value: `${items.length}${hasMore ? '+' : ''}`, icon: Building2 },
     { label: 'Pedidos totales', value: leads.length, icon: ClipboardList },
     { label: 'Pedidos nuevos', value: groupOrders(leads).filter((g) => g.status === 'new').length, icon: Inbox },
     { label: 'Ventas', value: money(salesTotal), icon: DollarSign },
@@ -95,12 +95,12 @@ export default function OverviewPage() {
           centerValue={String(matchedOrders)}
           centerLabel="pedidos"
           formatValue={(v) => `${v} ${v === 1 ? 'pedido' : 'pedidos'}`}
-          emptyText="Todavía no hay pedidos de artículos. Aparecen acá cuando los clientes pidan."
+          emptyText="Todavía no hay pedidos de productos. Aparecen acá cuando los clientes pidan."
         />
         <section className={`${cardClass} overflow-hidden`}>
           <div className="flex items-center justify-between px-6 py-5 border-b border-[#000000]/5">
-            <h2 className="font-semibold tracking-tight">Artículos recientes</h2>
-            <Link href="/dashboard/properties" className="text-xs inline-flex items-center gap-1 text-[#515154] hover:text-[#1D1D1F]">
+            <h2 className="font-semibold tracking-tight">Productos recientes</h2>
+            <Link href="/dashboard/productos" className="text-xs inline-flex items-center gap-1 text-[#515154] hover:text-[#1D1D1F]">
               Ver todos <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -110,14 +110,14 @@ export default function OverviewPage() {
             <p className="p-6 text-sm text-[#515154]">Cargando…</p>
           ) : items.length === 0 ? (
             <p className="p-6 text-sm text-[#515154]">
-              Todavía no hay artículos.{' '}
-              <Link href="/dashboard/properties/new" className="underline underline-offset-2">Agregá tu primer artículo</Link>.
+              Todavía no hay productos.{' '}
+              <Link href="/dashboard/productos/new" className="underline underline-offset-2">Agregá tu primer producto</Link>.
             </p>
           ) : (
             <ul className="divide-y divide-[#000000]/5">
               {items.slice(0, 5).map((p) => (
                 <li key={p.id}>
-                  <Link href={`/dashboard/properties/${p.id}`} className="flex items-center gap-4 p-4 hover:bg-[#FBFBFD] transition-colors">
+                  <Link href={`/dashboard/productos/${p.id}`} className="flex items-center gap-4 p-4 hover:bg-[#FBFBFD] transition-colors">
                     <div className="relative w-16 h-12 rounded-xl bg-[#E5E5EA] overflow-hidden shrink-0">
                       {p.photos[0] && <PropertyImage src={p.photos[0].url} alt="" variant="thumb" sizes="64px" />}
                     </div>
@@ -138,7 +138,7 @@ export default function OverviewPage() {
         <section className={`${cardClass} overflow-hidden lg:col-span-2`}>
           <div className="flex items-center justify-between px-6 py-5 border-b border-[#000000]/5">
             <h2 className="font-semibold tracking-tight">Últimos pedidos</h2>
-            <Link href="/dashboard/leads" className="text-xs inline-flex items-center gap-1 text-[#515154] hover:text-[#1D1D1F]">
+            <Link href="/dashboard/pedidos" className="text-xs inline-flex items-center gap-1 text-[#515154] hover:text-[#1D1D1F]">
               Ver todos <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>

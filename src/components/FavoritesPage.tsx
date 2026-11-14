@@ -125,7 +125,7 @@ export default function FavoritesPage() {
           <div className="rounded-2xl bg-[#F5F5F7] px-6 py-10 text-center text-sm space-y-3">
             <p className="font-medium">Todavía no marcaste favoritos.</p>
             <p className="text-[#515154] font-light">Tocá el corazón en cualquier producto para guardarlo acá.</p>
-            <Link href="/items" className="inline-block rounded-full bg-[#1D1D1F] text-white px-6 py-2.5 text-xs font-medium hover:bg-[#333336] transition-colors">
+            <Link href="/productos" className="inline-block rounded-full bg-[#1D1D1F] text-white px-6 py-2.5 text-xs font-medium hover:bg-[#333336] transition-colors">
               Ver el catálogo
             </Link>
           </div>
@@ -137,11 +137,11 @@ export default function FavoritesPage() {
                 const q = qtyOf(id);
                 return (
                   <li key={id} className="flex items-center gap-3 p-4">
-                    <Link href={item.href ?? '/items'} className="relative w-16 h-16 rounded-xl overflow-hidden bg-[#E5E5EA] shrink-0">
+                    <Link href={item.href ?? '/productos'} className="relative w-16 h-16 rounded-xl overflow-hidden bg-[#E5E5EA] shrink-0">
                       <PropertyImage src={item.image} alt={item.title} variant="thumb" sizes="64px" />
                     </Link>
                     <div className="flex-1 min-w-0">
-                      <Link href={item.href ?? '/items'} className="text-sm font-medium truncate block hover:underline">{item.title}</Link>
+                      <Link href={item.href ?? '/productos'} className="text-sm font-medium truncate block hover:underline">{item.title}</Link>
                       <p className="text-xs text-[#515154]">Hoy: {priceWithShortUnit(unitPriceOf(item), item.pricingMode)}</p>
                       <div className="mt-2 flex items-center gap-2">
                         <button type="button" onClick={() => change(id, -1)} disabled={q <= 1} aria-label={`Disminuir ${item.title}`} className="w-7 h-7 rounded-full bg-[#F5F5F7] flex items-center justify-center disabled:opacity-30">

@@ -81,12 +81,12 @@ export default function AdminLoginPage() {
         href="/"
         className="absolute top-8 left-8 z-20 text-lg font-semibold tracking-tight drop-shadow"
       >
-        Merkado.
+        Fresco.
       </Link>
 
       {/* Version, bottom-left corner */}
       <p className="absolute bottom-8 left-8 z-20 text-xs font-medium tracking-wide text-white/80 drop-shadow">
-        Merkado v2.0
+        Fresco v2.0
       </p>
 
       {/* Wide screens held landscape: two columns (left transparent, right 50% black). Phones and portrait tablets: one column. */}
@@ -95,9 +95,9 @@ export default function AdminLoginPage() {
 
         <div className="bg-black/50 flex items-center justify-center px-6 py-24">
           <div className="w-full max-w-sm bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-            <p className="text-xs uppercase tracking-widest text-white/60 font-semibold mb-2">Merkado.</p>
+            <p className="text-xs uppercase tracking-widest text-white/60 font-semibold mb-2">Fresco.</p>
             <h1 className="text-2xl font-semibold tracking-tight mb-1">Iniciar sesión</h1>
-            <p className="text-sm text-white/70 font-light mb-8">Administrá artículos, pedidos y usuarios.</p>
+            <p className="text-sm text-white/70 font-light mb-8">Administrá productos, pedidos y usuarios.</p>
 
             {!isFirebaseConfigured && (
               <p className="mb-6 text-xs rounded-xl bg-amber-400/20 text-amber-100 p-3">

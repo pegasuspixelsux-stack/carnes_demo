@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Building2, Inbox, LogOut, Users } from 'lucide-react';
+import { Inbox, LogOut, Users } from 'lucide-react';
 import { useAuth } from '@/src/context/AuthContext';
 import RequireAuth from '@/src/components/RequireAuth';
-import ListingsPanel from './_components/listings-panel';
 import LeadsPanel from './_components/leads-panel';
 import UsersPanel from './_components/users-panel';
 
-type Tab = 'listings' | 'leads' | 'users';
+type Tab = 'leads' | 'users';
 
 export default function AdminDashboardPage() {
   return (
@@ -23,12 +22,11 @@ export default function AdminDashboardPage() {
 function Dashboard() {
   const router = useRouter();
   const { agent: staff, logout } = useAuth();
-  const [tab, setTab] = useState<Tab>('listings');
+  const [tab, setTab] = useState<Tab>('leads');
 
   if (!staff) return null; // RequireAuth guarantees an agent; this narrows the type
 
-  const tabs: { key: Tab; label: string; icon: typeof Building2; adminOnly?: boolean }[] = [
-    { key: 'listings', label: 'Publicaciones', icon: Building2 },
+  const tabs: { key: Tab; label: string; icon: typeof Inbox; adminOnly?: boolean }[] = [
     { key: 'leads', label: 'Pedidos', icon: Inbox },
     { key: 'users', label: 'Usuarios', icon: Users, adminOnly: true },
   ];
@@ -38,7 +36,7 @@ function Dashboard() {
       <header className="bg-white border-b border-[#000000]/5">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/" className="font-semibold tracking-tight">Merkado.</Link>
+            <Link href="/" className="font-semibold tracking-tight">Fresco.</Link>
             <span className="text-xs text-[#515154] uppercase tracking-widest">Panel</span>
           </div>
           <div className="flex items-center gap-4 text-sm">
@@ -76,7 +74,6 @@ function Dashboard() {
             ))}
         </nav>
 
-        {tab === 'listings' && <ListingsPanel />}
         {tab === 'leads' && <LeadsPanel />}
         {tab === 'users' && staff.role === 'admin' && <UsersPanel currentUserId={staff.id} />}
       </main>

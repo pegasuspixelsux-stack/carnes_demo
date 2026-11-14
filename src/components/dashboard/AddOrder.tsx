@@ -30,7 +30,7 @@ export default function AddOrder() {
     const quantity = Number(form.quantity);
     if (!form.name.trim()) return setError('Ingresá el nombre del cliente.');
     if (!form.phone.trim() && !form.email.trim()) return setError('Ingresá un teléfono o un correo electrónico.');
-    if (!form.itemId) return setError('Elegí un artículo.');
+    if (!form.itemId) return setError('Elegí un producto.');
     if (!Number.isInteger(quantity) || quantity < 1) return setError('La cantidad debe ser un número entero, 1 o más.');
     setSaving(true);
     setError(null);
@@ -108,9 +108,9 @@ export default function AddOrder() {
 
           <div className="grid grid-cols-3 gap-4 md:gap-6">
             <div className="col-span-2">
-              <label htmlFor="o-item" className={labelClass}>Artículo</label>
+              <label htmlFor="o-item" className={labelClass}>Producto</label>
               <select id="o-item" className={inputClass} value={form.itemId} onChange={(e) => set('itemId', e.target.value)}>
-                <option value="">Elegí un artículo…</option>
+                <option value="">Elegí un producto…</option>
                 {available.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.title} — {formatMoney(p.salePrice ?? p.price, p.currency)}

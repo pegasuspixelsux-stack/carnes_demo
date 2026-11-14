@@ -1,4 +1,4 @@
-import type { Category, PricingMode, PropertyOperation, PropertyStatus } from '../types/firestore';
+import type { Category, PricingMode, PropertyStatus } from '../types/firestore';
 
 const LOCALE = 'es-UY';
 
@@ -93,12 +93,6 @@ export function formatItemPricing(
   }
   return { primary };
 }
-
-export const operationLabels: Record<PropertyOperation, string> = {
-  sale: 'Venta',
-  rent: 'Alquiler',
-  seasonal: 'Temporada',
-};
 
 export const typeLabels: Record<string, string> = {
   fruit: 'Frutas',

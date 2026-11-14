@@ -114,7 +114,7 @@ export default function UsersPanel({ currentUserId }: { currentUserId: string })
         <div>
           <h2 className="text-xl font-semibold tracking-tight">Usuarios</h2>
           <p className="text-sm text-[#515154] font-light">
-            Los administradores gestionan todo. Los agentes gestionan artículos y pedidos. Los usuarios desactivados no pueden iniciar sesión.
+            Los administradores gestionan todo. Los agentes gestionan productos y pedidos. Los usuarios desactivados no pueden iniciar sesión.
           </p>
         </div>
         <button

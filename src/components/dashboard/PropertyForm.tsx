@@ -182,10 +182,10 @@ export default function PropertyForm({ initial, submitLabel, onSubmit }: Propert
       const code = (err as { code?: string }).code;
       setError(
         code === 'permission-denied'
-          ? 'Permiso denegado. Revisá que las reglas de Firestore estén publicadas y que el artículo sea tuyo.'
+          ? 'Permiso denegado. Revisá que las reglas de Firestore estén publicadas y que el producto sea tuyo.'
           : err instanceof Error
             ? err.message
-            : 'No se pudo guardar el artículo.'
+            : 'No se pudo guardar el producto.'
       );
       setSaving(false);
     }
@@ -198,7 +198,7 @@ export default function PropertyForm({ initial, submitLabel, onSubmit }: Propert
           <span className={labelClass}>Imagen</span>
           {form.photo ? (
             <div className="relative aspect-[4/3] max-w-sm rounded-2xl overflow-hidden bg-[#E5E5EA]">
-              <PropertyImage src={form.photo.url} alt="Imagen del artículo" variant="thumb" sizes="384px" />
+              <PropertyImage src={form.photo.url} alt="Imagen del producto" variant="thumb" sizes="384px" />
               <button
                 type="button"
                 onClick={() => set('photo', null)}
@@ -336,7 +336,7 @@ export default function PropertyForm({ initial, submitLabel, onSubmit }: Propert
             <input type="checkbox" className="mt-0.5" checked={form.inStock} onChange={(e) => set('inStock', e.target.checked)} />
             <span>
               <span className="font-medium">{form.inStock ? 'En stock' : 'Sin stock'}</span>
-              <span className="block text-xs text-[#515154] mt-0.5">Los artículos sin stock siguen en el sitio, marcados como no disponibles.</span>
+              <span className="block text-xs text-[#515154] mt-0.5">Los productos sin stock siguen en el sitio, marcados como no disponibles.</span>
             </span>
           </label>
 

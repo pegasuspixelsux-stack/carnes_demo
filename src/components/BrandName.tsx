@@ -1,7 +1,7 @@
 'use client';
 
-/** The Merkado logo, the orange (public/Merkado_L.png), used until another one is uploaded in Ajustes. */
-export const DEFAULT_LOGO = '/Merkado_L.png';
+/** The Fresco logo (public/fresco_footer.png), used until another one is uploaded in Ajustes. */
+export const DEFAULT_LOGO = '/fresco_footer.png';
 
 /**
  * The Fresco logo for the top nav (it already includes the name and "Desde 1998", so no title next to it).

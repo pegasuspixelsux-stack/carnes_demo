@@ -51,7 +51,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
   const items = useMemo(() => applyBoxFirst(applyLevel(baseItems, level), level, allowLoose), [baseItems, level, allowLoose]);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
-  // Footer links open the catalog already filtered: /items?category=<id>.
+  // Footer links open the catalog already filtered: /productos?category=<id>.
   useEffect(() => {
     const c = new URLSearchParams(window.location.search).get('category');
     // eslint-disable-next-line react-hooks/set-state-in-effect -- initial filter from the URL
@@ -214,7 +214,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
               value={query}
               onChange={(e) => change(setQuery)(e.target.value)}
               placeholder="Buscá por nombre, categoría o precio…"
-              aria-label="Buscar artículos por nombre, categoría o precio"
+              aria-label="Buscar productos por nombre, categoría o precio"
               className="min-w-0 flex-1 bg-transparent px-3 md:px-2 py-3 text-sm placeholder:text-[#86868B] outline-none"
             />
             <button
@@ -384,7 +384,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
         <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6`}>
           {filtered.length === 0 && (
             <div className="col-span-full text-center text-[#515154] text-sm py-16">
-              <p>No hay artículos que coincidan con tu búsqueda.</p>
+              <p>No hay productos que coincidan con tu búsqueda.</p>
               <button type="button" onClick={reset} className="mt-3 font-medium text-[#1D1D1F] underline underline-offset-4">
                 Borrar filtros
               </button>
@@ -527,7 +527,7 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
               ← Volver al inicio
             </Link>
             <p className="justify-self-center md:justify-self-end text-xs text-[#515154]">
-              Mostrando {visible.length} de {filtered.length} artículos
+              Mostrando {visible.length} de {filtered.length} productos
             </p>
           </div>
         )}

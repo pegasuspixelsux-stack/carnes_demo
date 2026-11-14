@@ -5,14 +5,14 @@ import { sampleProperties } from '@/src/data/sampleProperties';
 import { formatMoney, formatQuantity, typeLabels, withUnitSuffix } from '@/src/utils/format';
 
 export const metadata: Metadata = {
-  title: 'Catálogo Mayorista | Merkado',
-  description: 'Buscá y filtrá todo el catálogo de frutas, verduras y hojas verdes de Merkado.',
+  title: 'Catálogo Mayorista',
+  description: 'Buscá y filtrá todo el catálogo de frutas, verduras y hojas verdes de Fresco.',
 };
 
 // Same cache window as the homepage.
 export const revalidate = 60;
 
-/** The built-in samples, shown until the first real item exists (they open /items/sample-N). */
+/** The built-in samples, shown until the first real item exists (they open /productos/sample-N). */
 const samples: HomeProperty[] = sampleProperties.map((p, i) => ({
   id: `sample-${i + 1}`,
   title: p.title,
@@ -26,7 +26,7 @@ const samples: HomeProperty[] = sampleProperties.map((p, i) => ({
   baths: 0,
   area: formatQuantity(p.weight, p.unit),
   image: p.photos[0]?.url ?? '',
-  href: `/items/sample-${i + 1}`,
+  href: `/productos/sample-${i + 1}`,
   type: p.type,
   typeLabel: typeLabels[p.type as string] ?? p.type,
   inStock: p.inStock !== false,

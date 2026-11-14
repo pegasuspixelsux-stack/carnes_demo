@@ -26,7 +26,7 @@ type Props = { params: Promise<{ id: string }> };
 
 // One Firestore read shared by generateMetadata and the page.
 const loadItem = cache(async (id: string): Promise<Property | null> => {
-  // The built-in samples shown before any item exists: /items/sample-3 is the third sample.
+  // The built-in samples shown before any item exists: /productos/sample-3 is the third sample.
   const sampleIndex = /^sample-(\d+)$/.exec(id)?.[1];
   if (sampleIndex) {
     const sample = sampleProperties[Number(sampleIndex) - 1];
@@ -43,9 +43,9 @@ const loadItem = cache(async (id: string): Promise<Property | null> => {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const item = await loadItem(id);
-  if (!item) return { title: 'Artículo no encontrado | Merkado', robots: { index: false, follow: false } };
+  if (!item) return { title: 'Producto no encontrado', robots: { index: false, follow: false } };
   return {
-    title: `${item.title} | Merkado`,
+    title: item.title,
     description: item.description.slice(0, 160),
     openGraph: { title: item.title, description: item.description.slice(0, 160), images: item.photos[0] ? [item.photos[0].url] : [] },
   };
@@ -82,8 +82,8 @@ export default async function ItemPage({ params }: Props) {
   // Swiping the mobile hero moves through the catalog in this order (wrapping around at the ends).
   const order = pool.map((p) => String(p.id));
   const at = order.indexOf(String(item.id));
-  const prevHref = at >= 0 && order.length > 1 ? `/items/${order[(at - 1 + order.length) % order.length]}` : undefined;
-  const nextHref = at >= 0 && order.length > 1 ? `/items/${order[(at + 1) % order.length]}` : undefined;
+  const prevHref = at >= 0 && order.length > 1 ? `/productos/${order[(at - 1 + order.length) % order.length]}` : undefined;
+  const nextHref = at >= 0 && order.length > 1 ? `/productos/${order[(at + 1) % order.length]}` : undefined;
   const others = pool.filter((p) => p.id !== item.id);
   const similar: SimilarItem[] = [...others.filter((p) => p.featured), ...others.filter((p) => !p.featured)]
     .slice(0, 10)
@@ -127,7 +127,7 @@ export default async function ItemPage({ params }: Props) {
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/70 from-25% via-black/35 via-55% to-transparent" aria-hidden="true" />
           <div className="absolute inset-x-0 top-0 -bottom-0.5 bg-gradient-to-t from-[#FBFBFD] from-22% via-[#FBFBFD]/95 via-36% to-transparent to-58%" aria-hidden="true" />
           <Link
-            href="/items"
+            href="/productos"
             className="absolute top-20 left-4 z-10 inline-flex items-center gap-2 text-sm font-medium text-white bg-black/40 backdrop-blur px-3 py-1.5 rounded-full"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" /> Catálogo
@@ -169,7 +169,7 @@ export default async function ItemPage({ params }: Props) {
         </div>
 
         <Link
-          href="/items"
+          href="/productos"
           className="hidden md:inline-flex md:col-span-2 justify-self-start md:-mb-10 items-center gap-2 text-sm font-medium text-[#515154] hover:text-[#1D1D1F] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" aria-hidden="true" /> Volver al Catálogo

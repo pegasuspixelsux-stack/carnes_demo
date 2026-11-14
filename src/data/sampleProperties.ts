@@ -36,7 +36,7 @@ function sample(
   };
 }
 
-/** Los nueve artículos de muestra del sitio (el botón "Importar artículos de muestra" carga estos). */
+/** Los nueve productos de muestra del sitio (el botón "Importar productos de muestra" carga estos). */
 export const sampleProperties: Sample[] = [
   sample('Tomates perita', 'vegetable', 12, 'lb', 4.5, '1592924357228-91a4daadcfea',
     'Tomates madurados al sol y cosechados al amanecer.'),

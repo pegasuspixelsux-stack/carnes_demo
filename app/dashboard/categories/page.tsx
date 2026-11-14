@@ -53,7 +53,7 @@ export default function CategoriesPage() {
       <PageHeader
         eyebrow="Inventario"
         title="Categorías"
-        description="Agrupá tus artículos. Podés agregar categorías propias; las predeterminadas no se pueden eliminar."
+        description="Agrupá tus productos. Podés agregar categorías propias; las predeterminadas no se pueden eliminar."
       />
 
       <form onSubmit={onAdd} className="flex flex-wrap items-center gap-3 mb-6 max-w-xl">
@@ -92,9 +92,9 @@ export default function CategoriesPage() {
           return (
             <div key={c.id} className={`${cardClass} group relative p-5 md:p-6 flex flex-col justify-between min-h-36`}>
               <Link
-                href={`/dashboard/properties?category=${c.id}`}
+                href={`/dashboard/productos?category=${c.id}`}
                 className="absolute inset-0 rounded-2xl"
-                aria-label={`Ver artículos de ${c.name}`}
+                aria-label={`Ver productos de ${c.name}`}
               />
               <div className="flex items-start justify-between gap-2">
                 <h2 className="font-semibold tracking-tight">{c.name}</h2>
@@ -105,15 +105,15 @@ export default function CategoriesPage() {
                   <span className="text-3xl font-semibold tracking-tight text-[#1D1D1F]">
                     {loading ? '–' : `${count}${hasMore ? '+' : ''}`}
                   </span>{' '}
-                  {count === 1 && !hasMore ? 'artículo' : 'artículos'}
+                  {count === 1 && !hasMore ? 'producto' : 'productos'}
                 </p>
                 {!c.builtin && (
                   <button
                     type="button"
                     onClick={() => onDelete(c.id, c.name)}
                     disabled={inUse}
-                    aria-label={inUse ? `${c.name} no se puede eliminar mientras tenga artículos` : `Eliminar ${c.name}`}
-                    title={inUse ? 'Primero movés o eliminás sus artículos' : 'Eliminar categoría'}
+                    aria-label={inUse ? `${c.name} no se puede eliminar mientras tenga productos` : `Eliminar ${c.name}`}
+                    title={inUse ? 'Primero movés o eliminás sus productos' : 'Eliminar categoría'}
                     className="relative z-10 p-2 rounded-full text-red-600 hover:bg-red-50 disabled:opacity-30 disabled:hover:bg-transparent"
                   >
                     <Trash2 className="w-4 h-4" />

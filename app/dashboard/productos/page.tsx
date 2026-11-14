@@ -50,7 +50,7 @@ function PropertiesContent() {
       await seedSampleProperties(agent.id, { name: agent.name, phone: agent.phone });
       await reload();
     } catch {
-      setActionError('No se pudieron importar los artículos de muestra. Revisá que las reglas de Firestore estén publicadas.');
+      setActionError('No se pudieron importar los productos de muestra. Revisá que las reglas de Firestore estén publicadas.');
     } finally {
       setImporting(false);
     }
@@ -61,7 +61,7 @@ function PropertiesContent() {
     try {
       await update(p, { featured: !p.featured });
     } catch {
-      setActionError('No se pudo actualizar el artículo. Solo podés modificar tus propios artículos.');
+      setActionError('No se pudo actualizar el producto. Solo podés modificar tus propios productos.');
     }
   };
 
@@ -71,7 +71,7 @@ function PropertiesContent() {
     try {
       await remove(p);
     } catch {
-      setActionError('No se pudo eliminar el artículo. Solo podés eliminar tus propios artículos.');
+      setActionError('No se pudo eliminar el producto. Solo podés eliminar tus propios productos.');
     }
   };
 
@@ -79,14 +79,14 @@ function PropertiesContent() {
     <>
       <PageHeader
         eyebrow="Inventario"
-        title="Artículos"
-        description={`${items.length} ${items.length === 1 ? 'artículo cargado' : 'artículos cargados'}`}
+        title="Productos"
+        description={`${items.length} ${items.length === 1 ? 'producto cargado' : 'productos cargados'}`}
         action={
           <Link
-            href="/dashboard/properties/new"
+            href="/dashboard/productos/new"
             className="inline-flex items-center gap-2 bg-[#1D1D1F] text-white text-xs font-medium px-5 py-3 rounded-full hover:bg-[#333336] transition-all"
           >
-            <Plus className="w-4 h-4" /> Agregar artículo
+            <Plus className="w-4 h-4" /> Agregar producto
           </Link>
         }
       />
@@ -140,7 +140,7 @@ function PropertiesContent() {
 
       {featuredCount > 5 && (
         <p className="mb-4 rounded-2xl bg-[#F5F5F7] px-5 py-3 text-sm">
-          Hay {featuredCount} artículos destacados. El inicio del sitio muestra los 5 más recientes.
+          Hay {featuredCount} productos destacados. El inicio del sitio muestra los 5 más recientes.
         </p>
       )}
 
@@ -151,13 +151,13 @@ function PropertiesContent() {
       )}
 
       {loading ? (
-        <p className="text-sm text-[#515154]">Cargando artículos…</p>
+        <p className="text-sm text-[#515154]">Cargando productos…</p>
       ) : filtered.length === 0 ? (
         <div className={`${cardClass} p-10 text-center`}>
           <p className="text-sm text-[#515154]">
             {items.length === 0
-              ? 'Todavía no hay artículos. Agregá el primero o empezá con los nueve artículos de muestra del sitio.'
-              : 'Ningún artículo coincide con estos filtros.'}
+              ? 'Todavía no hay productos. Agregá el primero o empezá con los nueve productos de muestra del sitio.'
+              : 'Ningún producto coincide con estos filtros.'}
           </p>
           {items.length === 0 && (
             <button
@@ -165,7 +165,7 @@ function PropertiesContent() {
               disabled={importing}
               className="mt-5 bg-[#1D1D1F] text-white text-xs font-medium px-6 py-3 rounded-full hover:bg-[#333336] transition-all disabled:opacity-50"
             >
-              {importing ? 'Importando…' : 'Importar artículos de muestra'}
+              {importing ? 'Importando…' : 'Importar productos de muestra'}
             </button>
           )}
         </div>
@@ -200,7 +200,7 @@ function PropertiesContent() {
         </div>
       )}
       {hasFilters && hasMore && (
-        <p className="text-center text-xs text-[#515154] mt-3">Los filtros se aplican a los artículos cargados hasta ahora.</p>
+        <p className="text-center text-xs text-[#515154] mt-3">Los filtros se aplican a los productos cargados hasta ahora.</p>
       )}
     </>
   );

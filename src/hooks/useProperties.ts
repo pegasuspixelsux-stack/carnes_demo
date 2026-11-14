@@ -47,7 +47,7 @@ export function useProperties(pageSize = 48, loadAll = false) {
         setError(null);
       })
       .catch((err: Error) => {
-        if (!cancelled) setError(err.message || 'No se pudieron cargar los artículos.');
+        if (!cancelled) setError(err.message || 'No se pudieron cargar los productos.');
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -65,7 +65,7 @@ export function useProperties(pageSize = 48, loadAll = false) {
       setItems((prev) => [...prev, ...page.items]);
       setCursor(page.nextCursor);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'No se pudieron cargar más artículos.');
+      setError(err instanceof Error ? err.message : 'No se pudieron cargar más productos.');
     } finally {
       setLoadingMore(false);
     }

@@ -91,7 +91,7 @@ export default function LeadList({ leads, agentName, emptyText = 'Todavía no ha
           const total = orderTotal(group.lines);
           const firstName = lead.clientName.split(' ')[0];
           const text =
-            `Hola${firstName ? ` ${firstName}` : ''}, te escribe ${agentName || 'tu asesor/a'} de Merkado. ` +
+            `Hola${firstName ? ` ${firstName}` : ''}, te escribe ${agentName || 'tu asesor/a'} de Fresco. ` +
             `Gracias por tu pedido ${orderNumberOf(group)}. ¿Cuándo te queda bien que hablemos?`;
           const wa = lead.phone ? whatsappUrl(lead.phone, text) : null;
           const notes = deliveryNotes(lead.message);

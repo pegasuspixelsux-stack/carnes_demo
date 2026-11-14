@@ -275,7 +275,7 @@ export default function OrderModal({
   .foot{margin-top:14px;color:#555;font-size:11px;text-align:center}
 </style></head><body>
 <div class="top">
-  <div><h1>${esc(business.businessName || 'Merkado')} — Hoja de preparación</h1><div class="sub">${esc([business.rut && `RUT ${business.rut}`, business.address, business.whatsapp || business.phone].filter(Boolean).join(' · '))}</div><span class="tag">Documento interno · no es una factura</span></div>
+  <div><h1>${esc(business.businessName || 'Fresco')} — Hoja de preparación</h1><div class="sub">${esc([business.rut && `RUT ${business.rut}`, business.address, business.whatsapp || business.phone].filter(Boolean).join(' · '))}</div><span class="tag">Documento interno · no es una factura</span></div>
   <div class="meta"><b>${esc(orderNumber(primary))}</b><br>${esc(primary.createdAt ? new Date(primary.createdAt).toLocaleString('es-UY') : '')}<br>Operador: <b>${esc(agentName || '—')}</b></div>
 </div>
 <div class="grid">
@@ -308,7 +308,7 @@ export default function OrderModal({
   <p style="margin:0">Confirmó:<span class="line"></span>Fecha y hora:<span class="line"></span></p>
 </div>
 <div class="sign"><div>Preparó</div><div>Controló</div><div>Recibió</div></div>
-<p class="foot">Uso interno de Merkado — no válido como comprobante fiscal.</p>
+<p class="foot">Uso interno de Fresco — no válido como comprobante fiscal.</p>
 <script>window.onload=function(){window.focus();window.print();}</script>
 </body></html>`);
     w.document.close();
@@ -317,7 +317,7 @@ export default function OrderModal({
   const wa = contact.phone
     ? whatsappUrl(
         contact.phone,
-        `Hola${contact.name ? ` ${contact.name.split(' ')[0]}` : ''}, te escribimos de Merkado por tu pedido ${orderNumber(primary)}.` +
+        `Hola${contact.name ? ` ${contact.name.split(' ')[0]}` : ''}, te escribimos de Fresco por tu pedido ${orderNumber(primary)}.` +
           (status === 'closed' ? ' Tu pedido está confirmado.' : '')
       )
     : null;

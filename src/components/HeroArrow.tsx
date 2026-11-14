@@ -15,7 +15,7 @@ export default function HeroArrow({ href, dir }: { href: string; dir: 'prev' | '
   return (
     <button
       type="button"
-      aria-label={dir === 'prev' ? 'Artículo anterior' : 'Artículo siguiente'}
+      aria-label={dir === 'prev' ? 'Producto anterior' : 'Producto siguiente'}
       aria-busy={pending}
       disabled={pending}
       onClick={() => start(() => router.push(href))}

@@ -7,8 +7,8 @@ import { useClient, type TokenResult } from '@/src/context/ClientContext';
 import BrandName from '@/src/components/BrandName';
 
 const messages: Record<Exclude<TokenResult, 'ok'>, string> = {
-  invalid: 'Este enlace no es válido o ya fue reemplazado. Pedile uno nuevo a Merkado.',
-  suspended: 'Tu cuenta está suspendida. Comunicate con Merkado para reactivarla.',
+  invalid: 'Este enlace no es válido o ya fue reemplazado. Pedile uno nuevo a Fresco.',
+  suspended: 'Tu cuenta está suspendida. Comunicate con Fresco para reactivarla.',
   error: 'No pudimos verificar tu enlace. Revisá tu conexión y probá de nuevo.',
 };
 
@@ -25,7 +25,7 @@ export default function ClientPortal() {
     let cancelled = false;
     void openWithToken(token).then((r) => {
       if (cancelled) return;
-      if (r === 'ok') router.replace('/items');
+      if (r === 'ok') router.replace('/productos');
       else setResult(r);
     });
     return () => {

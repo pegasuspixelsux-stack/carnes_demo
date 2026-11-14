@@ -71,7 +71,7 @@ export default function CustomersPage() {
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.businessName.trim()) return setFormError('Ingresá el nombre del negocio.');
-    if (form.pin && !/^\d{4}$/.test(form.pin)) return setFormError('El PIN tiene que ser de 4 números (o dejalo vacío).');
+    if (form.pin && !/^\d{4,6}$/.test(form.pin)) return setFormError('El PIN tiene que ser de 6 números (o dejalo vacío).');
     if (!form.contactName.trim()) return setFormError('Ingresá el nombre de contacto.');
     if (!form.address.trim()) return setFormError('Ingresá la dirección de entrega.');
     if (!form.receivingTime) return setFormError('Ingresá la hora de recepción.');
@@ -144,8 +144,8 @@ export default function CustomersPage() {
   const code = access ? codeOfToken(access.token) : '';
   const copy = (text: string) => void navigator.clipboard?.writeText(text);
   const whatsappText = access
-    ? `Hola${access.contact ? ` ${access.contact}` : ''}, este es tu acceso a Merkado para ver tus precios mayoristas: ${link}\nTambién podés ingresar con “Acceso mayoristas” usando tu teléfono y esta contraseña: ${code}${access.pin ? `
-O con tu PIN de 4 números: ${access.pin}` : ''}`
+    ? `Hola${access.contact ? ` ${access.contact}` : ''}, este es tu acceso a Fresco para ver tus precios mayoristas: ${link}\nTambién podés ingresar con “Acceso mayoristas” usando tu teléfono y esta contraseña: ${code}${access.pin ? `
+O con tu PIN de 6 números: ${access.pin}` : ''}`
     : '';
 
   return (
@@ -153,7 +153,7 @@ O con tu PIN de 4 números: ${access.pin}` : ''}`
       <PageHeader
         eyebrow="Mayoristas"
         title="Clientes"
-        description="Las cuentas las crea solo el administrador. Cada cliente tiene una contraseña y, si querés, un PIN de 4 números para ver sus precios y pedir."
+        description="Las cuentas las crea solo el administrador. Cada cliente tiene una contraseña y, si querés, un PIN de 6 números para ver sus precios y pedir."
         action={
           <button type="button" onClick={() => open('new')} className="inline-flex items-center gap-2 bg-[#1D1D1F] text-white text-xs font-medium px-5 py-3 rounded-full hover:bg-[#333336]">
             <Plus className="w-4 h-4" /> Agregar cliente mayorista
@@ -293,9 +293,9 @@ O con tu PIN de 4 números: ${access.pin}` : ''}`
               <p className="text-xs text-[#86868B] mt-1">Con el teléfono entra a su cuenta. Para cambiarla, usá “Restablecer acceso” (llave) en la lista.</p>
             </div>
             <div>
-              <label htmlFor="c-pin" className={labelClass}>PIN (opcional, 4 números)</label>
+              <label htmlFor="c-pin" className={labelClass}>PIN (opcional, 6 números)</label>
               <div className="flex gap-2">
-                <input id="c-pin" inputMode="numeric" maxLength={4} className={`${inputClass} tracking-[0.4em] font-semibold`} value={form.pin} onChange={(e) => setForm({ ...form, pin: e.target.value.replace(/\D/g, '').slice(0, 4) })} placeholder="0000" />
+                <input id="c-pin" inputMode="numeric" maxLength={6} className={`${inputClass} tracking-[0.4em] font-semibold`} value={form.pin} onChange={(e) => setForm({ ...form, pin: e.target.value.replace(/\D/g, '').slice(0, 4) })} placeholder="0000" />
                 <button type="button" onClick={() => setForm({ ...form, pin: newPin() })} className="shrink-0 rounded-xl border border-[#000000]/10 px-4 text-xs font-medium hover:bg-[#F5F5F7]">Generar</button>
               </div>
               <p className="text-xs text-[#86868B] mt-1">Atajo opcional: el cliente puede entrar con su teléfono + PIN en vez de la contraseña.</p>

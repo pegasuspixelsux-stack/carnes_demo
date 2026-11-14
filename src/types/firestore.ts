@@ -1,5 +1,5 @@
 /**
- * Firestore data models for Merkado.
+ * Firestore data models for Fresco.
  *
  * Collections:
  *   users/{uid}       -> Agent      (document id = Firebase Auth uid)
@@ -212,7 +212,7 @@ export interface Client {
   /** Usual receiving hour, "HH:MM". */
   receivingTime: string;
   email: string;
-  /** 4-digit PIN the customer types with their phone to sign in ("" = none). */
+  /** 6-digit PIN (4 for older customers) the customer types with their phone to sign in ("" = none). */
   pin: string;
   /** Exception to "clients order boxes": this customer may also order loose units. */
   allowLoose: boolean;
@@ -278,7 +278,7 @@ export interface BusinessSettings {
   instagram: string;
   facebook: string;
   youtube: string;
-  /** Logo shown next to the name in the header and footer (image URL); empty = the default Merkado logo. */
+  /** Logo shown next to the name in the header and footer (image URL); empty = the default Fresco logo. */
   logo: string;
   /** Image for the homepage hero (empty = same as `logo`). */
   heroLogo: string;

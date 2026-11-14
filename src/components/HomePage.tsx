@@ -156,17 +156,17 @@ const fallbackProperties: HomeProperty[] = [
 /** Favorites are stored by id; the built-in samples (numeric ids) are saved as "sample-N", like their item page. */
 const favoriteIdOf = (id: number | string) => (typeof id === 'string' ? id : `sample-${id}`);
 
-export default function MerkadoHome({
+export default function FrescoHome({
   initialProperties = [],
 }: {
   /** Active properties loaded on the server; the built-in samples show if there are none. */
   initialProperties?: HomeProperty[];
 }) {
-  // The built-in samples open /items/sample-N, which the item page fills from the same sample data.
+  // The built-in samples open /productos/sample-N, which the item page fills from the same sample data.
   const [baseProperties] = useState<HomeProperty[]>(
     initialProperties.length
       ? initialProperties
-      : fallbackProperties.map((p) => ({ ...p, href: `/items/sample-${p.id}` })),
+      : fallbackProperties.map((p) => ({ ...p, href: `/productos/sample-${p.id}` })),
   );
   // A customer who logged in with Acceso mayoristas sees their price level; everyone else sees list prices.
   const { client, level, signOutClient, favorites } = useClient();
@@ -317,7 +317,7 @@ export default function MerkadoHome({
               {client && level ? (
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-2.5 max-md:w-full">
                   <Link
-                    href="/items"
+                    href="/productos"
                     onClick={(e) => {
                       if (window.matchMedia('(max-width: 767px)').matches) {
                         e.preventDefault();
@@ -339,10 +339,10 @@ export default function MerkadoHome({
                 </div>
               ) : (
               <Link
-                href="/items"
+                href="/productos"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: window.matchMedia('(max-width: 767px)').matches ? '/#properties' : '/items' } }));
+                  window.dispatchEvent(new CustomEvent(OPEN_CLIENT_LOGIN, { detail: { redirect: window.matchMedia('(max-width: 767px)').matches ? '/#properties' : '/productos' } }));
                 }}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#1D1D1F] max-md:bg-black max-md:text-white px-6 py-2.5 max-md:min-h-12 text-sm max-md:text-[17px] max-md:tracking-[-0.022em] font-semibold hover:bg-white/90 max-md:hover:bg-black/85 active:scale-95 transition-all"
               >
@@ -428,7 +428,7 @@ export default function MerkadoHome({
                   setPage(1);
                 }}
                 placeholder="Buscá por nombre, categoría o precio…"
-                aria-label="Buscar artículos por nombre, categoría o precio"
+                aria-label="Buscar productos por nombre, categoría o precio"
                 className="min-w-0 flex-1 bg-transparent px-2 md:px-4 py-3 text-base md:text-sm text-[#1D1D1F] placeholder:text-[#86868B] outline-none"
               />
               <button
@@ -496,7 +496,7 @@ export default function MerkadoHome({
         <div className={`grid ${layout === 'two' ? 'grid-cols-2' : 'grid-cols-1'} md:grid-cols-3 lg:grid-cols-4 gap-0.5 md:gap-6`}>
           {filteredProperties.length === 0 && (
             <p className="col-span-full text-center text-[#515154] text-sm">
-              No hay artículos que coincidan con tu búsqueda.
+              No hay productos que coincidan con tu búsqueda.
             </p>
           )}
           {visibleProperties.map((prop, idx) => {
@@ -663,16 +663,16 @@ export default function MerkadoHome({
         {/* Grid footer: see all / advanced search / count */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-sm">
           <Link
-            href="/items"
+            href="/productos"
             className="justify-self-center md:justify-self-start inline-flex items-center space-x-2 font-medium text-[#1D1D1F] hover:text-[#515154] transition-colors"
           >
-            <span>Ver todos los artículos</span>
+            <span>Ver todos los productos</span>
             <ArrowUpRight className="w-4 h-4" />
           </Link>
           <p className="justify-self-center md:justify-self-end text-xs text-[#515154]">
             {filteredProperties.length === 0
-              ? 'Sin artículos'
-              : `Mostrando ${visibleProperties.length} de ${filteredProperties.length} artículos`}
+              ? 'Sin productos'
+              : `Mostrando ${visibleProperties.length} de ${filteredProperties.length} productos`}
           </p>
         </div>
       </section>

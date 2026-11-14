@@ -14,8 +14,8 @@ const fieldClass =
 const PHONE_KEY = 'merkado:remembered-phone';
 
 const errors: Record<Exclude<TokenResult, 'ok'>, string> = {
-  invalid: 'El teléfono o la contraseña/PIN no coinciden. Revisalos o pedile tu acceso a Merkado.',
-  suspended: 'Tu cuenta está suspendida. Comunicate con Merkado para reactivarla.',
+  invalid: 'El teléfono o la contraseña/PIN no coinciden. Revisalos o pedile tu acceso a Fresco.',
+  suspended: 'Tu cuenta está suspendida. Comunicate con Fresco para reactivarla.',
   error: 'No pudimos verificar tus datos. Revisá tu conexión y probá de nuevo.',
 };
 
@@ -148,7 +148,7 @@ export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; n
             </button>
             <h2 className="text-xl font-semibold tracking-tight">Acceso mayoristas</h2>
             <p className="text-sm text-[#515154] font-light mt-1 mb-6">
-              Ingresá con el teléfono registrado y tu contraseña (o tu PIN de 4 números) para ver tus precios.
+              Ingresá con el teléfono registrado y tu contraseña (o tu PIN de 6 números) para ver tus precios.
             </p>
             <form onSubmit={submit} className="space-y-4">
               <div>

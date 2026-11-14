@@ -62,8 +62,8 @@ export default function BusinessForm() {
 
       <div>
         <label htmlFor="b-name" className={labelClass}>Nombre del operador (título del catálogo)</label>
-        <input id="b-name" className={inputClass} value={form.businessName} disabled={!canEdit} maxLength={120} onChange={(e) => set('businessName', e.target.value)} placeholder="Merkado para Mayoristas" />
-        <p className="text-xs text-[#86868B] mt-1">Si lo dejás vacío se usa “Merkado para Mayoristas”.</p>
+        <input id="b-name" className={inputClass} value={form.businessName} disabled={!canEdit} maxLength={120} onChange={(e) => set('businessName', e.target.value)} placeholder="Fresco para Mayoristas" />
+        <p className="text-xs text-[#86868B] mt-1">Si lo dejás vacío se usa “Fresco para Mayoristas”.</p>
       </div>
       <div>
         <span className={labelClass}>Logo</span>
@@ -76,7 +76,7 @@ export default function BusinessForm() {
             {canEdit && <ImageUpload folder="/Merkado-v2/branding" onUploaded={({ url }) => set('logo', url)} onError={(text) => setMessage({ ok: false, text })} />}
             {canEdit && form.logo && (
               <button type="button" onClick={() => set('logo', '')} className="text-xs underline underline-offset-2 text-[#515154] hover:text-[#1D1D1F]">
-                Quitar y usar el logo de Merkado
+                Quitar y usar el logo de Fresco
               </button>
             )}
           </div>

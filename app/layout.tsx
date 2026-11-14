@@ -23,14 +23,56 @@ export async function generateViewport(): Promise<Viewport> {
   return { themeColor: backgroundColor || "#2E7D32" };
 }
 
-const DEFAULT_TITLE = "Merkado para Mayoristas";
+const DEFAULT_TITLE = "Fresco para Mayoristas";
+const DEFAULT_DESCRIPTION =
+  "Fresco, distribuidor hortifrutícola para la gastronomía de Punta del Este: frutas, verduras y hojas verdes frescas para restaurantes, hoteles y comercios. Catálogo mayorista y entregas diarias.";
+
+// Absolute base for the social-share image and canonical URLs (Vercel sets the production host).
+const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { businessName } = await getBusinessSettings();
+  const name = businessName || DEFAULT_TITLE;
   return {
-    title: businessName || DEFAULT_TITLE,
-    description:
-      "Frutas y verduras frescas directo del productor, para minoristas y mayoristas.",
+    metadataBase: new URL(SITE_URL),
+    title: { default: name, template: "%s | Fresco" },
+    description: DEFAULT_DESCRIPTION,
+    applicationName: "Fresco",
+    keywords: [
+      "Fresco",
+      "frutas y verduras",
+      "distribuidor hortifrutícola",
+      "mayorista",
+      "Punta del Este",
+      "Maldonado",
+      "gastronomía",
+      "restaurantes",
+      "hoteles",
+    ],
+    authors: [{ name: "Fresco" }],
+    creator: "Fresco",
+    publisher: "Fresco",
+    category: "food",
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      siteName: "Fresco",
+      title: name,
+      description: DEFAULT_DESCRIPTION,
+      locale: "es_UY",
+      url: "/",
+      images: [{ url: "/icon-512.png", width: 512, height: 512, alt: "Fresco" }],
+    },
+    twitter: {
+      card: "summary",
+      title: name,
+      description: DEFAULT_DESCRIPTION,
+      images: ["/icon-512.png"],
+    },
+    appleWebApp: { capable: true, title: "Fresco", statusBarStyle: "default" },
+    formatDetection: { telephone: false },
   };
 }
 

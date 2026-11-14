@@ -5,14 +5,14 @@ import { KeyRound } from 'lucide-react';
 /** Event that WholesaleAccess listens to, so any page can open the client sign-in modal. */
 export const OPEN_CLIENT_LOGIN = 'merkado:open-client-login';
 
-/** Shown instead of the order form: Merkado is B2B, so only customers with a profile can order. */
+/** Shown instead of the order form: Fresco is B2B, so only customers with a profile can order. */
 export default function SignInNotice() {
   return (
     <div role="note" className="rounded-2xl bg-[#F5F5F7] px-5 py-4 text-sm space-y-3">
       <div className="space-y-1">
         <p className="font-medium">Para hacer un pedido ingresá como cliente.</p>
         <p className="text-[#515154] font-light">
-          Los pedidos son solo para clientes con perfil. ¿Todavía no sos cliente? Solicitá el servicio desde “Mayoristas” en el inicio: tras la aprobación y la configuración del pago, Merkado te envía tu contraseña.
+          Los pedidos son solo para clientes con perfil. ¿Todavía no sos cliente? Solicitá el servicio desde “Mayoristas” en el inicio: tras la aprobación y la configuración del pago, Fresco te envía tu contraseña.
         </p>
         <p className="text-[#515154] font-light">
           Al ingresar, el precio se actualiza según el nivel de precios de tu cuenta.

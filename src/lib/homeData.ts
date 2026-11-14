@@ -1,6 +1,6 @@
 import { getActiveProperties, getCategories } from '../services/dbService';
 import type { PricingMode, Property, PropertyType } from '../types/firestore';
-import { formatMoney, formatQuantity, mergeCategories, operationLabels, withUnitSuffix } from '../utils/format';
+import { formatMoney, formatQuantity, mergeCategories, withUnitSuffix } from '../utils/format';
 import { ikUrl } from '../utils/imagekit';
 
 export type HeroSlide = {
@@ -62,7 +62,7 @@ function toSlide(p: Property, label: (t: string) => string): HeroSlide {
     ? sentence.length > 110
       ? `${sentence.slice(0, 107).trimEnd()}…`
       : sentence
-    : `${operationLabels[p.operation]} · ${label(p.type)}`;
+    : label(p.type);
   return {
     id: p.id,
     title: p.title,
@@ -84,7 +84,7 @@ export function toHomeProperty(p: Property, label: (t: string) => string): HomeP
     baths: p.specs.bathrooms,
     area: formatQuantity(p.weight, p.unit),
     image: p.photos[0]?.url ?? '',
-    href: `/items/${p.id}`,
+    href: `/productos/${p.id}`,
     type: p.type,
     typeLabel: label(p.type),
     featured: p.featured === true,

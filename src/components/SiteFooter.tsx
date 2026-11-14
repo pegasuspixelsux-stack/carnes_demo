@@ -102,9 +102,9 @@ export default function SiteFooter({ onGreen = true }: { onGreen?: boolean } = {
           <p className="text-sm md:text-xs uppercase tracking-widest text-[#515154] font-semibold">Catálogo</p>
           <ul className="space-y-3 text-sm text-[#1D1D1F] font-light">
             {categories.slice(0, 4).map((c) => (
-              <li key={c.id}><Link href={`/items?category=${encodeURIComponent(c.id)}`} className={linkClass}>{c.name}</Link></li>
+              <li key={c.id}><Link href={`/productos?category=${encodeURIComponent(c.id)}`} className={linkClass}>{c.name}</Link></li>
             ))}
-            <li><Link href="/items" className={`${linkClass} font-medium`}>Ver todo el catálogo →</Link></li>
+            <li><Link href="/productos" className={`${linkClass} font-medium`}>Ver todo el catálogo →</Link></li>
           </ul>
         </div>
 
@@ -125,7 +125,6 @@ export default function SiteFooter({ onGreen = true }: { onGreen?: boolean } = {
           <ul className="space-y-3 text-sm text-[#1D1D1F] font-light">
             <li><Link href="/privacidad" className={linkClass}>Política de privacidad</Link></li>
             <li><Link href="/creditos" className={linkClass}>Créditos de fotos</Link></li>
-            <li><a href="#" className={linkClass}>Términos del servicio</a></li>
             <li><Link href="/admin/login" className={linkClass}>Administración</Link></li>
           </ul>
         </div>
@@ -133,7 +132,7 @@ export default function SiteFooter({ onGreen = true }: { onGreen?: boolean } = {
 
       {/* Bottom Bar */}
       <div className="max-w-[1440px] mx-auto pt-6 border-t border-black/10 flex flex-col md:flex-row items-center justify-between text-sm md:text-xs text-[#515154] font-light">
-        <p>&copy; {new Date().getFullYear()} MerkadoB2B. Todos los derechos reservados.</p>
+        <p>&copy; {new Date().getFullYear()} Fresco. Todos los derechos reservados.</p>
         <p className="mt-4 md:mt-0">
           Plataforma creada por{' '}
           <a

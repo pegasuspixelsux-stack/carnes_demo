@@ -47,7 +47,7 @@ export default function SimilarItems({ title, items }: { title: string; items: S
       >
         {items.map((item) => (
           <li key={item.id} className="snap-start shrink-0 w-[60%] sm:w-[40%] md:w-[28%] lg:w-[22%]">
-            <Link href={`/items/${item.id}`} className="group relative block aspect-square rounded-2xl overflow-hidden bg-[#E5E5EA]">
+            <Link href={`/productos/${item.id}`} className="group relative block aspect-square rounded-2xl overflow-hidden bg-[#E5E5EA]">
               <PropertyImage
                 src={item.image}
                 alt={item.title}

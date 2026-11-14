@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { commonsPage, itemImagesById } from '@/src/data/itemImages';
 
 export const metadata: Metadata = {
-  title: 'Créditos de fotos | Merkado',
+  title: 'Créditos de fotos',
   description: 'Fuentes y licencias de las fotos públicas usadas en el catálogo.',
 };
 

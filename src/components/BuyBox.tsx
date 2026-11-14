@@ -72,7 +72,7 @@ export default function BuyBox({
         baths: 0,
         area: '',
         image,
-        href: typeof itemId === 'string' ? `/items/${itemId}` : undefined,
+        href: typeof itemId === 'string' ? `/productos/${itemId}` : undefined,
         pricingMode: mode,
         unitPrice,
         inStock: true,
@@ -102,7 +102,7 @@ export default function BuyBox({
             Cerrar pedido
           </button>
           <Link
-            href="/items"
+            href="/productos"
             className="flex-1 text-center border border-[#1D1D1F]/30 py-3.5 rounded-full text-sm font-medium hover:bg-white transition-all"
           >
             Seguir comprando

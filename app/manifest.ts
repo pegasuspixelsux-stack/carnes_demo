@@ -1,10 +1,10 @@
 import type { MetadataRoute } from 'next';
 
-// Lets browsers install the site as an app / desktop shortcut with the Merkado icon.
+// Lets browsers install the site as an app / desktop shortcut with the Fresco icon.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Merkado para Mayoristas',
-    short_name: 'Merkado',
+    name: 'Fresco para Mayoristas',
+    short_name: 'Fresco',
     description: 'Distribuidor hortifrutícola para la gastronomía de Punta del Este.',
     start_url: '/',
     display: 'standalone',

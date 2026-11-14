@@ -245,7 +245,7 @@ export function parseItemRows(data: unknown[][], existing: Category[]): ParsedIm
 
   result.newCategories = [...created.values()];
   if (result.items.length === 0 && result.errors.length === 0) {
-    result.errors.push({ row: 2, message: 'No se encontraron filas de artículos debajo del encabezado.' });
+    result.errors.push({ row: 2, message: 'No se encontraron filas de productos debajo del encabezado.' });
   }
   return result;
 }

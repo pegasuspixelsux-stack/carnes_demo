@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export const navLinks = [
-  { href: '/items', label: 'Catálogo' },
+  { href: '/productos', label: 'Catálogo' },
   { href: '/#vision', label: 'Quiénes somos' },
   { href: '/#faq', label: 'FAQ' },
   { href: '/#contact', label: 'Contacto' },

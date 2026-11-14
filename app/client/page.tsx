@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import ClientPortal from './ClientPortal';
 
 export const metadata: Metadata = {
-  title: 'Tu cuenta | Merkado',
+  title: 'Tu cuenta',
   robots: { index: false, follow: false },
 };
 

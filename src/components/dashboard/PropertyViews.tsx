@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { MapPin, Pencil, Star, Trash2 } from 'lucide-react';
 import PropertyImage from '../PropertyImage';
 import type { Property } from '../../types/firestore';
-import { formatMoney, formatQuantity, operationLabels, typeLabels, withUnitSuffix } from '../../utils/format';
+import { formatMoney, formatQuantity, typeLabels, withUnitSuffix } from '../../utils/format';
 import { StatusPill } from './ui';
 
 interface ViewProps {
@@ -58,7 +58,7 @@ function RowActions({
         <Star className={`w-4 h-4 ${p.featured ? 'fill-[#1D1D1F]' : ''}`} />
       </button>
       <Link
-        href={`/dashboard/properties/${p.id}`}
+        href={`/dashboard/productos/${p.id}`}
         aria-label={`Editar ${p.title}`}
         className="p-2 rounded-full hover:bg-[#F5F5F7]"
       >
@@ -83,7 +83,7 @@ export function PropertyGrid({ properties, onDelete, onToggleFeatured, categoryL
           key={p.id}
           className="group bg-white rounded-2xl border border-[#000000]/5 shadow-sm overflow-hidden transition-transform duration-500 hover:-translate-y-1"
         >
-          <Link href={`/dashboard/properties/${p.id}`} className="block relative aspect-[4/3] bg-[#E5E5EA] overflow-hidden">
+          <Link href={`/dashboard/productos/${p.id}`} className="block relative aspect-[4/3] bg-[#E5E5EA] overflow-hidden">
             {p.photos[0] && (
               <PropertyImage
                 src={p.photos[0].url}
@@ -96,7 +96,6 @@ export function PropertyGrid({ properties, onDelete, onToggleFeatured, categoryL
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
             <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-black text-xs font-semibold px-3.5 py-1.5 rounded-full shadow-sm">
               {withUnitSuffix(formatMoney(p.price, p.currency), p.pricingMode)}
-              {p.operation === 'rent' ? ' / mes' : ''}
             </span>
             <span className="absolute top-4 right-4">
               <StatusPill status={p.status} />
@@ -105,7 +104,7 @@ export function PropertyGrid({ properties, onDelete, onToggleFeatured, categoryL
           <div className="p-5 space-y-3">
             <div>
               <p className="text-xs uppercase tracking-wider text-[#515154] font-medium">
-                {operationLabels[p.operation]} · {categoryLabel(p.type)}
+                {categoryLabel(p.type)}
               </p>
               <h3 className="text-lg font-semibold tracking-tight truncate">
                 {p.featured && <Star aria-label="Destacado" className="inline w-3.5 h-3.5 mr-1.5 -mt-0.5 fill-[#1D1D1F]" />}
@@ -132,7 +131,7 @@ export function PropertyTable({ properties, onDelete, onToggleFeatured, category
       <table className="w-full text-sm">
         <thead>
           <tr className="text-left text-xs uppercase tracking-wider text-[#515154]">
-            <th className="font-semibold px-5 py-4">Artículo</th>
+            <th className="font-semibold px-5 py-4">Producto</th>
             <th className="font-semibold px-3 py-4 hidden md:table-cell">Categoría</th>
             <th className="font-semibold px-3 py-4 hidden lg:table-cell">Detalle</th>
             <th className="font-semibold px-3 py-4">Precio</th>
@@ -151,7 +150,7 @@ export function PropertyTable({ properties, onDelete, onToggleFeatured, category
                     )}
                   </div>
                   <div className="min-w-0">
-                    <Link href={`/dashboard/properties/${p.id}`} className="font-medium hover:underline truncate block">
+                    <Link href={`/dashboard/productos/${p.id}`} className="font-medium hover:underline truncate block">
                       {p.featured && <Star aria-label="Destacado" className="inline w-3.5 h-3.5 mr-1.5 -mt-0.5 fill-[#1D1D1F]" />}
                       {p.title}
                     </Link>
@@ -160,14 +159,13 @@ export function PropertyTable({ properties, onDelete, onToggleFeatured, category
                 </div>
               </td>
               <td className="px-3 py-3 hidden md:table-cell text-[#515154]">
-                {operationLabels[p.operation]} · {categoryLabel(p.type)}
+                {categoryLabel(p.type)}
               </td>
               <td className="px-3 py-3 hidden lg:table-cell">
                 <Specs p={p} />
               </td>
               <td className="px-3 py-3 font-medium whitespace-nowrap">
                 {withUnitSuffix(formatMoney(p.price, p.currency), p.pricingMode)}
-                {p.operation === 'rent' ? ' / mes' : ''}
               </td>
               <td className="px-3 py-3">
                 <StatusPill status={p.status} />

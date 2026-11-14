@@ -120,8 +120,8 @@ export function ClientProvider({ children }: { children: ReactNode }) {
       suspended: Boolean(suspended),
       openWithToken,
       login: async (phone: string, code: string) => {
-        // A numeric PIN (4 to 6 digits) points to the customer's access token; the access code itself has letters and is longer.
-        if (/^\d{4,6}$/.test(code.trim())) {
+        // A 4-digit PIN points to the customer's access token; the access code itself has letters and is longer.
+        if (/^\d{4}$/.test(code.trim())) {
           try {
             const token = await resolvePinToken(phone, code.trim());
             return token ? openWithToken(token) : 'invalid';

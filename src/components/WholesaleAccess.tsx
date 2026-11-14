@@ -168,7 +168,7 @@ export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; n
             </button>
             <h2 className="text-xl font-semibold tracking-tight">Acceso mayoristas</h2>
             <p className="text-sm text-[#515154] font-light mt-1 mb-6">
-              Ingresá con el teléfono registrado y tu contraseña (o tu PIN de 6 números) para ver tus precios.
+              Ingresá con el teléfono registrado y tu contraseña (o tu PIN de 4 números) para ver tus precios.
             </p>
             <form onSubmit={submit} className="space-y-4">
               <div>
@@ -189,7 +189,11 @@ export default function WholesaleAccess({ glass, noModal }: { glass?: boolean; n
               </button>
             </form>
             <p className="text-xs text-[#86868B] mt-4">
-              ¿No tenés acceso? Solicitalo desde “Mayoristas” en el inicio. Tras la aprobación y la configuración del pago, te enviamos tu contraseña.
+              ¿No tenés acceso?{' '}
+              <Link href="/#contact" onClick={() => setOpen(false)} className="font-medium text-[#1D1D1F] underline underline-offset-2 hover:text-[#2E7D32]">
+                Solicitalo aquí
+              </Link>
+              . Tras la aprobación y la configuración del pago, te enviamos tu contraseña.
             </p>
           </div>
         </div>,

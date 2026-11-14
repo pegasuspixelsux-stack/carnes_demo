@@ -212,7 +212,7 @@ export interface Client {
   /** Usual receiving hour, "HH:MM". */
   receivingTime: string;
   email: string;
-  /** 6-digit PIN (4 for older customers) the customer types with their phone to sign in ("" = none). */
+  /** 4-digit PIN the customer types with their phone to sign in ("" = none). */
   pin: string;
   /** Exception to "clients order boxes": this customer may also order loose units. */
   allowLoose: boolean;

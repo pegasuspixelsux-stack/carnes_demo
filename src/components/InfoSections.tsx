@@ -34,7 +34,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: '¿Cómo ingreso y qué es el PIN?',
-    a: 'Entrás desde "Acceso mayoristas" con tu teléfono y tu contraseña. Si te asignamos un PIN de 6 números, también podés entrar con tu teléfono y ese PIN.',
+    a: 'Entrás desde "Acceso mayoristas" con tu teléfono y tu contraseña. Si te asignamos un PIN de 4 números, también podés entrar con tu teléfono y ese PIN.',
   },
   {
     q: '¿Los precios son fijos?',

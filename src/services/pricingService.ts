@@ -61,7 +61,7 @@ export function toClient(id: string, d: DocumentData): Client {
     address: d.address ?? '',
     receivingTime: d.receivingTime ?? '',
     email: d.email ?? '',
-    pin: /^\d{4,6}$/.test(d.pin ?? '') ? d.pin : '',
+    pin: /^\d{4}$/.test(d.pin ?? '') ? d.pin : '',
     allowLoose: d.allowLoose === true,
     paymentMethod: (PAYMENT_METHODS as readonly string[]).includes(d.paymentMethod) ? d.paymentMethod : 'house_account',
     taxRate: typeof d.taxRate === 'number' ? d.taxRate : 0,
@@ -115,9 +115,9 @@ export const buildToken = (phone: string, code: string) => `${phoneKey(phone)}-$
 export const newAccessToken = (phone: string) => buildToken(phone, newAccessCode());
 export const codeOfToken = (token: string) => token.split('-')[1] ?? '';
 
-/** A random 6-digit PIN (older customers may still have a 4-digit one). */
+/** A random 4-digit PIN. */
 export function newPin(): string {
-  return String(crypto.getRandomValues(new Uint32Array(1))[0] % 1000000).padStart(6, '0');
+  return String(crypto.getRandomValues(new Uint32Array(1))[0] % 10000).padStart(4, '0');
 }
 
 /** client_pins/{phone}-{pin} points at the customer's access token, so phone + PIN can sign in. */

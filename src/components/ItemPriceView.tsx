@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useClient } from '@/src/context/ClientContext';
 import { boxDescription, optionPrice, saleOptions, type SaleSource } from '@/src/utils/pricing';
-import { formatMoney, pricingModeLabels, withUnitSuffix } from '@/src/utils/format';
+import { formatMoney, pricingModeLabels, pricingSuffix } from '@/src/utils/format';
 
 /**
  * Price display for one item, one card per way of buying it.
@@ -14,7 +14,10 @@ import { formatMoney, pricingModeLabels, withUnitSuffix } from '@/src/utils/form
 export default function ItemPriceView({ pricing, categoryId, glass }: { pricing: SaleSource; categoryId?: string; glass?: boolean }) {
   const { client, level } = useClient();
   const wholesale = !!(client && level);
-  const options = saleOptions(pricing, wholesale ? 'wholesale' : 'retail', { allowLoose: client?.allowLoose });
+  const allOptions = saleOptions(pricing, wholesale ? 'wholesale' : 'retail', { allowLoose: client?.allowLoose });
+  // Minorista sees the price per kilo, mayorista the price per caja (when the item has that way of selling).
+  const preferred = allOptions.filter((o) => o.mode === (wholesale ? 'por_caja' : 'por_kilo'));
+  const options = preferred.length ? preferred : allOptions;
   const box = boxDescription(pricing);
   const boxOption = options.find((o) => o.mode === 'por_caja');
   // Wholesale customers only: what a case holds and costs, in small text under the per-kilo price. It comes from the item's
@@ -37,7 +40,10 @@ export default function ItemPriceView({ pricing, categoryId, glass }: { pricing:
               {wholesale ? 'Tu precio' : 'Minorista'} · {pricingModeLabels[o.mode]}
             </dt>
             <dd className={`mt-1 flex ${glass ? 'flex-col items-end' : 'flex-wrap items-baseline gap-x-2'}`}>
-              <span className="text-2xl font-semibold">{withUnitSuffix(formatMoney(unit), o.mode)}</span>
+              <span className="flex items-baseline gap-1.5">
+                <span className={`text-xs font-semibold ${muted}`}>{pricingSuffix(o.mode).replace('/', '').trim()}</span>
+                <span className="text-2xl font-extrabold tracking-tight">{formatMoney(unit)}</span>
+              </span>
               {glass && caseLine && <span className={`text-[11px] leading-snug ${muted} text-right`}>{caseLine}</span>}
               {glass ? (
                 <span className="flex items-center justify-end gap-2">

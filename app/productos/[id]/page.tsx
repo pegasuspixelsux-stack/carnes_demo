@@ -9,9 +9,7 @@ import type { Property } from '@/src/types/firestore';
 import { formatMoney, formatQuantity, mergeCategories, withUnitSuffix } from '@/src/utils/format';
 import BuyBox from '@/src/components/BuyBox';
 import ItemPriceView from '@/src/components/ItemPriceView';
-import WholesaleAccess from '@/src/components/WholesaleAccess';
 import FavoriteButton from '@/src/components/FavoriteButton';
-import SiteNavLinks from '@/src/components/SiteNavLinks';
 import CartButton from '@/src/components/CartButton';
 import MobileNavMenu from '@/src/components/MobileNavMenu';
 import SimilarItems, { type SimilarItem } from '@/src/components/SimilarItems';
@@ -100,23 +98,16 @@ export default async function ItemPage({ params }: Props) {
   return (
     <div className="relative min-h-screen bg-[#FBFBFD] max-md:bg-[#450a0a] text-[#1D1D1F] font-sans antialiased">
       <header className="absolute inset-x-0 top-0 z-30 text-white md:static md:text-[#1D1D1F] md:border-b md:border-[#000000]/5 md:bg-[#FBFBFD]">
-        <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug pt-[calc(0.375rem+env(safe-area-inset-top))] md:pt-1.5">
-          <span>Entregas diarias en Maldonado y Punta del Este</span>
-        </div>
-        <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName onDark /></Link>
-          <SiteNavLinks />
-          <div className="flex items-center gap-3">
-            <WholesaleAccess glass />
-            <CartButton glass />
-            <MobileNavMenu glass />
-          </div>
+        <div className="max-w-[1440px] mx-auto px-6 h-16 pt-[env(safe-area-inset-top)] box-content md:pt-0 md:box-border flex items-center justify-between">
+          <div className="w-10"><MobileNavMenu glass align="left" always /></div>
+          <Link href="/" className="font-semibold text-base sm:text-lg tracking-tight"><BrandName onDark /></Link>
+          <div className="w-10 flex justify-end"><CartButton glass /></div>
         </div>
       </header>
 
       <main className="max-md:bg-[#FBFBFD] max-w-[1440px] mx-auto px-6 pt-10 pb-0 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 items-start">
         {/* Mobile hero: full-bleed image, vertical gradient overlay, product info below it */}
-        <SwipeSection prevHref={prevHref} nextHref={nextHref} className="md:hidden relative -mx-6 -mt-10 h-[70svh] overflow-hidden bg-[#FBFBFD]">
+        <SwipeSection prevHref={prevHref} nextHref={nextHref} className="md:hidden relative -mx-6 -mt-10 h-[70svh] overflow-hidden rounded-b-[2rem] bg-[#FBFBFD]">
           {photo && (
             <PropertyImage
               src={photo}
@@ -147,7 +138,7 @@ export default async function ItemPage({ params }: Props) {
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0 space-y-1">
               <p className="text-xs uppercase tracking-widest text-[#515154] font-semibold">{category}</p>
-              <h1 className="text-2xl font-semibold tracking-tight">{item.title}</h1>
+              <h1 className="text-2xl font-extrabold tracking-tight">{item.title}</h1>
             </div>
             <div className="shrink-0 text-right">
               <ItemPriceView glass categoryId={item.type} pricing={pricing} />
@@ -199,7 +190,7 @@ export default async function ItemPage({ params }: Props) {
           <div className="space-y-4">
             <div className="hidden md:block space-y-4">
               <p className="text-xs uppercase tracking-widest text-[#515154] font-semibold">{category}</p>
-              <h1 className="text-5xl font-semibold tracking-tight">{item.title}</h1>
+              <h1 className="text-5xl font-extrabold tracking-tight">{item.title}</h1>
               <ItemPriceView categoryId={item.type} pricing={pricing} />
               {quantity && (
                 <p className="text-sm text-[#515154]">

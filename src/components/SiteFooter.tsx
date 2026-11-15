@@ -5,6 +5,7 @@ import { Clock, FileText, Mail, MapPin, MessageCircle, Phone } from 'lucide-reac
 import { useBusiness } from '@/src/context/BusinessContext';
 import { useCategories } from '@/src/hooks/useCategories';
 import { socialLinks } from '@/src/components/SocialIcons';
+import BrandName from '@/src/components/BrandName';
 import { whatsappUrl } from '@/src/utils/format';
 
 const linkClass = 'hover:text-black hover:underline underline-offset-2 transition-colors';
@@ -24,14 +25,8 @@ export default function SiteFooter({ onGreen = true }: { onGreen?: boolean } = {
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-12 mb-[75px]">
         {/* Column 1: Brand (tablets, portrait and landscape: its own full-width row) */}
         <div className="space-y-4 md:col-span-2 xl:col-span-1">
-          {/* Fresco logo (already includes the name and "Desde 1998"): colored on white, white on the green mobile footer */}
-          <div className="flex items-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fresco_footer.png" alt="" aria-hidden="true" className={`h-auto w-44 max-md:h-11 max-md:w-auto shrink-0 ${onGreen ? 'max-md:hidden' : ''}`} />
-            {onGreen && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src="/fresco_footer_white.png" alt="" aria-hidden="true" className="md:hidden h-11 w-auto shrink-0" />
-            )}
+          <div className="flex items-center text-3xl">
+            <BrandName onDark={onGreen} />
           </div>
 
           {hasContact && (

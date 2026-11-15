@@ -9,7 +9,7 @@ import { useBusiness } from '@/src/context/BusinessContext';
 import { socialLinks } from '@/src/components/SocialIcons';
 
 /** Burger button for phones and tablets: opens a dropdown with the top-navigation links. Hidden from lg up. */
-export default function MobileNavMenu({ glass, bare, align = 'right' }: { glass?: boolean; bare?: boolean; align?: 'left' | 'right' } = {}) {
+export default function MobileNavMenu({ glass, bare, align = 'right', always }: { glass?: boolean; bare?: boolean; align?: 'left' | 'right'; always?: boolean } = {}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const socials = socialLinks(useBusiness());
@@ -31,7 +31,7 @@ export default function MobileNavMenu({ glass, bare, align = 'right' }: { glass?
   }, [open]);
 
   return (
-    <div ref={ref} className="relative lg:hidden">
+    <div ref={ref} className={`relative ${always ? '' : 'lg:hidden'}`}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}

@@ -26,9 +26,11 @@ export default function SignInNotice() {
       <button
         type="button"
         onClick={() => window.dispatchEvent(new Event(OPEN_CLIENT_LOGIN))}
-        className="inline-flex items-center gap-2 rounded-full bg-[#1D1D1F] text-white px-5 py-2.5 text-xs font-medium hover:bg-[#333336] transition-colors"
+        className="w-full rounded-full bg-[#450a0a] text-white shadow-xl shadow-black/30 border border-[#000000]/10 p-1.5 hover:bg-[#5a1212] hover:scale-[1.03] hover:shadow-2xl hover:shadow-black/40 active:scale-[0.98] transition duration-200"
       >
-        <KeyRound className="w-3.5 h-3.5" /> Ingresar como cliente
+        <span className="flex min-h-11 items-center justify-center gap-2 text-sm font-medium">
+          <KeyRound className="w-4 h-4" /> Ingresar como cliente
+        </span>
       </button>
     </div>
   );

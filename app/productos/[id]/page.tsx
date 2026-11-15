@@ -10,15 +10,13 @@ import { formatMoney, formatQuantity, mergeCategories, withUnitSuffix } from '@/
 import BuyBox from '@/src/components/BuyBox';
 import ItemPriceView from '@/src/components/ItemPriceView';
 import FavoriteButton from '@/src/components/FavoriteButton';
-import CartButton from '@/src/components/CartButton';
-import MobileNavMenu from '@/src/components/MobileNavMenu';
+import ItemTopBar from '@/src/components/ItemTopBar';
 import SimilarItems, { type SimilarItem } from '@/src/components/SimilarItems';
 import PropertyImage from '@/src/components/PropertyImage';
 import HeroArrow from '@/src/components/HeroArrow';
 import SwipeSection from '@/src/components/SwipeSection';
 import InfoSections from '@/src/components/InfoSections';
 import SiteFooter from '@/src/components/SiteFooter';
-import BrandName from '@/src/components/BrandName';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -98,11 +96,7 @@ export default async function ItemPage({ params }: Props) {
   return (
     <div className="relative min-h-screen bg-[#FBFBFD] max-md:bg-[#450a0a] text-[#1D1D1F] font-sans antialiased">
       <header className="absolute inset-x-0 top-0 z-30 text-white md:static md:text-[#1D1D1F] md:border-b md:border-[#000000]/5 md:bg-[#FBFBFD]">
-        <div className="max-w-[1440px] mx-auto px-6 h-16 pt-[env(safe-area-inset-top)] box-content md:pt-0 md:box-border flex items-center justify-between">
-          <div className="w-10"><MobileNavMenu glass align="left" always /></div>
-          <Link href="/" className="font-semibold text-base sm:text-lg tracking-tight"><BrandName onDark /></Link>
-          <div className="w-10 flex justify-end"><CartButton glass /></div>
-        </div>
+        <ItemTopBar />
       </header>
 
       <main className="max-md:bg-[#FBFBFD] max-w-[1440px] mx-auto px-6 pt-10 pb-0 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16 items-start">

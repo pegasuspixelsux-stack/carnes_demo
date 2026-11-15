@@ -42,7 +42,7 @@ export default function ItemPriceView({ pricing, categoryId, glass }: { pricing:
             <dd className={`mt-1 flex ${glass ? 'flex-col items-end' : 'flex-wrap items-baseline gap-x-2'}`}>
               <span className="flex items-baseline gap-1.5">
                 <span className={`text-xs font-semibold ${muted}`}>{pricingSuffix(o.mode).replace('/', '').trim()}</span>
-                <span className="text-2xl font-extrabold tracking-tight">{formatMoney(unit)}</span>
+                <span className="text-2xl font-extrabold tracking-tight">{formatMoney(unit).replace('$', 'UYU$')}</span>
               </span>
               {glass && caseLine && <span className={`text-[11px] leading-snug ${muted} text-right`}>{caseLine}</span>}
               {glass ? (

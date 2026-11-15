@@ -1,7 +1,7 @@
 /** Shared site texts (used by the layout metadata and the Open Graph page). */
-export const SITE_TITLE = 'Fresco para Mayoristas';
+export const SITE_TITLE = 'Mercado de Carnes';
 export const SITE_DESCRIPTION =
-  'Fresco, distribuidor hortifrutícola para la gastronomía de Punta del Este: frutas, verduras y hojas verdes frescas para restaurantes, hoteles y comercios. Catálogo mayorista y entregas diarias.';
+  'Mercado de Carnes, distribuidor de carnes para la gastronomía de Punta del Este: cortes de parrilla, asadores y achuras para restaurantes, hoteles y comercios. Catálogo mayorista y entregas diarias.';
 
 /** Link preview (WhatsApp, Facebook, X): the text of the /opengraph flyer and a screenshot of it. */
 export const SHARE_TITLE = 'Tus clientes piden solos. Siempre con tu margen.';

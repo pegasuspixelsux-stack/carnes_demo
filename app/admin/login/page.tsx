@@ -76,19 +76,19 @@ export default function AdminLoginPage() {
         src="/carne_clear.webp"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-auto -translate-x-1/2 -translate-y-1/2 object-contain opacity-30 drop-shadow-2xl md:landscape:left-1/4 md:landscape:h-[65%] md:landscape:opacity-100"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-auto -translate-x-1/2 -translate-y-1/2 object-contain opacity-50 drop-shadow-2xl md:landscape:left-1/4 md:landscape:h-[65%] md:landscape:opacity-100"
       />
       {/* Brand, top-left corner */}
       <Link
         href="/"
         className="absolute top-8 left-8 z-20 text-lg font-semibold tracking-tight drop-shadow"
       >
-        Fresco.
+        Mercado de Carnes
       </Link>
 
       {/* Version, bottom-left corner */}
       <p className="absolute bottom-8 left-8 z-20 text-xs font-medium tracking-wide text-white/80 drop-shadow">
-        Fresco v2.0
+        Mercado de Carnes v2.0
       </p>
 
       {/* Wide screens held landscape: two columns (left transparent, right 50% black). Phones and portrait tablets: one column. */}
@@ -97,7 +97,7 @@ export default function AdminLoginPage() {
 
         <div className="bg-black/30 md:landscape:bg-black/50 flex items-center justify-center px-6 py-24">
           <div className="w-full max-w-sm bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-            <p className="text-xs uppercase tracking-widest text-white/60 font-semibold mb-2">Fresco.</p>
+            <p className="text-xs uppercase tracking-widest text-white/60 font-semibold mb-2">Mercado de Carnes</p>
             <h1 className="text-2xl font-semibold tracking-tight mb-1">Iniciar sesión</h1>
             <p className="text-sm text-white/70 font-light mb-8">Administrá productos, pedidos y usuarios.</p>
 

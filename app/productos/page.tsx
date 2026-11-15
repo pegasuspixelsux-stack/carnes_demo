@@ -6,7 +6,7 @@ import { formatMoney, formatQuantity, typeLabels, withUnitSuffix } from '@/src/u
 
 export const metadata: Metadata = {
   title: 'Catálogo Mayorista',
-  description: 'Buscá y filtrá todo el catálogo de frutas, verduras y hojas verdes de Fresco.',
+  description: 'Buscá y filtrá todo el catálogo de carnes de Mercado de Carnes.',
 };
 
 // Same cache window as the homepage.

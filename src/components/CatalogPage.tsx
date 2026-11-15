@@ -236,7 +236,7 @@ const activeFilters =
                 <Heart className="w-4 h-4" />
                 Favoritos
                 {favorites.length > 0 && (
-                  <span className="min-w-4 h-4 px-1 rounded-full bg-[#2E7D32] text-white text-[10px] font-semibold flex items-center justify-center">
+                  <span className="min-w-4 h-4 px-1 rounded-full bg-[#450a0a] text-white text-[10px] font-semibold flex items-center justify-center">
                     {favorites.length}
                   </span>
                 )}
@@ -294,7 +294,7 @@ const activeFilters =
               <button
                 type="submit"
                 aria-label="Buscar"
-                className="shrink-0 bg-[#2E7D32] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#2E7D32]/85 transition-all flex items-center justify-center"
+                className="shrink-0 bg-[#450a0a] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#5a1212] transition-all flex items-center justify-center"
               >
                 <Search className="w-4 h-4 md:hidden" />
                 <span className="hidden md:inline">Buscar</span>
@@ -406,7 +406,7 @@ const activeFilters =
                     onClick={() => change(setCategory)(c.id)}
                     aria-pressed={active}
                     className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-medium transition-colors ${
-                      active ? 'bg-[#2E7D32] text-white' : 'bg-white text-[#1D1D1F] hover:bg-[#F5F5F7]'
+                      active ? 'bg-[#450a0a] text-white' : 'bg-white text-[#1D1D1F] hover:bg-[#F5F5F7]'
                     }`}
                   >
                     {c.label}
@@ -428,7 +428,7 @@ const activeFilters =
                   aria-label={label}
                   title={label}
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                    layout === value ? 'bg-[#2E7D32] text-white' : 'text-[#515154] hover:bg-[#F5F5F7]'
+                    layout === value ? 'bg-[#450a0a] text-white' : 'text-[#515154] hover:bg-[#F5F5F7]'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -489,7 +489,7 @@ const activeFilters =
                   onClick={() => addToCart(prop)}
                   disabled={prop.inStock === false}
                   aria-label={prop.inStock === false ? `${prop.title} está sin stock` : `Agregar ${prop.title} al carrito`}
-                  className="w-8 h-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center shadow-sm hover:bg-[#256628] active:scale-95 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="w-8 h-8 rounded-full bg-[#450a0a] text-white flex items-center justify-center shadow-sm hover:bg-[#5a1212] active:scale-95 transition disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -553,7 +553,7 @@ const activeFilters =
                     onClick={() => addToCart(prop)}
                     disabled={soldOut}
                     aria-label={soldOut ? `${prop.title} está sin stock` : `Agregar ${prop.title} al carrito`}
-                    className="w-8 h-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center hover:bg-[#256628] active:scale-95 transition disabled:opacity-40"
+                    className="w-8 h-8 rounded-full bg-[#450a0a] text-white flex items-center justify-center hover:bg-[#5a1212] active:scale-95 transition disabled:opacity-40"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -587,7 +587,7 @@ const activeFilters =
                   aria-label={`Página ${n}`}
                   aria-current={n === currentPage ? 'page' : undefined}
                   className={`h-11 min-w-11 px-3 rounded-full text-sm font-medium transition-colors ${
-                    n === currentPage ? 'bg-[#2E7D32] text-white' : 'bg-white hover:bg-[#F5F5F7]'
+                    n === currentPage ? 'bg-[#450a0a] text-white' : 'bg-white hover:bg-[#F5F5F7]'
                   }`}
                 >
                   {n}

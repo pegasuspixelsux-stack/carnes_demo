@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: '/opengraph',
-    siteName: 'Fresco',
+    siteName: 'Mercado de Carnes',
     title: SHARE_TITLE,
     description: SHARE_DESCRIPTION,
     images: [{ url: SHARE_IMAGE, width: SHARE_IMAGE_WIDTH, height: SHARE_IMAGE_HEIGHT, alt: SHARE_IMAGE_ALT, type: 'image/jpeg' }],

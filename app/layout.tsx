@@ -39,13 +39,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const name = businessName || DEFAULT_TITLE;
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: name, template: "%s | Fresco" },
+    title: { default: name, template: "%s | Mercado de Carnes" },
     description: DEFAULT_DESCRIPTION,
-    applicationName: "Fresco",
+    applicationName: "Mercado de Carnes",
     keywords: [
-      "Fresco",
-      "frutas y verduras",
-      "distribuidor hortifrutícola",
+      "Mercado de Carnes",
+      "carnes",
+      "distribuidor de carnes",
       "mayorista",
       "Punta del Este",
       "Maldonado",
@@ -53,15 +53,15 @@ export async function generateMetadata(): Promise<Metadata> {
       "restaurantes",
       "hoteles",
     ],
-    authors: [{ name: "Fresco" }],
-    creator: "Fresco",
-    publisher: "Fresco",
+    authors: [{ name: "Mercado de Carnes" }],
+    creator: "Mercado de Carnes",
+    publisher: "Mercado de Carnes",
     category: "food",
     // Link preview (WhatsApp, Facebook, X): the flyer's text and a screenshot of /opengraph. Pages with their own
     // image (each product) override it.
     openGraph: {
       type: "website",
-      siteName: "Fresco",
+      siteName: "Mercado de Carnes",
       title: SHARE_TITLE,
       description: SHARE_DESCRIPTION,
       locale: "es_UY",
@@ -73,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: SHARE_DESCRIPTION,
       images: [SHARE_IMAGE],
     },
-    appleWebApp: { capable: true, title: "Fresco", statusBarStyle: "default" },
+    appleWebApp: { capable: true, title: "Mercado de Carnes", statusBarStyle: "default" },
     formatDetection: { telephone: false },
   };
 }

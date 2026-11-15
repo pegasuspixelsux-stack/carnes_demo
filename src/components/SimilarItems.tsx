@@ -19,6 +19,13 @@ export interface SimilarItem {
   inStock: boolean;
 }
 
+/** "$ 540 / kg" -> { unit: "kg", amount: "UYU$ 540" }: the item page's price style (small unit first, then the price). */
+function splitPrice(formatted: string): { unit: string; amount: string } {
+  const m = /^(.*?)\s*(?:\/\s*)?(kg|por \S+)$/.exec(formatted.trim());
+  if (!m) return { unit: '', amount: formatted.replace('$', 'UYU$') };
+  return { unit: m[2].replace(/^por /, ''), amount: m[1].replace('$', 'UYU$') };
+}
+
 /** Horizontal slider of other items; swipe on touch screens, arrows on desktop. */
 export default function SimilarItems({ title, items, embedded = false }: { title: string; items: SimilarItem[]; embedded?: boolean }) {
   const track = useRef<HTMLUListElement>(null);
@@ -68,15 +75,17 @@ export default function SimilarItems({ title, items, embedded = false }: { title
                 <h3 className="text-sm md:text-base font-semibold tracking-tight leading-tight line-clamp-2">{item.title}</h3>
                 <p className="mt-1.5 text-xs md:text-sm flex flex-wrap items-end justify-between gap-x-2">
                   <span className="text-white/80 truncate">{item.quantity}</span>
-                  <span className="max-w-full font-semibold">
-                    {item.salePrice ? (
-                      <>
-                        <s className="font-normal text-white/60 mr-1.5">{item.price}</s>
-                        {item.salePrice}
-                      </>
-                    ) : (
-                      item.price
-                    )}
+                  <span className="max-w-full flex items-baseline gap-1.5">
+                    {(() => {
+                      const now = splitPrice(item.salePrice ?? item.price);
+                      return (
+                        <>
+                          {now.unit && <span className="text-[10px] md:text-xs font-semibold text-white/80">{now.unit}</span>}
+                          <span className="text-base md:text-lg font-extrabold tracking-tight">{now.amount}</span>
+                          {item.salePrice && <s className="text-[11px] font-normal text-white/60">{splitPrice(item.price).amount}</s>}
+                        </>
+                      );
+                    })()}
                   </span>
                 </p>
               </div>

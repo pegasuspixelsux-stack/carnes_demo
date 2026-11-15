@@ -1,11 +1,11 @@
 import type { MetadataRoute } from 'next';
 
-// Lets browsers install the site as an app / desktop shortcut with the Fresco icon.
+// Lets browsers install the site as an app / desktop shortcut with the Mercado de Carnes icon.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Fresco para Mayoristas',
-    short_name: 'Fresco',
-    description: 'Distribuidor hortifrutícola para la gastronomía de Punta del Este.',
+    name: 'Mercado de Carnes',
+    short_name: 'Mercado de Carnes',
+    description: 'Distribuidor de carnes para la gastronomía de Punta del Este.',
     start_url: '/',
     display: 'standalone',
     background_color: '#FBFBFD',

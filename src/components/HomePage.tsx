@@ -183,7 +183,7 @@ export default function FrescoHome({
               <button
                 type="submit"
                 aria-label="Buscar"
-                className="shrink-0 bg-[#2E7D32] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#2E7D32]/85 transition-all flex items-center justify-center"
+                className="shrink-0 bg-[#b91c1c] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#991b1b] transition-all flex items-center justify-center"
               >
                 <Search className="w-4 h-4 md:hidden" />
                 <span className="hidden md:inline">Buscar</span>
@@ -214,7 +214,7 @@ export default function FrescoHome({
         <div className="mt-8 flex justify-center">
           <Link
             href="/productos"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#2E7D32] text-white px-8 py-3 max-md:min-h-12 text-sm max-md:text-base font-semibold hover:bg-[#2E7D32]/85 active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#b91c1c] text-white px-8 py-3 max-md:min-h-12 text-sm max-md:text-base font-semibold hover:bg-[#991b1b] active:scale-95 transition-all"
           >
             Ver todo el catálogo <ArrowUpRight className="w-4 h-4" />
           </Link>

@@ -166,13 +166,12 @@ export default function InfoSections() {
             <div id="vision-body" className={`${openVision ? 'block mt-6' : 'hidden'} md:block md:mt-0 space-y-6`}>
             {/* The heading scales with the column (cqw) and balances its lines, so it spans the same width as the paragraph below */}
             <p className="text-2xl md:text-3xl xl:text-4xl font-semibold tracking-tight leading-[1.15] [text-wrap:balance]">
-              Insumos frescos para tu cocina, todos los días.
+              Carnes de calidad para tu cocina, todos los días.
             </p>
             <p className="text-[#515154] font-light leading-relaxed">
-              En Fresco somos especialistas en la distribución hortifrutícola para el sector
-              gastronómico y comercial. Seleccionamos frutas, verduras y hojas verdes directamente
-              en el mercado y las llevamos a la puerta de tu establecimiento con entregas en el
-              día o en 24 horas.
+              En Mercado de Carnes somos especialistas en la distribución de carnes para el sector
+              gastronómico y comercial. Seleccionamos cortes de parrilla, asadores y achuras, y los
+              llevamos a la puerta de tu establecimiento con entregas en el día o en 24 horas.
             </p>
             <a
               href="#contact"
@@ -186,8 +185,8 @@ export default function InfoSections() {
           <div
             className={`${openVision ? '' : 'hidden'} md:block aspect-[4/3] md:aspect-square lg:aspect-[4/3] rounded-2xl bg-cover bg-center bg-[#E5E5EA]`}
             style={{
-              backgroundImage:
-                'url(https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?q=80&w=1200&auto=format&fit=crop)',
+              // Grilled steaks (Wikimedia Commons, CC0 / public domain)
+              backgroundImage: 'url(/quienes-somos.webp)',
             }}
           />
         </div>

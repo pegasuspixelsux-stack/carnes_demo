@@ -236,6 +236,14 @@ export default function FrescoHome({
         <section data-home-hero className="relative w-full h-screen h-[100svh] flex flex-col items-center justify-start max-md:rounded-none overflow-hidden rounded-3xl border-0 bg-[radial-gradient(circle_at_50%_40%,#ef4444_0%,#b91c1c_45%,#7f1d1d_100%)] text-white">
           {/* Bottom shade: deeper red toward the bottom edge */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#450a0a] to-transparent" />
+          {/* Cut of meat below the heading, filling the lower half of the hero */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/carne_clear.png"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[calc(20%+max(12px,env(safe-area-inset-bottom)))] left-1/2 z-[1] h-[46%] w-auto max-w-[90%] -translate-x-1/2 object-contain drop-shadow-2xl"
+          />
           {/* Desktop only: the logo on the right column, over the overlay */}
             {/* Phones: brand block, centered in the hero's flow (8pt spacing scale: 8 / 16 / 32) */}
             <div className="relative w-full h-1/2 justify-center px-5 md:px-10 max-md:pt-0 pt-[clamp(16px,4svh,32px)] max-md:pb-[max(12px,env(safe-area-inset-bottom))] pb-[max(clamp(16px,4svh,32px),env(safe-area-inset-bottom))] flex flex-col items-start text-left md:pt-9 md:pb-9 md:landscape:max-xl:pt-7 md:landscape:max-xl:pb-7 md:portrait:pt-7 md:portrait:pb-7">

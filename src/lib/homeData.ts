@@ -1,3 +1,4 @@
+import { sampleProperties } from '../data/sampleProperties';
 import { getActiveProperties, getCategories } from '../services/dbService';
 import type { PricingMode, Property, PropertyType } from '../types/firestore';
 import { formatMoney, formatQuantity, mergeCategories, withUnitSuffix } from '../utils/format';
@@ -120,8 +121,17 @@ export async function loadHomeData(): Promise<{ properties: HomeProperty[]; slid
     const featured = active.filter((p) => p.featured);
     // Always 5 slides: the featured items first, topped up with the newest ones.
     const hero = [...featured, ...active.filter((p) => !p.featured)].slice(0, 5);
+    if (!active.length) return sampleHomeData();
     return { properties: active.map((p) => toHomeProperty(p, label)), slides: hero.map((p) => toSlide(p, label)) };
   } catch {
-    return { properties: [], slides: [] }; // the page falls back to its built-in samples
+    return sampleHomeData(); // no products yet (or the database can't be read): show the built-in meat samples
   }
+}
+
+/** The built-in sample catalog (src/data/sampleProperties.ts); each opens /productos/sample-N. */
+function sampleHomeData(): { properties: HomeProperty[]; slides: HeroSlide[] } {
+  const categories = mergeCategories([]);
+  const label = (t: string) => categories.find((c) => c.id === t)?.name ?? t;
+  const items: Property[] = sampleProperties.map((s, i) => ({ ...s, id: `sample-${i + 1}`, agentId: '', createdAt: 0, updatedAt: 0, featured: i < 5 }));
+  return { properties: items.map((p) => toHomeProperty(p, label)), slides: items.slice(0, 5).map((p) => toSlide(p, label)) };
 }

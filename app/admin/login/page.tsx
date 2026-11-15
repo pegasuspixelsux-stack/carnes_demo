@@ -69,15 +69,12 @@ export default function AdminLoginPage() {
   const message = formError ?? error;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_50%_40%,#ef4444_0%,#b91c1c_45%,#450a0a_100%)] text-white">
-      {/* Cut of meat: centered in the left half on wide landscape screens, a soft backdrop everywhere else */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/carne_clear.webp"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-auto -translate-x-1/2 -translate-y-1/2 object-contain opacity-50 drop-shadow-2xl md:landscape:left-1/4 md:landscape:h-[65%] md:landscape:opacity-100"
-      />
+    <main
+      className="relative min-h-screen overflow-hidden bg-cover bg-center text-white"
+      // Tomahawk steaks on the grill (Wikimedia Commons, CC0 / public domain)
+      style={{ backgroundImage: 'url(/login-bg.webp)' }}
+    >
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50" />
       {/* Brand, top-left corner */}
       <Link
         href="/"

@@ -95,6 +95,10 @@ export function formatItemPricing(
 }
 
 export const typeLabels: Record<string, string> = {
+  'cortes-parrilla-alta-gama': 'Cortes de Parrilla y Alta Gama',
+  'cortes-asadores-versatiles': 'Cortes Asadores y Versátiles',
+  'cortes-cocina-rotiseria': 'Cortes para Cocina, Rotisería y Minutas',
+  'achuras-complementos': 'Achuras y Complementos',
   fruit: 'Frutas',
   vegetable: 'Verduras',
   leafy: 'Hojas verdes',

@@ -225,7 +225,7 @@ async function fetchPropertyPage(
 }
 
 /**
- * One page of an agent's properties, sorted and cursor-paginated.
+ * One page of an agent's products, sorted and cursor-paginated.
  *
  * Note: filtering by agentId and sorting by another field needs a composite index.
  * The first time you run it, Firestore logs a link that creates the index in one click.
@@ -237,7 +237,7 @@ export function getPropertiesByAgent(
   return fetchPropertyPage([where('agentId', '==', agentId)], options);
 }
 
-/** One page of every agent's properties (for admins). */
+/** One page of every agent's products (for admins). */
 export function getProperties(options: PropertyPageOptions = {}): Promise<PropertyPage> {
   return fetchPropertyPage([], options);
 }

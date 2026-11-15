@@ -69,13 +69,15 @@ export default function AdminLoginPage() {
   const message = formError ?? error;
 
   return (
-    <main
-      className="relative min-h-screen bg-cover bg-center text-white"
-      style={{
-        backgroundImage:
-          'url(https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=2000&auto=format&fit=crop)',
-      }}
-    >
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_50%_40%,#ef4444_0%,#b91c1c_45%,#450a0a_100%)] text-white">
+      {/* Cut of meat: centered in the left half on wide landscape screens, a soft backdrop everywhere else */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/carne_clear.webp"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-auto -translate-x-1/2 -translate-y-1/2 object-contain opacity-30 drop-shadow-2xl md:landscape:left-1/4 md:landscape:h-[65%] md:landscape:opacity-100"
+      />
       {/* Brand, top-left corner */}
       <Link
         href="/"
@@ -93,7 +95,7 @@ export default function AdminLoginPage() {
       <div className="relative min-h-screen grid grid-cols-1 md:landscape:grid-cols-2">
         <div aria-hidden="true" className="hidden md:landscape:block" />
 
-        <div className="bg-black/50 flex items-center justify-center px-6 py-24">
+        <div className="bg-black/30 md:landscape:bg-black/50 flex items-center justify-center px-6 py-24">
           <div className="w-full max-w-sm bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
             <p className="text-xs uppercase tracking-widest text-white/60 font-semibold mb-2">Fresco.</p>
             <h1 className="text-2xl font-semibold tracking-tight mb-1">Iniciar sesión</h1>

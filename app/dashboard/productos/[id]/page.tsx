@@ -49,7 +49,7 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
         initial={property}
         submitLabel="Guardar cambios"
         onSubmit={async (data) => {
-          // The owner of a listing never changes.
+          // The owner of a product never changes.
           const { agentId, ...changes } = data;
           void agentId;
           await updateProperty(id, changes);

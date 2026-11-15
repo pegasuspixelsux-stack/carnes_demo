@@ -13,7 +13,7 @@ import type { Property } from '../types/firestore';
 
 /**
  * Cursor-paginated properties for the signed-in agent
- * (admins see every agent's properties, agents see their own).
+ * (admins see every agent's products, agents see their own).
  * With `loadAll`, the following pages are fetched automatically until every item is in `items`
  * (for screens that count or list the whole catalogue).
  */

@@ -9,7 +9,6 @@ import SiteFooter from '@/src/components/SiteFooter';
 import InfoSections from '@/src/components/InfoSections';
 import SimilarItems from '@/src/components/SimilarItems';
 import FitText from '@/src/components/FitText';
-import InstallButton from '@/src/components/InstallButton';
 import SearchModal from '@/src/components/SearchModal';
 import { toBestSellers } from '@/src/utils/bestSellers';
 import CartButton from '@/src/components/CartButton';
@@ -22,6 +21,7 @@ import {
   ArrowUpRight,
   Search,
 } from 'lucide-react';
+import HomeAccessButton from '@/src/components/HomeAccessButton';
 import BrandName from '@/src/components/BrandName';
 import { useBusiness } from '@/src/context/BusinessContext';
 
@@ -197,20 +197,20 @@ export default function FrescoHome({
         <div className="bg-[#b91c1c] text-white text-center text-[11px] font-medium tracking-wide py-1.5 px-4 leading-snug pt-[calc(0.375rem+env(safe-area-inset-top))]">
           <span>Entregas diarias en Maldonado y Punta del Este</span>
         </div>
-        <div className="h-14 px-3 flex items-center justify-between">
+        <div className="h-14 px-3 grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2">
           <MobileNavMenu bare align="left" />
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setSearchOpen(true)}
-              aria-label="Búsqueda avanzada"
-              title="Búsqueda avanzada"
-              className="w-10 h-10 shrink-0 flex items-center justify-center text-white drop-shadow hover:opacity-80 active:scale-90 transition"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-            <InstallButton className="w-10 h-10 shrink-0 flex items-center justify-center text-white drop-shadow hover:opacity-80 active:scale-90 transition" />
+          <div className="flex justify-center min-w-0">
+            <HomeAccessButton onDark noModal />
           </div>
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Búsqueda avanzada"
+            title="Búsqueda avanzada"
+            className="w-10 h-10 shrink-0 flex items-center justify-center text-white drop-shadow hover:opacity-80 active:scale-90 transition"
+          >
+            <Search className="w-5 h-5" />
+          </button>
         </div>
       </header>
 
@@ -239,7 +239,7 @@ export default function FrescoHome({
           {/* Cut of meat below the heading, filling the lower half of the hero */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/carne_clear.png"
+            src="/carne_clear.webp"
             alt=""
             aria-hidden="true"
             className="pointer-events-none absolute bottom-[calc(20%+max(12px,env(safe-area-inset-bottom)))] left-1/2 z-[1] h-[46%] w-auto max-w-[90%] -translate-x-1/2 object-contain drop-shadow-2xl"

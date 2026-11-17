@@ -62,7 +62,7 @@ export default function SimilarItems({ title, items, embedded = false }: { title
                 src={item.image}
                 alt={item.title}
                 variant="card"
-                sizes="(min-width: 1024px) 22vw, (min-width: 768px) 28vw, 60vw"
+                sizes={embedded ? "(min-width: 1024px) 15vw, (min-width: 768px) 19vw, (min-width: 640px) 28vw, 40vw" : "(min-width: 1024px) 22vw, (min-width: 768px) 28vw, 60vw"}
                 className={`object-cover transition-transform duration-500 group-hover:scale-105 ${item.inStock ? '' : 'opacity-50 grayscale'}`}
               />
               <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

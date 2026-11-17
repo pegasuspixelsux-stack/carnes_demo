@@ -43,7 +43,8 @@ const nextConfig: NextConfig = {
   // The old URLs (bookmarks, links already sent to customers) keep working.
   async redirects() {
     return [
-      { source: "/items", destination: "/productos", permanent: true },
+      { source: "/items", destination: "/", permanent: true },
+      { source: "/productos", destination: "/", permanent: true },
       { source: "/items/:id", destination: "/productos/:id", permanent: true },
       { source: "/dashboard/properties", destination: "/dashboard/productos", permanent: true },
       { source: "/dashboard/properties/:path*", destination: "/dashboard/productos/:path*", permanent: true },

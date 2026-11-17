@@ -105,7 +105,7 @@ export default function BuyBox({
             Cerrar pedido
           </button>
           <Link
-            href="/productos"
+            href="/#catalog"
             className="flex-1 text-center border border-[#1D1D1F]/30 py-3.5 rounded-full text-sm font-medium hover:bg-white transition-all"
           >
             Seguir comprando

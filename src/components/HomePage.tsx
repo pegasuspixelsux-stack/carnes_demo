@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Suspense, useState, useMemo, useEffect, useCallback } from 'react';
 import type { HomeProperty } from '@/src/lib/homeData';
 import { typeLabels } from '@/src/utils/format';
 import SiteFooter from '@/src/components/SiteFooter';
 import InfoSections from '@/src/components/InfoSections';
+import CatalogSection from '@/src/components/CatalogSection';
 import SimilarItems from '@/src/components/SimilarItems';
 import FitText from '@/src/components/FitText';
 import SearchModal from '@/src/components/SearchModal';
@@ -17,10 +16,7 @@ import SiteNavLinks from '@/src/components/SiteNavLinks';
 import MobileNavMenu from '@/src/components/MobileNavMenu';
 import { useClient } from '@/src/context/ClientContext';
 import { applyBoxFirst, applyLevel } from '@/src/utils/pricing';
-import {
-  ArrowUpRight,
-  Search,
-} from 'lucide-react';
+import { Search } from 'lucide-react';
 import HomeAccessButton from '@/src/components/HomeAccessButton';
 import BrandName from '@/src/components/BrandName';
 import { useBusiness } from '@/src/context/BusinessContext';
@@ -50,7 +46,6 @@ export default function FrescoHome({
   // A customer who logged in with Acceso mayoristas sees their price level; everyone else sees list prices.
   const { client, level } = useClient();
   const business = useBusiness();
-  const router = useRouter();
   // Phone top nav: transparent over the hero, blurred and tinted once the page scrolls.
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -63,7 +58,6 @@ export default function FrescoHome({
   }, []);
   const allowLoose = client?.allowLoose ?? false;
   const properties = useMemo(() => applyBoxFirst(applyLevel(baseProperties, level), level, allowLoose), [baseProperties, level, allowLoose]);
-  const [query, setQuery] = useState('');
   // Pills: one per category that has items, in the order they first appear.
   const categories = Array.from(
     new Map(
@@ -106,7 +100,7 @@ export default function FrescoHome({
         </div>
       </header>
 
-      <SearchModal open={searchOpen} onClose={closeSearch} categories={categories} initialQuery={query} />
+      <SearchModal open={searchOpen} onClose={closeSearch} categories={categories} initialQuery="" />
 
       {/* --- NAVIGATION --- */}
       <header className="hidden md:block sticky top-0 z-50 bg-[#FBFBFD]/80 backdrop-blur-md">
@@ -157,69 +151,10 @@ export default function FrescoHome({
         </section>
       </div>
 
-      {/* --- BODY: search, category pills and the "Más vendidos" slider. The full catalog (12 per page) lives at /productos --- */}
-      <section id="productos" className="scroll-mt-4 pt-[clamp(16px,3svh,24px)] md:pt-8 pb-8 md:pb-44 px-3 md:px-6 max-w-[1440px] mx-auto max-md:bg-white max-md:rounded-3xl max-md:mt-[clamp(8px,1.5svh,16px)] max-md:mb-2">
-
-        <form
-            role="search"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const q = query.trim();
-              router.push(q ? `/productos?q=${encodeURIComponent(q)}` : '/productos');
-            }}
-            className="w-full md:w-3/4 mx-auto mb-5 md:mb-8 bg-white rounded-2xl shadow-lg border border-[#000000]/5 p-3 flex flex-col gap-3"
-          >
-            <div className="flex items-center gap-2 pl-3">
-              <Search className="hidden md:block w-5 h-5 text-[#515154] shrink-0" />
-              <input
-                id="home-search"
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Buscá por nombre, categoría o precio…"
-                aria-label="Buscar productos por nombre, categoría o precio"
-                className="min-w-0 flex-1 bg-transparent px-2 md:px-4 py-3 text-base md:text-sm text-[#1D1D1F] placeholder:text-[#86868B] outline-none"
-              />
-              <button
-                type="submit"
-                aria-label="Buscar"
-                className="shrink-0 bg-[#b91c1c] text-white text-xs font-medium w-11 h-11 md:w-auto md:h-auto md:px-6 md:py-3 rounded-full hover:bg-[#991b1b] transition-all flex items-center justify-center"
-              >
-                <Search className="w-4 h-4 md:hidden" />
-                <span className="hidden md:inline">Buscar</span>
-              </button>
-            </div>
-          </form>
-        {/* Category pills: each one opens the catalog already filtered */}
-        {categories.length > 0 && (
-          <div
-            role="group"
-            aria-label="Categorías"
-            className="flex flex-nowrap items-center gap-2 overflow-x-auto -ml-3 pl-3 md:mx-0 md:pl-0 mb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {[{ id: 'all', label: 'Todas' }, ...categories].map((c) => (
-              <Link
-                key={c.id}
-                href={c.id === 'all' ? '/productos' : `/productos?category=${encodeURIComponent(c.id)}`}
-                className="shrink-0 whitespace-nowrap rounded-full px-4 py-2 max-md:min-h-10 inline-flex items-center text-xs max-md:text-[15px] font-medium bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED] active:scale-95 transition"
-              >
-                {c.label}
-              </Link>
-            ))}
-          </div>
-        )}
-
-        <SimilarItems title="Más vendidos" items={bestSellers} embedded />
-
-        <div className="mt-8 flex justify-center">
-          <Link
-            href="/productos"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#b91c1c] text-white px-8 py-3 max-md:min-h-12 text-sm max-md:text-base font-semibold hover:bg-[#991b1b] active:scale-95 transition-all"
-          >
-            Ver todo el catálogo <ArrowUpRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+      {/* --- BODY: one section after the hero: "Más vendidos" (destacados) at the top, then the full catalog --- */}
+      <Suspense fallback={null}>
+        <CatalogSection items={properties} top={<SimilarItems title="Más vendidos" items={bestSellers} embedded />} />
+      </Suspense>
 
       <InfoSections />
 

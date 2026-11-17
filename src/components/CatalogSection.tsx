@@ -3,22 +3,16 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { groupByCategory } from '@/src/utils/group';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Heart, LayoutGrid, List, LogOut, Plus, Search, SlidersHorizontal, Square, X } from 'lucide-react';
 import type { HomeProperty } from '@/src/lib/homeData';
 import { typeLabels } from '@/src/utils/format';
 import PropertyImage from '@/src/components/PropertyImage';
-import CartButton from '@/src/components/CartButton';
 import { unitPriceOf } from '@/src/components/CartDrawer';
 import { useCart } from '@/src/context/CartContext';
-import SiteFooter from '@/src/components/SiteFooter';
-import WholesaleAccess from '@/src/components/WholesaleAccess';
 import FavoriteButton from '@/src/components/FavoriteButton';
-import SiteNavLinks from '@/src/components/SiteNavLinks';
-import MobileNavMenu from '@/src/components/MobileNavMenu';
 import { useClient } from '@/src/context/ClientContext';
 import { applyBoxFirst, applyLevel } from '@/src/utils/pricing';
-import InfoSections from '@/src/components/InfoSections';
-import BrandName from '@/src/components/BrandName';
 
 const PAGE_SIZE = 12; // products per page
 
@@ -61,7 +55,8 @@ function pageNumbers(current: number, total: number): (number | null)[] {
   return out;
 }
 
-export default function CatalogPage({ items: baseItems }: { items: HomeProperty[] }) {
+/** The full catalog (search, filters, category pills, paged grid), shown inside the homepage. Filters come from the URL: /?q=…&category=…#catalog */
+export default function CatalogSection({ items: baseItems, top }: { items: HomeProperty[]; top?: React.ReactNode }) {
   // A customer who opened their access link sees their price level; everyone else sees list prices.
   const { client, level, signOutClient, favorites } = useClient();
   const allowLoose = client?.allowLoose ?? false;
@@ -75,33 +70,30 @@ export default function CatalogPage({ items: baseItems }: { items: HomeProperty[
   const [page, setPage] = useState(1);
 const [filtersOpen, setFiltersOpen] = useState(false); // mobile only
 
-  // Links from the homepage and footer open the catalog already filtered: /productos?category=<id>&q=<search>.
+  // Links from the footer and the search window open the catalog already filtered: /?category=<id>&q=<search>#catalog.
+  const searchParams = useSearchParams();
+  const paramsKey = searchParams.toString();
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(paramsKey);
     const c = params.get('category');
     const q = params.get('q');
     const av = params.get('availability');
     const mn = params.get('min');
     const mx = params.get('max');
     const so = params.get('sort');
-    /* eslint-disable react-hooks/set-state-in-effect -- initial filters from the URL */
-    if (c) setCategory(c);
-    if (q) setQuery(q);
-    if (av === 'in-stock' || av === 'on-sale') setAvailability(av);
-    if (mn && Number.isFinite(Number(mn))) setMinPrice(mn);
-    if (mx && Number.isFinite(Number(mx))) setMaxPrice(mx);
-    if (so === 'price-asc' || so === 'price-desc' || so === 'name') setSort(so);
+    if (!(c || q || av || mn || mx || so)) return;
+    /* eslint-disable react-hooks/set-state-in-effect -- filters from the URL */
+    setCategory(c ?? 'all');
+    setQuery(q ?? '');
+    setAvailability(av === 'in-stock' || av === 'on-sale' ? av : 'all');
+    setMinPrice(mn && Number.isFinite(Number(mn)) ? mn : '');
+    setMaxPrice(mx && Number.isFinite(Number(mx)) ? mx : '');
+    setSort(so === 'price-asc' || so === 'price-desc' || so === 'name' ? so : 'relevance');
+    setPage(1);
     if (av || mn || mx || so) setFiltersOpen(true); // show the advanced filters that were applied
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
-// The top nav is transparent at the top of the page and gets a blurred background once you scroll.
-const [scrolled, setScrolled] = useState(false);
-useEffect(() => {
-  const onScroll = () => setScrolled(window.scrollY > 8);
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
-  return () => window.removeEventListener('scroll', onScroll);
-}, []);
+    document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
+  }, [paramsKey]);
 
   // Cart: shared with every page (see CartContext).
   const { add: addToCart } = useCart();
@@ -203,28 +195,14 @@ const activeFilters =
   };
 
   return (
-    <div className="min-h-screen bg-[#FBFBFD] max-md:bg-[#450a0a] text-[#1D1D1F] selection:bg-[#000000] selection:text-[#FFFFFF] font-sans antialiased">
-      {/* --- NAVIGATION --- */}
-      <header className={`sticky top-0 z-50 transition-[background-color,backdrop-filter] duration-300 ${scrolled ? 'max-md:bg-[color-mix(in_srgb,#450a0a_80%,transparent)] md:bg-[#FBFBFD]/80 backdrop-blur-md' : 'bg-transparent'}`}>
-        <div className="bg-[#2E7D32] text-white text-center text-[11px] sm:text-xs font-medium tracking-wide py-1.5 px-4 sm:px-6 leading-snug">
-          <span>Entregas diarias en Maldonado y Punta del Este</span>
-        </div>
-        <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-semibold text-sm min-[420px]:text-base sm:text-lg tracking-tight"><BrandName onDark /></Link>
-          <SiteNavLinks />
-          <div className="flex items-center gap-1">
-          <WholesaleAccess glass />
-          <CartButton glass />
-          <MobileNavMenu glass />
-          </div>
-        </div>
-      </header>
-
+    <>
       {/* --- ALL PRODUCTS: 4-column grid --- */}
-      <section id="catalog" className={`pt-4 md:pt-6 pb-12 px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-32 bg-[#ECECF1] rounded-3xl max-md:mt-3 max-md:mb-2 md:mt-4 md:w-[calc(100%-3rem)]`}>
+      <section id="catalog" className={`py-5 md:py-6 px-3 md:px-6 max-w-[1440px] mx-auto scroll-mt-20 bg-[#ECECF1] rounded-3xl max-md:mt-3 max-md:mb-2 md:mt-4 md:mb-16 md:w-[calc(100%-3rem)]`}>
+        {top && <div className="mb-6">{top}</div>}
+
         {/* Signed-in customer: greeting with their favorites and a log-out button, above the search */}
         {client && level && (
-          <div className="mb-5 flex flex-col items-center gap-2 text-center md:flex-row md:justify-between md:text-left">
+          <div className="mb-6 flex flex-col items-center gap-2 text-center md:flex-row md:justify-between md:text-left">
             <p className="text-[clamp(24px,7.5vw,28px)] md:text-2xl font-semibold tracking-[-0.02em] leading-[1.15] text-[#1D1D1F] text-balance">
               {greeting()}, {(client.contactName || client.businessName).split(' ')[0]}
             </p>
@@ -255,7 +233,7 @@ const activeFilters =
         )}
 
         {/* Search bar (with the filters) */}
-        <div id="search" className="mb-4">
+        <div id="search" className="mb-6">
           <form
             role="search"
             aria-label="Búsqueda avanzada"
@@ -567,7 +545,7 @@ const activeFilters =
         </div>
 
         {totalPages > 1 && (
-          <nav aria-label="Páginas del catálogo" className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <nav aria-label="Páginas del catálogo" className="mt-6 flex flex-wrap items-center justify-center gap-2">
             <button
               type="button"
               onClick={() => goToPage(currentPage - 1)}
@@ -606,10 +584,7 @@ const activeFilters =
         )}
 
         {filtered.length > 0 && (
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-sm">
-            <Link href="/" className="justify-self-center md:justify-self-start font-medium text-[#1D1D1F] hover:text-[#515154] transition-colors">
-              ← Volver al inicio
-            </Link>
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-sm">
             <p className="justify-self-center md:justify-self-end text-xs text-[#515154]">
               Página {currentPage} de {totalPages} · {filtered.length} productos
             </p>
@@ -617,9 +592,6 @@ const activeFilters =
         )}
       </section>
 
-      <InfoSections />
-
-      <SiteFooter />
-    </div>
+    </>
   );
 }

@@ -97,9 +97,9 @@ export default function SiteFooter({ onGreen = true }: { onGreen?: boolean } = {
           <p className="text-sm md:text-xs uppercase tracking-widest text-[#515154] font-semibold">Catálogo</p>
           <ul className="space-y-3 text-sm text-[#1D1D1F] font-light">
             {categories.slice(0, 4).map((c) => (
-              <li key={c.id}><Link href={`/productos?category=${encodeURIComponent(c.id)}`} className={linkClass}>{c.name}</Link></li>
+              <li key={c.id}><Link href={`/?category=${encodeURIComponent(c.id)}#catalog`} className={linkClass}>{c.name}</Link></li>
             ))}
-            <li><Link href="/productos" className={`${linkClass} font-medium`}>Ver todo el catálogo →</Link></li>
+            <li><Link href="/#catalog" className={`${linkClass} font-medium`}>Ver todo el catálogo →</Link></li>
           </ul>
         </div>
 

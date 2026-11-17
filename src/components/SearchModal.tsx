@@ -11,7 +11,7 @@ const labelClass = 'block text-[11px] uppercase tracking-wider font-semibold tex
 
 /**
  * Advanced search: text, category, availability, price range and sorting. "Buscar" opens the catalog with those
- * filters applied (it reads them from the URL: /productos?q=…&category=…&availability=…&min=…&max=…&sort=…).
+ * filters applied (it reads them from the URL: /?q=…&category=…&availability=…&min=…&max=…&sort=…).
  */
 export default function SearchModal({
   open,
@@ -71,7 +71,7 @@ export default function SearchModal({
     if (sort !== 'relevance') params.set('sort', sort);
     const qs = params.toString();
     onClose();
-    router.push(qs ? `/productos?${qs}` : '/productos');
+    router.push(qs ? `/?${qs}#catalog` : '/#catalog');
   };
 
   return createPortal(

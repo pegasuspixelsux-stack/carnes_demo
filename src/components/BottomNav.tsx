@@ -24,7 +24,7 @@ export default function BottomNav() {
   if (pathname.startsWith('/opengraph')) return null;
 
   const home = pathname === '/';
-  const catalog = pathname.startsWith('/productos');
+  const catalog = false;
   const favorites = pathname.startsWith('/favoritos');
 
   return (
@@ -35,7 +35,7 @@ export default function BottomNav() {
       <Link href="/" aria-label="Inicio" title="Inicio" className={tab(home)} aria-current={home ? 'page' : undefined}>
         <House className={icon(home)} aria-hidden="true" />
       </Link>
-      <Link href="/productos" aria-label="Catálogo" title="Catálogo" className={tab(catalog)} aria-current={catalog ? 'page' : undefined}>
+      <Link href="/#catalog" aria-label="Catálogo" title="Catálogo" className={tab(catalog)} aria-current={catalog ? 'page' : undefined}>
         <LayoutGrid className={icon(catalog)} aria-hidden="true" />
       </Link>
       <Link href="/favoritos" aria-label="Favoritos" title="Favoritos" className={tab(favorites)} aria-current={favorites ? 'page' : undefined}>

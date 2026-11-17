@@ -55,7 +55,7 @@ export default function PropertyImage({
         fill={fill}
         sizes={sizes}
         priority={priority}
-        quality={70}
+        quality={75}
         className={className}
       />
     );

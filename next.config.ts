@@ -38,6 +38,16 @@ const nextConfig: NextConfig = {
   // Without this, Next.js blocks its dev scripts for any host except localhost, the page
   // never hydrates, and buttons and links added by JavaScript don't work. Dev only.
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*"],
+  // Remote sample photos are resized by Next's image optimizer; the CSP above already allows https images.
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "upload.wikimedia.org" },
+      { protocol: "https", hostname: "thumb.wikimedia.org" },
+    ],
+    formats: ["image/avif", "image/webp"],
+  },
+  // Put the (small, Tailwind) stylesheet in the HTML so it no longer blocks the first paint as a separate request.
+  experimental: { inlineCss: true },
   // Don't advertise the framework in a response header.
   poweredByHeader: false,
   // The old URLs (bookmarks, links already sent to customers) keep working.

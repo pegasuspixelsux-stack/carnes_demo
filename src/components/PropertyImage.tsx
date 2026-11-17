@@ -46,7 +46,8 @@ export default function PropertyImage({
     src.startsWith('/') || (URL_ENDPOINT !== '' && src.startsWith(URL_ENDPOINT));
 
   if (!isImageKit) {
-    // Not on ImageKit (e.g. the Unsplash sample photos): show it as-is.
+    // Not on ImageKit (e.g. the Wikimedia sample photos): resized and converted to WebP/AVIF by Next's image optimizer
+    // (hosts allowed in next.config.ts), instead of downloading the full-size original.
     return (
       <NextImage
         src={src}
@@ -54,7 +55,7 @@ export default function PropertyImage({
         fill={fill}
         sizes={sizes}
         priority={priority}
-        unoptimized
+        quality={70}
         className={className}
       />
     );

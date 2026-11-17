@@ -126,6 +126,8 @@ export default function FrescoHome({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/carne_clear.webp"
+            fetchPriority="high"
+            decoding="async"
             alt=""
             aria-hidden="true"
             className="pointer-events-none absolute bottom-[calc(20%+max(12px,env(safe-area-inset-bottom)))] left-1/2 z-[1] h-[46%] w-auto max-w-[90%] -translate-x-1/2 object-contain drop-shadow-2xl"
